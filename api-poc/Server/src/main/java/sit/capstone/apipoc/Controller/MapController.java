@@ -33,7 +33,13 @@ public class MapController {
 
         System.out.println(api_key);
         String result = restTemplate.getForObject(
-                "https://api.longdo.com/RouteService/json/route/guide?flon="+location.getFlon()+"&flat="+location.getFlat()+"&tlon="+location.getTlon()+"&tlat="+location.getTlat()+"&mode=t&type=25&locale=th&key="+api_key, String.class);
+<<<<<<< refs/remotes/origin/dev
+                "https://api.longdo.com/RouteService/json/route/guide?flon=" + location.getFlon() + "&flat=" + location.getFlat() + "&tlon=" + location.getTlon() + "&tlat=" + location.getTlat() + "&mode=t&type=25&locale=th&key=" + api_key, String.class);
+=======
+                "https://api.longdo.com/RouteService/json/route/guide?flon="+location.getFlon()+
+                        "&flat="+location.getFlat()+ "&tlon="+location.getTlon()+"&tlat="+location.getTlat()+
+                        "&mode=t&type=25&locale=th&key="+api_key, String.class);
+>>>>>>> local
 
         System.out.println(result);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -41,10 +47,10 @@ public class MapController {
         float distanceValue = jsonNode.at("/data/0/distance").asInt();
 //        JsonReader meta = objectMapper.readValue(result,JsonReader.class);
         System.out.println(distanceValue);
-        if(distanceValue<6000){
-            return new ResponseEntity("Success",HttpStatus.OK);
+        if (distanceValue < 6000) {
+            return new ResponseEntity("Success", HttpStatus.OK);
         }
-        return new ResponseEntity("Event failed",HttpStatus.BAD_REQUEST);
+        return new ResponseEntity("Event failed", HttpStatus.BAD_REQUEST);
 
     }
 }

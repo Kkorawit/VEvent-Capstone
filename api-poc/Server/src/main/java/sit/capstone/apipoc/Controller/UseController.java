@@ -17,11 +17,10 @@ public class UseController {
     private UserService service;
 
     @RequestMapping("/api/kw1/users")
-    public List<UsersEntity> getAllUsers(){
+    public List<UsersEntity> getAllUsers() {
         System.out.println("controller");
         return service.getAllUsers();
     }
-
 
 
 }

@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface UserRepo extends JpaRepository<UsersEntity,Integer>{
+public interface UserRepo extends JpaRepository<UsersEntity, Integer> {
 
-    @Query(value = "SELECT * FROM users",nativeQuery = true)
+    @Query(value = "SELECT * FROM users", nativeQuery = true)
     public List<UsersEntity> findAll();
 }

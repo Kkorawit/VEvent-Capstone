@@ -5,10 +5,10 @@ import java.util.Map;
 
 public class JsonReader {
 
-        private Map<String, Object> meta;
-        private List<Map<String, Object>> data;
+    private Map<String, Object> meta;
+    private List<Map<String, Object>> data;
 
-        // Getters and setters
+    // Getters and setters
 
 
 }

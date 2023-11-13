@@ -17,13 +17,12 @@ public class UserService {
     private UserRepo userRepo;
 
 
-    public List<UsersEntity> getAllUsers(){
+    public List<UsersEntity> getAllUsers() {
         System.out.println("service");
         List<UsersEntity> users = userRepo.findAll();
 
         System.out.println(users);
         return users;
-
 
 
     }
