@@ -1,0 +1,15 @@
+version : '3.2'
+services :
+        DB :
+              container_name : db_container
+              environment : 
+                        - MYSQL_ROOT_PASSWORD=cp23kw1-db
+                        - TZ=Asia/Bangkok    
+              image : mysql      
+              volumes :
+                        - ./Create_Script.sql:/docker-entrypoint-initdb.d/Create_Script.sql
+                        - ./Insert_Script.sql:/docker-entrypoint-initdb.d/Insert_Script.sql
+                        - ./my.cnf:/etc/mysql/conf.d/custom.cnf
+              restart : always
+              command : --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-time-zone=+07:00
+
