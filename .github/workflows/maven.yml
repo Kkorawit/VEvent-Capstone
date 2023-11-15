@@ -18,14 +18,15 @@ jobs:
   build:
 
     runs-on: self-hosted
-
     steps:
     - uses: actions/checkout@v3
-    - name: check pwd
-      run: pwd 
-    
+
     - name: Shutdown Container
-      run: docker-compose down
+      run: | 
+        cd ./vevnt_spring && docker-compose down
+        cd ../vevent_MySQL && docker-compose down
 
     - name: Build with Maven
-      run: docker-compose up -d --build
+      run: |
+        pwd
+        docker-compose up -d --build
