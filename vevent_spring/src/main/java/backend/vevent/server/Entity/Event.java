@@ -1,9 +1,10 @@
 package backend.vevent.server.Entity;
 
-import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.Instant;
 
 @Getter
