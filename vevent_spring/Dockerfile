@@ -1,4 +1,4 @@
-FROM maven:3.8.5 AS build
+FROM maven:3.1.5 AS build
 WORKDIR /vevent-app
 COPY . .
 RUN mvn clean install -Dmaven.test.skip=true
