@@ -18,15 +18,16 @@ jobs:
   build:
 
     runs-on: self-hosted
+
     steps:
     - uses: actions/checkout@v3
 
     - name: Shutdown Container
       run: | 
-        cd ./vevnt_spring && docker-compose down
-        cd ../vevent_MySQL && docker-compose down
-
-    - name: Build with Maven
+        docker-compose -f vevent_spring/docker-compose.yml down
+        docker-compose -f vevent_MySQL/docker-compose.yml down
+        
+    - name: Build Container
       run: |
-        pwd
-        docker-compose up -d --build
+        docker-compose -f vevent_spring/docker-compose.yml up -d --build
+        docker-compose -f vevent_MySQL/docker-compose.yml up -d --build
