@@ -29,5 +29,5 @@ jobs:
         
     - name: Build Container
       run: |
-        docker-compose -f vevent_spring/docker-compose.yml up -d --build
-        docker-compose -f vevent_MySQL/docker-compose.yml up -d --build
+        DOCKER_BUILDKIT=0 docker-compose -f vevent_spring/docker-compose.yml up -d --build
+        DOCKER_BUILDKIT=0 docker-compose -f vevent_MySQL/docker-compose.yml up -d --build
