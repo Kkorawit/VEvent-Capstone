@@ -1,0 +1,29 @@
+type Query {
+    allEvents: [Event]
+    findById(id: ID): Event
+}
+
+type Event {
+    id: ID!
+    title: String
+    eventDescription: String
+    amountReceived: String
+    category: String
+    subCategory: String
+    startDate: String
+    endDate: String
+    eventOwner: String
+    registerStartDate: String
+    registerEndDate: String
+    validationType: String
+    validationRules: Float
+    posterImg: String
+    createBy: String
+    createDate: String
+    updateBy: String
+    updateDate: String
+    locationName: String
+    locationLatitude: Float
+    locationLongitude: Float
+    description: String
+}

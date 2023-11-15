@@ -1,9 +1,9 @@
 package backend.vevent.server.Entity;
 
-//import jakarta.persistence.*;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import javax.persistence.*;
+
 @Getter
 @Setter
 @Entity
@@ -28,11 +28,12 @@ public class User {
     @Column(name = "surName", nullable = false, length = 125)
     private String surName;
 
-    @Column(name = "profile_img", nullable = false)
+    @Column(name = "profile_img", nullable = false, length = 300)
     private String profileImg;
 
     @Lob
     @Column(name = "status", nullable = false)
     private String status;
+
 
 }

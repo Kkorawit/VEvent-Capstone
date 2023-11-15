@@ -1,10 +1,9 @@
 package backend.vevent.server.Entity;
 
-
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.time.Instant;
 
 @Getter
@@ -14,14 +13,14 @@ import java.time.Instant;
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "events_id", nullable = false)
+    @Column(name = "event_id", nullable = false)
     private Integer id;
 
-    @Column(name = "title", nullable = false, length = 100)
+    @Column(name = "title", nullable = false, length = 150)
     private String title;
 
-    @Column(name = "description", nullable = false)
-    private String description;
+    @Column(name = "event_description", nullable = false, length = 300)
+    private String eventDescription;
 
     @Column(name = "amount_received", nullable = false)
     private String amountReceived;
@@ -35,7 +34,7 @@ public class Event {
     @Column(name = "start_date", nullable = false)
     private Instant startDate;
 
-    @Column(name = "end_date", nullable = false)
+    @Column(name = "end_date")
     private Instant endDate;
 
     @Column(name = "event_owner", length = 125)
@@ -54,7 +53,7 @@ public class Event {
     @Column(name = "validation_rules", nullable = false)
     private Double validationRules;
 
-    @Column(name = "poster_img", nullable = false)
+    @Column(name = "poster_img", nullable = false, length = 300)
     private String posterImg;
 
     @Column(name = "create_by", nullable = false, length = 125)
@@ -69,13 +68,17 @@ public class Event {
     @Column(name = "update_date", nullable = false)
     private Instant updateDate;
 
-    @Column(name = "location_name", nullable = false, length = 125)
+    @Column(name = "location_name", nullable = false, length = 300)
     private String locationName;
 
-    @Column(name = "location_latitude", nullable = false)
+    @Column(name = "location_latitude")
     private Double locationLatitude;
 
-    @Column(name = "location_longitude", nullable = false)
+    @Column(name = "location_longitude")
     private Double locationLongitude;
+
+    @Column(name = "description", nullable = false)
+    private String description;
+
 
 }

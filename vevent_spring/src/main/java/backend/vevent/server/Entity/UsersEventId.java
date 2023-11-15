@@ -1,8 +1,7 @@
 package backend.vevent.server.Entity;
 
-//import jakarta.persistence.Column;
-//import jakarta.persistence.Embeddable;
-import javax.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -15,11 +14,11 @@ import java.util.Objects;
 @Embeddable
 public class UsersEventId implements Serializable {
     private static final long serialVersionUID = -3220426123152588239L;
-    @Column(name = "user_id", nullable = false, length = 125)
-    private String userId;
-
     @Column(name = "events_id", nullable = false)
     private Integer eventsId;
+
+    @Column(name = "user_id", nullable = false, length = 125)
+    private String userId;
 
     @Override
     public boolean equals(Object o) {
