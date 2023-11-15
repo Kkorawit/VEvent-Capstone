@@ -1,4 +1,7 @@
+
 import 'package:flutter/material.dart';
+import 'eventList.dart';
+// import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
@@ -7,16 +10,16 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // This widget is the root of my app.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Vevent App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: Color.fromRGBO(69, 32, 204, 1.0)),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'VEvent'),
     );
   }
 }
@@ -31,14 +34,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
+  List eventImg = ["assets/images/poster.png","assets/images/poster.png","assets/images/poster.png"];
+  List eventTitle = ["อาสาเติมสี แต้มฝันให้น้อง ณ โรงเรียนวัดบางในน้อย นครปฐม","ปั้น EM Ball บำบัดน้ำเสียเพื่อชุมชน อา 05 พย 66 (BTS คลองสาน)","เก็บขยะชายหาด อนุรักษ์ทรัพยากรป่าชายเลน จ.ระยอง"];
+  List eventStartDate = ["11/11/2023  9:30:00 AM","11/5/2023  9:30:00 AM","11/12/2023  9:30:00 AM"];
+  List eventLocation= ["โรงเรียนวัดบางในน้อย อ.บางเลน จ.นครปฐม","ลานกิจกรรมท่าดินแดง BTS คลองสาน สายสีทอง","สะพานรักษ์แสม ต.เนินฆ้อ อ.แกลง จ.ระยอง"];
+//  title, event start date, location
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,25 +48,37 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+      body: Container(
+        padding: const EdgeInsets.fromLTRB(16, 24, 16, 56),
+        child:Column(
+          children: getMenu(eventTitle.length),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), 
     );
   }
+
+  List<Widget> getMenu(int count){
+    List<Widget> menu = [];
+    for (var i = 0; i < count; i++){
+      menu.add(EventList(eventTitle[i], eventStartDate[i], eventImg[i], eventLocation[i]));
+      menu.add(SizedBox(height: 8.0));
+    }
+    print(menu);
+    return menu;
+  }
+
+
+
 }
+
+
+// ListView.builder(
+//             itemCount: menuName.length,
+//             itemBuilder: (BuildContext context, int index) {
+//               // FoodMenu food = menu[index];
+//               return Column(
+//                 children: [
+//                   FoodMenu(menuName[index], menuPrice[index], menuImg[index])
+//                 ],
+//               );
+//             }),
