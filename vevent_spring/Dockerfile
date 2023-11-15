@@ -1,7 +1,7 @@
 FROM maven:3.8.5-jdk-11 AS build
 WORKDIR /vevent-app
 COPY . .
-RUN mvn clean install -DskipTests
+RUN mvn clean install -U -DskipTests
 # CMD mvn spring-boot:run
 
 FROM openjdk:11
