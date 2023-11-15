@@ -21,6 +21,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: check pwd
+      run: pwd 
+    
     - name: Shutdown Container
       run: docker-compose down
 
