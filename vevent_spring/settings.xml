@@ -1,0 +1,39 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <mirrors>
+        <mirror>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+    </mirrors>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>central</id>
+                    <url>https://repo.maven.apache.org/maven2</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+
+<!--    <servers>-->
+<!--        If you have a custom repository that requires authentication, add the server configuration here &ndash;&gt;-->
+<!--         Example:-->
+<!--        <server>-->
+<!--            <id>my-repository</id>-->
+<!--            <username>your-username</username>-->
+<!--            <password>your-password</password>-->
+<!--        </server>-->
+<!--        -->
+<!--    </servers>-->
+
+</settings>

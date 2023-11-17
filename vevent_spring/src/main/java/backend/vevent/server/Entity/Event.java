@@ -19,8 +19,8 @@ public class Event {
     @Column(name = "title", nullable = false, length = 150)
     private String title;
 
-    @Column(name = "event_description", nullable = false, length = 300)
-    private String eventDescription;
+    @Column(name = "description", nullable = false, length = 300)
+    private String description;
 
     @Column(name = "amount_received", nullable = false)
     private String amountReceived;
@@ -36,9 +36,6 @@ public class Event {
 
     @Column(name = "end_date")
     private Instant endDate;
-
-    @Column(name = "event_owner", length = 125)
-    private String eventOwner;
 
     @Column(name = "register_start_date", nullable = false)
     private Instant registerStartDate;
@@ -76,9 +73,6 @@ public class Event {
 
     @Column(name = "location_longitude")
     private Double locationLongitude;
-
-    @Column(name = "description", nullable = false)
-    private String description;
 
 
 }

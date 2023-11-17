@@ -1,6 +1,24 @@
 type Query {
     allEvents: [Event]
+    findAllEventsByUid(uid: ID): [User_Event]
     findById(id: ID): Event
+}
+
+type User_Event {
+    user_event_id: ID!
+    user: User
+    event: Event
+    status:String
+}
+
+type User {
+    userId: ID!
+    username: String
+    password: String
+    userEmail: String
+    name: String
+    surName: String
+    profileImg: String
 }
 
 type Event {

@@ -11,7 +11,7 @@ import lombok.Setter;
 public class User {
     @Id
     @Column(name = "user_id", nullable = false, length = 125)
-    private String userId;
+    private Integer userId;
 
     @Column(name = "username", nullable = false, length = 125)
     private String username;
@@ -31,9 +31,6 @@ public class User {
     @Column(name = "profile_img", nullable = false, length = 300)
     private String profileImg;
 
-    @Lob
-    @Column(name = "status", nullable = false)
-    private String status;
 
 
 }
