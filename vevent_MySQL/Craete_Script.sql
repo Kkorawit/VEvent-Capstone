@@ -16,6 +16,10 @@ CREATE SCHEMA IF NOT EXISTS `vevent` DEFAULT CHARACTER SET utf8 ;
 -- Schema vevent
 -- -----------------------------------------------------
 USE `vevent` ;
+-- DROP TABLE history_log;
+-- DROP TABLE users;
+-- DROP TABLE events;
+-- DROP TABLE users_events;
 -- -----------------------------------------------------
 -- Table `vevent`.`users`
 -- -----------------------------------------------------
@@ -51,7 +55,6 @@ CREATE TABLE IF NOT EXISTS `vevent`.`history_log` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-
 -- -----------------------------------------------------
 -- Table `vevent`.`events`
 -- -----------------------------------------------------
@@ -76,6 +79,7 @@ CREATE TABLE IF NOT EXISTS `vevent`.`events` (
   `location_name` VARCHAR(300) NOT NULL,
   `location_latitude` DOUBLE DEFAULT NULL,
   `location_longitude` DOUBLE DEFAULT NULL,
+  `total_validation_times` INT NOT NULL DEFAULT 1,
   PRIMARY KEY (`event_id`),
   UNIQUE INDEX `event_id_UNIQUE` (`event_id` ASC) VISIBLE)
 ENGINE = InnoDB;
@@ -87,10 +91,12 @@ ALTER TABLE events CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 -- Table `vevent`.`users_events`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `vevent`.`users_events` (
+  `user_event_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `event_id` INT NOT NULL,
-  `status` ENUM('A', 'D') NOT NULL DEFAULT 'A' ,
-  PRIMARY KEY (`user_id`, `event_id`),
+  `status` ENUM('A','IP','IR','D') NOT NULL DEFAULT 'A' , 
+  `done_times` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`user_event_id`),
   INDEX `fk_users_has_events_events1_idx` (`event_id` ASC) VISIBLE,
   INDEX `fk_users_has_events_users1_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_users_has_events_users1`

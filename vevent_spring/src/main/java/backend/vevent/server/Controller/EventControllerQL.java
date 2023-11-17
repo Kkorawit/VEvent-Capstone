@@ -54,7 +54,6 @@ public class EventControllerQL {
 //        }
 //        System.out.println(events);
 
-
         return events;
     }
 
