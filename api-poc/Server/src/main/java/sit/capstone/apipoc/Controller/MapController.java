@@ -33,6 +33,9 @@ public class MapController {
 
         System.out.println(api_key);
         String result = restTemplate.getForObject(
+<<<<<<< HEAD
+                "https://api.longdo.com/RouteService/json/route/guide?flon=" + location.getFlon() + "&flat=" + location.getFlat() + "&tlon=" + location.getTlon() + "&tlat=" + location.getTlat() + "&mode=t&type=25&locale=th&key=" + api_key, String.class);
+=======
 <<<<<<< refs/remotes/origin/dev
                 "https://api.longdo.com/RouteService/json/route/guide?flon=" + location.getFlon() + "&flat=" + location.getFlat() + "&tlon=" + location.getTlon() + "&tlat=" + location.getTlat() + "&mode=t&type=25&locale=th&key=" + api_key, String.class);
 =======
@@ -40,6 +43,7 @@ public class MapController {
                         "&flat="+location.getFlat()+ "&tlon="+location.getTlon()+"&tlat="+location.getTlat()+
                         "&mode=t&type=25&locale=th&key="+api_key, String.class);
 >>>>>>> local
+>>>>>>> 9d15cf70321512156bfe31d2ec4c93f156b151fd
 
         System.out.println(result);
         ObjectMapper objectMapper = new ObjectMapper();

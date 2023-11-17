@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2053c37f-1d81-44ac-b7fb-c8c4ab48b9de" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/api-poc/Server/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/api-poc/Server/META-INF/persistence.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-poc/Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/api-poc/Server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-poc/Server/src/main/java/sit/capstone/apipoc/ApiPocApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-poc/Server/src/main/java/sit/capstone/apipoc/ApiPocApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-poc/Server/src/main/java/sit/capstone/apipoc/Controller/MapController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-poc/Server/src/main/java/sit/capstone/apipoc/Controller/MapController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-poc/Server/src/main/java/sit/capstone/apipoc/Controller/UseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-poc/Server/src/main/java/sit/capstone/apipoc/Controller/UseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-poc/Server/src/main/java/sit/capstone/apipoc/DTO/JsonReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-poc/Server/src/main/java/sit/capstone/apipoc/DTO/JsonReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-poc/Server/src/main/java/sit/capstone/apipoc/Repo/UserRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-poc/Server/src/main/java/sit/capstone/apipoc/Repo/UserRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-poc/Server/src/main/java/sit/capstone/apipoc/Services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-poc/Server/src/main/java/sit/capstone/apipoc/Services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-poc/Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/api-poc/Server/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-poc/Server/src/test/java/sit/capstone/apipoc/ApiPocApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-poc/Server/src/test/java/sit/capstone/apipoc/ApiPocApplicationTests.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="myId2FirstActivated">
+      <map>
+        <entry key="JPA Structure" value="true" />
+      </map>
+    </option>
+    <option name="myId2Visible">
+      <map>
+        <entry key="JPA Structure" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectId" id="2XCX8cChhlrCQ1IvcdWG3uaQPNw" />
+  <component name="ProjectViewState">
+    <option name="flattenPackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/vevent_spring" />
+  </component>
+  <component name="RunManager">
+    <configuration name="ServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="backend.vevent.server.ServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2053c37f-1d81-44ac-b7fb-c8c4ab48b9de" name="Changes" comment="" />
+      <created>1698133881408</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1698133881408</updated>
+      <workItem from="1698133883766" duration="344000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
