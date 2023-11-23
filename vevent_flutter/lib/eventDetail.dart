@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 class EventDetail extends StatefulWidget {
   String title;
   String startDate;
-  String img;
   String location;
+  String category;
+  String createBy;
+  String eventStatus;
+  String description;
+  String imagePath;
 
-  EventDetail(this.title, this.startDate, this.img, this.location);
+  EventDetail(this.title, this.startDate, this.location, this.category,
+      this.createBy, this.eventStatus, this.description, this.imagePath);
 
   @override
   State<EventDetail> createState() => _EventDetailState();
@@ -24,53 +29,78 @@ class _EventDetailState extends State<EventDetail> {
         ),
         body: Padding(
           padding: EdgeInsets.fromLTRB(16, 32, 16, 32),
-          child: Column(
+          child: ListView(
             children: [
               Container(
                 alignment: Alignment.center,
                 child: Image(
-                  image: AssetImage(widget.img),
+                  image: AssetImage(widget.imagePath),
                   width: 400,
                 ),
               ),
-              SizedBox(
-                height: 28,
-              ),
+              SizedBox(height: 16),
               Container(
-                padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
                 child: Row(
                   children: [
-                    Text(
-                      widget.title,
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    CircleAvatar(
+                      child: Icon(Icons.home_sharp),
                     ),
-                    Expanded(
-                        child: Text(
-                          widget.startDate.toString(),
-                          style:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.right,
-                          ),
-                    )
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(widget.createBy, style: TextStyle(fontSize: 12))
                   ],
                 ),
               ),
-              SizedBox(height: 24,),
-              Container(
-                child: Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ex vitae dolor facilisis, venenatis elementum risus tempor. Nulla porta risus eu ante sodales elementum. Praesent ac sem odio.'),
+              SizedBox(height: 16),
+              Text(
+                widget.title,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 64,),
-              ElevatedButton(
-                onPressed: (){
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Buying Successful!', style: TextStyle(fontWeight: FontWeight.bold),),
-                      backgroundColor: Colors.green,
-                      )
-                  );
-                },
-                child: Text('BUY'))
+              SizedBox(height: 10),
+              Container(
+                // margin: EdgeInsets.only(left: 8),
+                // padding: EdgeInsets.all(2),
+                // color: Colors.amber,
+                child: Row(
+                  children: [
+                    Icon(Icons.calendar_month),
+                    SizedBox(width: 8),
+                    Text(
+                      widget.startDate,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 8),
+              Container(
+                // margin: EdgeInsets.only(left: 8),
+                // padding: EdgeInsets.all(2),
+                // color: Colors.amber,
+                child: Row(
+                  children: [
+                    Icon(Icons.location_on_sharp),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(widget.location,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false, // ถ้าเกินให้ตัดด้วยจุดจุดจุด
+                        maxLines: 1,
+                        style: TextStyle(fontSize: 16))
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 32,
+              ),
+              Container(
+                child: Text(
+                  widget.description,
+                  style: TextStyle(fontSize: 16),
+                ),
+              )
             ],
           ),
         ));
