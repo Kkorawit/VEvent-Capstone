@@ -1,7 +1,5 @@
-
-
 import 'package:flutter/material.dart';
-import 'EventDetail.dart';
+import 'eventDetail.dart';
 
 /// Flutter code sample for custom list items.
 class CustomCard extends StatelessWidget {
@@ -13,17 +11,29 @@ class CustomCard extends StatelessWidget {
   final String eventStatus;
   final String description;
   final String imagePath;
+  // final List<dynamic> event;
 
-  CustomCard(
-      {required this.title,
-      required this.startDate,
-      required this.location,
-      required this.category,
-      required this.createBy,
-      required this.eventStatus,
-      required this.description,
-      required this.imagePath,
-      });
+  CustomCard({
+    required this.title,
+    required this.startDate,
+    required this.location,
+    required this.category,
+    required this.createBy,
+    required this.eventStatus,
+    required this.description,
+    required this.imagePath,
+    // required this.event
+  });
+
+
+  // String title;
+  // String startDate;
+  // String location;
+  // String category;
+  // String createBy;
+  // String eventStatus;
+  // String description;
+  // String imagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +42,14 @@ class CustomCard extends StatelessWidget {
         print("Click event " + title);
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return EventDetail(
-            title,
-            startDate,
-            location,
-            category,
-            createBy,
-            eventStatus,
-            description,
-            imagePath,
-          );
+              title: title,
+              startDate: startDate,
+              location: location,
+              category: category,
+              createBy: createBy,
+              eventStatus: eventStatus,
+              description: description,
+              imagePath: imagePath);
         }));
       },
       child: Card(

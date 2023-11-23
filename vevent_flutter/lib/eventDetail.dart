@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 
 class EventDetail extends StatefulWidget {
-  String title;
-  String startDate;
-  String location;
-  String category;
-  String createBy;
-  String eventStatus;
-  String description;
-  String imagePath;
+  final String title;
+  final String startDate;
+  final String location;
+  final String category;
+  final String createBy;
+  final String eventStatus;
+  final String description;
+  final String imagePath;
 
-  EventDetail(this.title, this.startDate, this.location, this.category,
-      this.createBy, this.eventStatus, this.description, this.imagePath);
+  EventDetail({
+    required this.title, 
+    required this.startDate, 
+    required this.location, 
+    required this.category,
+    required this.createBy, 
+    required this.eventStatus, 
+    required this.description, 
+    required this.imagePath
+      });
 
   @override
   State<EventDetail> createState() => _EventDetailState();

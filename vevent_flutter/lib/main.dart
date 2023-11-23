@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
+import 'package:vevent_flutter/dateTimeFormat.dart';
 import 'get_all_events.dart';
 import 'customCard.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 
 void main() async {
   runApp(MyWidget());
@@ -29,7 +29,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   //การแสดงผล
   @override
   Widget build(BuildContext context) {
@@ -41,59 +40,79 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         body: FutureBuilder(
-            future: getAllUsers(uid: 2),
+            future: getAllUsers(uid: 1),
             builder: (context, snapshot) {
               // debugPrint('getAllUsers() >>> ${snapshot.data}');
-              return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 32, 16, 32),
-                  child: ListView.builder(
-                      itemCount: snapshot.data?.length,
-                      itemBuilder: (context, index) {
-                        debugPrint(' ListView.builder event start date >>> ${snapshot.data?[index]['event']['startDate']}');
-                        print(' ListView.builder event >>> ${snapshot.data?[index]}');
-                        var dateTimeString = snapshot.data?[index]['event']['startDate'];
-                        print(dateTimeString);
-                        //แยกเป็น mathod ใน file อื่น
-                        var dateTime;
-                        var formattedDate;
+              if (snapshot.data?.length == 0) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image(
+                          image: AssetImage("assets/images/Logo_2.png"),
+                          height: 100,
+                          width: 148,
+                          ),
+                      SizedBox(height: 8,),
+                      Text("No participating events"),
+                      SizedBox(height: 8,),
+                      Text("Return to web page"),
+                    ],
+                  ),
+                );
+              } else {
+                return Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 32, 16, 32),
+                    child: ListView.builder(
+                        itemCount: snapshot.data?.length,
+                        itemBuilder: (context, index) {
+                          debugPrint(
+                              ' ListView.builder event start date >>> ${snapshot.data?[index]['event']['startDate']}');
+                          print(
+                              ' ListView.builder event >>> ${snapshot.data?[index]}');
 
-                       if (dateTimeString != null && dateTimeString.isNotEmpty) {
-                          try {
-                            dateTime = DateFormat("yyyy-MM-ddTHH:mm:ss'Z'").parse(dateTimeString);
-                            formattedDate = DateFormat("MM/dd/yyyy hh:mm a").format(dateTime);
-                            print("Formatted Date: $formattedDate");
-                          } catch (e) {
-                            print("Error parsing or formatting Date: $e");
+                          // var formattedDate = dateTimeFormat("${snapshot.data?[index]['event']['startDate']}");
+
+                          String eventStatus;
+
+                          if (snapshot.data?[index]['status'] == 'D') {
+                            eventStatus = "Done";
+                          } else if (snapshot.data?[index]['status'] == 'A') {
+                            eventStatus = "Active";
+                          } else {
+                            eventStatus = "Other";
                           }
-                        } else {
-                          print(dateTimeString);
-                          print("Invalid or empty DateTime string");
-                        }
 
-                        String eventStatus;
-
-                        if(snapshot.data?[index]['status'] == 'D'){
-                          eventStatus = "Done";
-                        }else if(snapshot.data?[index]['status'] == 'A'){
-                          eventStatus = "Active";
-                        }else{
-                          eventStatus = "Other";
-                        }
-                      
-
-                        return CustomCard(
+                          // if(snapshot.data?[index] == []){
+                          //   return Container(
+                          //     child: Column(
+                          //       children: [
+                          //         Image(image: AssetImage("assets/images/Logo_2.png")),
+                          //         Text("No participating events"),
+                          //         Text("Return to web page"),
+                          //       ],
+                          //     ),
+                          //   );
+                          // }else{
+                          return CustomCard(
                             title: "${snapshot.data?[index]['event']['title']}",
-                            startDate: formattedDate,
-                            location: "${snapshot.data?[index]['event']['locationName']}",
+                            // startDate: formattedDate,
+                            startDate:
+                                "${snapshot.data?[index]['event']['startDate']}",
+                            location:
+                                "${snapshot.data?[index]['event']['locationName']}",
                             category: "category",
-                            createBy: "${snapshot.data?[index]['event']['createBy']}",
+                            createBy:
+                                "${snapshot.data?[index]['event']['createBy']}",
                             eventStatus: eventStatus,
-                            description: "${snapshot.data?[index]['event']['description']}",
+                            description:
+                                "${snapshot.data?[index]['event']['description']}",
                             imagePath: "assets/images/poster.png",
-                            );
-                      }));
+                            // event: [snapshot.data?[index]],
+                          );
+                          // }
+                        }));
+              }
             }));
   }
 }
-
-
