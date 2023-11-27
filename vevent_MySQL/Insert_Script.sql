@@ -47,13 +47,14 @@ INSERT INTO events VALUES(29,"Sea Survival Kids Camp #3 แคมป์เรี
 INSERT INTO events VALUES(30,"Singapore Thailand Science Immersion Programme 2024","Singapore Thailand Science Immersion Programme 2024",20,"other","Summer Camp","2024-05-07 09:30:00","2024-05-12 14:30:00","2023-12-01 00:00:00","2023-12-31 23:59:59","QR_code",0,"https://nk2/soursec/poster30.jpg",11,"2023-11-23 09:39:00",11,"2023-11-23 09:39:00","National University of Singapore ประเทศสิงคโปร์",13.7582,100.5039,1);
 
 -- -----------------------------------------------------
-INSERT INTO users_events (user_id,event_id,status,done_times) VALUES(2,1,"D",0);
-INSERT INTO users_events (user_id,event_id,status,done_times) VALUES(2,2,"D",0);
-INSERT INTO users_events (user_id,event_id,status,done_times) VALUES(3,5,"A",0);
-INSERT INTO users_events (user_id,event_id,status,done_times) VALUES(3,8,"A",0);
-INSERT INTO users_events (user_id,event_id,status,done_times) VALUES(3,2,"D",0);
+INSERT INTO users_events (user_id,event_id,status,done_times) VALUES(2,1,"F",0);
+INSERT INTO users_events (user_id,event_id,status,done_times) VALUES(2,2,"S",0);
+INSERT INTO users_events (user_id,event_id,status,done_times) VALUES(3,5,"P",0);
+INSERT INTO users_events (user_id,event_id,status,done_times) VALUES(3,22,"IN",0);
+INSERT INTO users_events (user_id,event_id,status,done_times) VALUES(3,18,"S",0);
+INSERT INTO users_events (user_id,event_id,status,done_times) VALUES(3,28,"F",0);
 
 -- -----------------------------------------------------
-INSERT INTO history_log VALUES(1,"create","users","Register","2023-11-05 10:20:48",10);
-INSERT INTO history_log VALUES(2,"update","events","edit-document","2023-12-13 15:16:12",11);
-INSERT INTO history_log VALUES(3,"delete","events","delete-event","2023-12-19 08:46:17",12);
+INSERT INTO history_log VALUES(1,"create","users","Register","2023-11-05 10:20:48","Joel-De.10@example.com");
+INSERT INTO history_log VALUES(2,"update","events","edit-document","2023-12-13 15:16:12","organization-01@example.com");
+INSERT INTO history_log VALUES(3,"delete","events","delete-event","2023-12-19 08:46:17","organization-02@example.com");

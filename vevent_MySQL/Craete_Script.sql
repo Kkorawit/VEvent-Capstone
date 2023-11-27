@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS `vevent`.`users` (
   `name` VARCHAR(125) NOT NULL ,
   `surName` VARCHAR(125) NOT NULL,
   `profile_img` VARCHAR(300) NOT NULL,
-  PRIMARY KEY (`user_id`),
-  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC) VISIBLE)
+  PRIMARY KEY (`user_email`),
+  UNIQUE INDEX `user_email_UNIQUE` (`user_email` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -44,13 +44,13 @@ CREATE TABLE IF NOT EXISTS `vevent`.`history_log` (
   `state` VARCHAR(100) NOT NULL,
   `details` VARCHAR(150) NOT NULL,
   `create_date` TIMESTAMP NOT NULL DEFAULT current_timestamp ,
-  `user_id` INT NOT NULL,
+  `user_email` VARCHAR(125) NOT NULL,
   PRIMARY KEY (`history_log_id`),
   UNIQUE INDEX `history_log_id_UNIQUE` (`history_log_id` ASC) VISIBLE,
-  INDEX `fk_history_log_users1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_history_log_users1_emailx` (`user_email` ASC) VISIBLE,
   CONSTRAINT `fk_history_log_users1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `vevent`.`users` (`user_id`)
+    FOREIGN KEY (`user_email`)
+    REFERENCES `vevent`.`users` (`user_email`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -92,16 +92,16 @@ ALTER TABLE events CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `vevent`.`users_events` (
   `user_event_id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
+  `user_email` VARCHAR(125) NOT NULL,
   `event_id` INT NOT NULL,
   `status` ENUM('A','IP','IR','D') NOT NULL DEFAULT 'A' , 
   `done_times` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_event_id`),
   INDEX `fk_users_has_events_events1_idx` (`event_id` ASC) VISIBLE,
-  INDEX `fk_users_has_events_users1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_users_has_events_users1_emailx` (`user_email` ASC) VISIBLE,
   CONSTRAINT `fk_users_has_events_users1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `vevent`.`users` (`user_id`)
+    FOREIGN KEY (`user_email`)
+    REFERENCES `vevent`.`users` (`user_email`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_users_has_events_events1`
