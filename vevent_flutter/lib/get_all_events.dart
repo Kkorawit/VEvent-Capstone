@@ -10,7 +10,7 @@ Future<List> getAllUsers({int? uid}) async {
   // await Hive.openBox('myBox'); //
 
   HttpLink link = HttpLink(
-      "http://172.21.208.1:8080/graphql"); // this is api call for getting all users
+      "http://172.26.160.1:8080/graphql"); // this is api call for getting all users
   GraphQLClient qlClient = GraphQLClient(
     // craete a graphql client
     link: link,

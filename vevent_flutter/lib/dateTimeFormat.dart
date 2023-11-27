@@ -1,13 +1,15 @@
 import 'package:intl/intl.dart';
 
 
-String dateTimeFormat(String dt) {
+ dateTimeFormat(String dt) {
+
+  print(dt + ' -> in dateTimeFormat method');
 
   var dateTimeString = dt;
   var dateTime;
   var formattedDate;
 
-  if (dateTimeString != null && dateTimeString.isNotEmpty) {
+  if (/*dateTimeString != null && */dateTimeString.isNotEmpty) {
     try {
       dateTime = DateFormat("yyyy-MM-ddTHH:mm:ss'Z'").parse(dateTimeString);
       formattedDate = DateFormat("MM/dd/yyyy hh:mm a").format(dateTime);

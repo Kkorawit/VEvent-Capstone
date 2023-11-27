@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'eventDetail.dart';
+import 'package:vevent_flutter/dateTimeFormat.dart';
+
 
 /// Flutter code sample for custom list items.
 class CustomCard extends StatelessWidget {
@@ -13,6 +15,7 @@ class CustomCard extends StatelessWidget {
   final String imagePath;
   // final List<dynamic> event;
 
+
   CustomCard({
     required this.title,
     required this.startDate,
@@ -25,7 +28,6 @@ class CustomCard extends StatelessWidget {
     // required this.event
   });
 
-
   // String title;
   // String startDate;
   // String location;
@@ -37,13 +39,16 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var formattedDate =dateTimeFormat("${startDate}");
+    print(eventStatus);
+
     return GestureDetector(
       onTap: () {
         print("Click event " + title);
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return EventDetail(
               title: title,
-              startDate: startDate,
+              startDate: formattedDate,
               location: location,
               category: category,
               createBy: createBy,
@@ -97,7 +102,7 @@ class CustomCard extends StatelessWidget {
                         SizedBox(
                           width: 4,
                         ),
-                        Expanded(child: Text(startDate)),
+                        Expanded(child: Text("${formattedDate}")),
                       ]),
                       SizedBox(height: 8.0),
                       Row(
@@ -136,7 +141,7 @@ class CustomCard extends StatelessWidget {
 }
 
 Widget statusTag(String eStatus) {
-  if (eStatus == "Active") {
+  if (eStatus == "A") { // [A/P/Pending] mean event is pending
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       margin: const EdgeInsets.only(left: 4),
@@ -145,23 +150,71 @@ Widget statusTag(String eStatus) {
         color: Color.fromARGB(100, 236, 233, 250),
       ),
       child: Text(
-        eStatus,
+        "Pending",
         style: TextStyle(
           fontSize: 12,
           color: Color.fromARGB(100, 69, 32, 204),
         ),
       ),
     );
-  } else {
+  } else if (eStatus == "D") { // [D/S/Success] mean event is success
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       margin: const EdgeInsets.only(left: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: Color.fromARGB(100, 243, 243, 243),
+        color: Color.fromARGB(100, 197, 245, 196),
       ),
       child: Text(
-        eStatus,
+        "Success",
+        style: TextStyle(
+          fontSize: 12,
+          color: Color.fromARGB(100, 11, 91, 9),
+        ),
+      ),
+    );
+  }else if(eStatus == "I"){ // [I/In review] mean event is in review
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+      margin: const EdgeInsets.only(left: 4),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Color.fromARGB(100, 239, 176, 8),
+      ),
+      child: Text(
+        "In review",
+        style: TextStyle(
+          fontSize: 12,
+          color: Color.fromARGB(99, 109, 81, 5),
+        ),
+      ),
+    );
+  }else if(eStatus == "F"){ // [F/Fail] mean event is fail
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+      margin: const EdgeInsets.only(left: 4),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Color.fromARGB(100, 216, 50, 50),
+      ),
+      child: Text(
+        "Fail",
+        style: TextStyle(
+          fontSize: 12,
+          color: Color.fromARGB(100, 69, 10, 10),
+        ),
+      ),
+    );
+  }else{
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+      margin: const EdgeInsets.only(left: 4),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Color.fromARGB(97, 243, 243, 243),
+      ),
+      child: Text(
+        "-",
         style: TextStyle(
           fontSize: 12,
           color: Color.fromARGB(100, 81, 81, 81),
@@ -169,4 +222,6 @@ Widget statusTag(String eStatus) {
       ),
     );
   }
+
+
 }
