@@ -1,84 +1,123 @@
-
 import 'package:flutter/material.dart';
-import 'eventList.dart';
-// import 'package:http/http.dart' as http;
+import 'get_all_events.dart';
+import 'customCard.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  runApp(MyWidget());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
 
-  // This widget is the root of my app.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Vevent App',
-      theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromRGBO(69, 32, 204, 1.0)),
-      ),
-      home: const MyHomePage(title: 'VEvent'),
+      title: "My App",
+      home: MyHomePage(),
+      theme: ThemeData(colorSchemeSeed: Color.fromARGB(100, 69, 32, 204)),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
-
-  List eventImg = ["assets/images/poster.png","assets/images/poster.png","assets/images/poster.png"];
-  List eventTitle = ["อาสาเติมสี แต้มฝันให้น้อง ณ โรงเรียนวัดบางในน้อย นครปฐม","ปั้น EM Ball บำบัดน้ำเสียเพื่อชุมชน อา 05 พย 66 (BTS คลองสาน)","เก็บขยะชายหาด อนุรักษ์ทรัพยากรป่าชายเลน จ.ระยอง"];
-  List eventStartDate = ["11/11/2023  9:30:00 AM","11/5/2023  9:30:00 AM","11/12/2023  9:30:00 AM"];
-  List eventLocation= ["โรงเรียนวัดบางในน้อย อ.บางเลน จ.นครปฐม","ลานกิจกรรมท่าดินแดง BTS คลองสาน สายสีทอง","สะพานรักษ์แสม ต.เนินฆ้อ อ.แกลง จ.ระยอง"];
-//  title, event start date, location
+  //การแสดงผล
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Container(
-        padding: const EdgeInsets.fromLTRB(16, 24, 16, 56),
-        child:Column(
-          children: getMenu(eventTitle.length),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(138), //size of app bar
+          child: AppBar(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(28),
+                bottomLeft: Radius.circular(28)
+              )
+            ),
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(28), 
+                  bottomLeft: Radius.circular(28)
+                ),
+                gradient: LinearGradient(
+                  colors: [
+                    Color.fromARGB(100, 69, 32, 204), 
+                    Color.fromARGB(100, 106, 77, 214)
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter
+                )
+              ),
+            ),
+            title: Text(
+              "All Event List",
+              style: TextStyle(fontSize: 24),
+            ),
+          ),
         ),
-      ),
-    );
+        body: FutureBuilder(
+            future: getAllUsers(uid: 3),
+            builder: (context, snapshot) {
+              debugPrint(
+                  'In FutureBuilder -> getAllUsers() >>> ${snapshot.data}');
+
+              //check list of data from backend is not empty if empty show logo with text else show list all events.
+              if (snapshot.data?.length == 0) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image(
+                        image: AssetImage("assets/images/Logo_2.png"),
+                        height: 100,
+                        width: 148,
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text("No participating events"),
+                      SizedBox(
+                        height: 8,
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                return Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 32, 16, 32),
+                    child: ListView.builder(
+                        itemCount: snapshot.data?.length,
+                        itemBuilder: (context, index) {
+                          
+                          debugPrint(' In ListView.builder event >>> ${snapshot.data?[index]}');
+
+                          return CustomCard(
+                            title: "${snapshot.data?[index]['event']['title']}",
+                            // startDate: formattedDate,
+                            startDate:
+                                "${snapshot.data?[index]['event']['startDate']}",
+                            location:
+                                "${snapshot.data?[index]['event']['locationName']}",
+                            category: "${snapshot.data?[index]['event']['category']}",
+                            createBy:
+                                "${snapshot.data?[index]['event']['createBy']}",
+                            eventStatus:
+                                "${snapshot.data?[index]['status']}",
+                            description:
+                                "${snapshot.data?[index]['event']['description']}",
+                            imagePath: "assets/images/poster.png",
+                            // event: [snapshot.data?[index]],
+                          );
+                          // }
+                        }));
+              }
+            }));
   }
-
-  List<Widget> getMenu(int count){
-    List<Widget> menu = [];
-    for (var i = 0; i < count; i++){
-      menu.add(EventList(eventTitle[i], eventStartDate[i], eventImg[i], eventLocation[i]));
-      menu.add(SizedBox(height: 8.0));
-    }
-    print(menu);
-    return menu;
-  }
-
-
-
 }
-
-
-// ListView.builder(
-//             itemCount: menuName.length,
-//             itemBuilder: (BuildContext context, int index) {
-//               // FoodMenu food = menu[index];
-//               return Column(
-//                 children: [
-//                   FoodMenu(menuName[index], menuPrice[index], menuImg[index])
-//                 ],
-//               );
-//             }),
