@@ -1,17 +1,17 @@
 USE vevent;
 -- -----------------------------------------------------
-INSERT INTO users VALUES(1,"louis01","LouisGi01","louis_gi01@example.com","Llouis","Givran","https://nk2/soursec/profile01.jpg");
-INSERT INTO users VALUES(2,"timothy02","Timothy.Do02","timothy.d02@example.com","Timothy","Dovin","https://nk2/soursec/profile02.jpg");
-INSERT INTO users VALUES(3,"laure03","Laure-CA03","laure-ca03@example.com","Laure","Carnet","https://nk2/soursec/profile03.jpg");
-INSERT INTO users VALUES(4,"anne04","Anne#04","anne#04@example.com","Anne","Petiton","https://nk2/soursec/profile04.jpg");
-INSERT INTO users VALUES(5,"claudine05","Claudine[05]","claudine[05]@example.com","Claudine","Solignac","https://nk2/soursec/profile05.jpg");
-INSERT INTO users VALUES(6,"florian06","Florian(06)","florian(06)@example.com","Florian","Burnat","https://nk2/soursec/profile06.jpg");
-INSERT INTO users VALUES(7,"bendjy07","Bendjy*G07","bendjy*g07@example.com","Bendjy","Gobbo","https://nk2/soursec/profile07.jpg");
-INSERT INTO users VALUES(8,"danyel08","Danyel.Ca#08","danyel.ca#08@example.com","Danyel","Cambon","https://nk2/soursec/profile08.jpg");
-INSERT INTO users VALUES(9,"genie09","Genie_N09","genie_n09@example.com","Genie","Naritan","https://nk2/soursec/profile09.jpg");
-INSERT INTO users VALUES(10,"joel10","Joel-De.10","joel-de.10@example.com","Joel","Delanchy","https://nk2/soursec/profile10.jpg");
-INSERT INTO users VALUES(11,"organization01","Organization-01@BK","organization-01@example.com","Margaret","Beatrice","https://nk2/soursec/profile11.jpg");
-INSERT INTO users VALUES(12,"organization02","Organization-02@BK","organization-02@example.com","Annie","Lillian","https://nk2/soursec/profile12.jpg");
+INSERT INTO users VALUES("louis01","LouisGi01","louis_gi01@example.com","Llouis","Givran","https://nk2/soursec/profile01.jpg");
+INSERT INTO users VALUES("timothy02","Timothy.Do02","timothy.d02@example.com","Timothy","Dovin","https://nk2/soursec/profile02.jpg");
+INSERT INTO users VALUES("laure03","Laure-CA03","laure-ca03@example.com","Laure","Carnet","https://nk2/soursec/profile03.jpg");
+INSERT INTO users VALUES("anne04","Anne#04","anne#04@example.com","Anne","Petiton","https://nk2/soursec/profile04.jpg");
+INSERT INTO users VALUES("claudine05","Claudine[05]","claudine[05]@example.com","Claudine","Solignac","https://nk2/soursec/profile05.jpg");
+INSERT INTO users VALUES("florian06","Florian(06)","florian(06)@example.com","Florian","Burnat","https://nk2/soursec/profile06.jpg");
+INSERT INTO users VALUES("bendjy07","Bendjy*G07","bendjy*g07@example.com","Bendjy","Gobbo","https://nk2/soursec/profile07.jpg");
+INSERT INTO users VALUES("danyel08","Danyel.Ca#08","danyel.ca#08@example.com","Danyel","Cambon","https://nk2/soursec/profile08.jpg");
+INSERT INTO users VALUES("genie09","Genie_N09","genie_n09@example.com","Genie","Naritan","https://nk2/soursec/profile09.jpg");
+INSERT INTO users VALUES("joel10","Joel-De.10","joel-de.10@example.com","Joel","Delanchy","https://nk2/soursec/profile10.jpg");
+INSERT INTO users VALUES("organization01","Organization-01@BK","organization-01@example.com","Margaret","Beatrice","https://nk2/soursec/profile11.jpg");
+INSERT INTO users VALUES("organization02","Organization-02@BK","organization-02@example.com","Annie","Lillian","https://nk2/soursec/profile12.jpg");
 
 -- -----------------------------------------------------
 
@@ -47,12 +47,12 @@ INSERT INTO events VALUES(29,"Sea Survival Kids Camp #3 แคมป์เรี
 INSERT INTO events VALUES(30,"Singapore Thailand Science Immersion Programme 2024","Singapore Thailand Science Immersion Programme 2024",20,"other","Summer Camp","2024-05-07 09:30:00","2024-05-12 14:30:00","2023-12-01 00:00:00","2023-12-31 23:59:59","QR_code",0,"https://nk2/soursec/poster30.jpg",11,"2023-11-23 09:39:00",11,"2023-11-23 09:39:00","National University of Singapore ประเทศสิงคโปร์",13.7582,100.5039,1);
 
 -- -----------------------------------------------------
-INSERT INTO users_events (user_id,event_id,status,done_times) VALUES(2,1,"F",0);
-INSERT INTO users_events (user_id,event_id,status,done_times) VALUES(2,2,"S",0);
-INSERT INTO users_events (user_id,event_id,status,done_times) VALUES(3,5,"P",0);
-INSERT INTO users_events (user_id,event_id,status,done_times) VALUES(3,22,"IN",0);
-INSERT INTO users_events (user_id,event_id,status,done_times) VALUES(3,18,"S",0);
-INSERT INTO users_events (user_id,event_id,status,done_times) VALUES(3,28,"F",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Timothy.D02@example.com",1,"F",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Timothy.D02@example.com",2,"S",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Laure-CA03@example.com",5,"P",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Laure-CA03@example.com",22,"IR",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Laure-CA03@example.com",18,"S",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Laure-CA03@example.com",28,"F",0);
 
 -- -----------------------------------------------------
 INSERT INTO history_log VALUES(1,"create","users","Register","2023-11-05 10:20:48","Joel-De.10@example.com");

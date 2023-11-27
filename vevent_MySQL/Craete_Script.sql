@@ -24,15 +24,13 @@ USE `vevent` ;
 -- Table `vevent`.`users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `vevent`.`users` (
-  `user_id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(125) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `user_email` VARCHAR(125) NOT NULL,
   `name` VARCHAR(125) NOT NULL ,
   `surName` VARCHAR(125) NOT NULL,
   `profile_img` VARCHAR(300) NOT NULL,
-  PRIMARY KEY (`user_email`),
-  UNIQUE INDEX `user_email_UNIQUE` (`user_email` ASC) VISIBLE)
+  PRIMARY KEY (`user_email`))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -72,9 +70,9 @@ CREATE TABLE IF NOT EXISTS `vevent`.`events` (
   `validation_type` ENUM('NONE','QR_CODE', 'CURRENT_GPS', 'STEP_COUNTER','DISTANCE_COUNTER') NOT NULL DEFAULT 'NONE',
   `validation_rules` DOUBLE NOT NULL DEFAULT 0,
   `poster_img` VARCHAR(300) NOT NULL,
-  `create_by` INT NOT NULL REFERENCES `vevent`.`users` (`user_id`),
+  `create_by` VARCHAR(125) NOT NULL REFERENCES `vevent`.`users` (`user_email`),
   `create_date` TIMESTAMP NOT NULL DEFAULT current_timestamp,
-  `update_by` INT NOT NULL REFERENCES `vevent`.`users` (`user_id`),
+  `update_by` VARCHAR(125) NOT NULL REFERENCES `vevent`.`users` (`user_email`),
   `update_date` TIMESTAMP NOT NULL DEFAULT current_timestamp,
   `location_name` VARCHAR(300) NOT NULL,
   `location_latitude` DOUBLE DEFAULT NULL,
@@ -94,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `vevent`.`users_events` (
   `user_event_id` INT NOT NULL AUTO_INCREMENT,
   `user_email` VARCHAR(125) NOT NULL,
   `event_id` INT NOT NULL,
-  `status` ENUM('A','IP','IR','D') NOT NULL DEFAULT 'A' , 
+  `validate_status` ENUM('P','IR',"S",'F') NOT NULL DEFAULT 'P' , 
   `done_times` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_event_id`),
   INDEX `fk_users_has_events_events1_idx` (`event_id` ASC) VISIBLE,
