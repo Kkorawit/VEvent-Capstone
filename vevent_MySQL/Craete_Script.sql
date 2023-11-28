@@ -16,6 +16,10 @@ CREATE SCHEMA IF NOT EXISTS `vevent` DEFAULT CHARACTER SET utf8 ;
 -- Schema vevent
 -- -----------------------------------------------------
 USE `vevent` ;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS history_log;
+DROP TABLE IF EXISTS events;
+DROP TABLE IF EXISTS users_events;
 -- DROP TABLE history_log;
 -- DROP TABLE users;
 -- DROP TABLE events;
@@ -53,6 +57,20 @@ CREATE TABLE IF NOT EXISTS `vevent`.`history_log` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `vevent`.`users_events` (
+  `user_event_id` INT NOT NULL AUTO_INCREMENT,
+  `user_email` VARCHAR(125) NOT NULL,
+  `event_id` INT NOT NULL,
+  `validate_status` ENUM('P','IR',"S",'F') NOT NULL DEFAULT 'P' , 
+  `done_times` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`user_event_id`),
+  INDEX `fk_users_has_events_events1_idx` (`event_id` ASC) VISIBLE,
+  INDEX `fk_users_has_events_users1_emailx` (`user_email` ASC) VISIBLE,
+  FOREIGN KEY (`user_email`) REFERENCES `vevent`.`users` (`user_email`),
+  FOREIGN KEY (`event_id`) REFERENCES `vevent`.`events` (`event_id`))
+ENGINE = InnoDB;
+
+
 -- -----------------------------------------------------
 -- Table `vevent`.`events`
 -- -----------------------------------------------------
@@ -88,27 +106,6 @@ ALTER TABLE events CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 -- -----------------------------------------------------
 -- Table `vevent`.`users_events`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `vevent`.`users_events` (
-  `user_event_id` INT NOT NULL AUTO_INCREMENT,
-  `user_email` VARCHAR(125) NOT NULL,
-  `event_id` INT NOT NULL,
-  `validate_status` ENUM('P','IR',"S",'F') NOT NULL DEFAULT 'P' , 
-  `done_times` INT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`user_event_id`),
-  INDEX `fk_users_has_events_events1_idx` (`event_id` ASC) VISIBLE,
-  INDEX `fk_users_has_events_users1_emailx` (`user_email` ASC) VISIBLE,
-  CONSTRAINT `fk_users_has_events_users1`
-    FOREIGN KEY (`user_email`)
-    REFERENCES `vevent`.`users` (`user_email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_users_has_events_events1`
-    FOREIGN KEY (`event_id`)
-    REFERENCES `vevent`.`events` (`event_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
