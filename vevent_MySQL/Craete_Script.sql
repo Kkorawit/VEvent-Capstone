@@ -67,7 +67,9 @@ CREATE TABLE IF NOT EXISTS `vevent`.`users_events` (
   INDEX `fk_users_has_events_events1_idx` (`event_id` ASC) VISIBLE,
   INDEX `fk_users_has_events_users1_emailx` (`user_email` ASC) VISIBLE,
   FOREIGN KEY (`user_email`) REFERENCES `vevent`.`users` (`user_email`),
-  FOREIGN KEY (`event_id`) REFERENCES `vevent`.`events` (`event_id`))
+  FOREIGN KEY (`event_id`) REFERENCES `vevent`.`events` (`event_id`)
+   ON DELETE NO ACTION
+   ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
