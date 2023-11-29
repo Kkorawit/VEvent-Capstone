@@ -16,16 +16,18 @@ public class UsersEvent {
     private Integer user_event_id;
 
     @ManyToOne(fetch = FetchType.EAGER,optional = false,cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(name = "user_email",nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER,optional = false,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "event_id",nullable = false)
     private Event event;
 
-    @Column(name = "status",nullable = false)
+    @Column(name = "validate_status",nullable = false)
     private String status;
 
+    @Column(name = "done_times", nullable = false)
+    private Integer doneTimes;
 
 //    @EmbeddedId
 //    private UsersEventId id;
