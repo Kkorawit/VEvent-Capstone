@@ -43,9 +43,9 @@ public class EventControllerQL {
     }
 
     @QueryMapping
-    public List<UsersEvent> findAllEventsByUid(@Argument Integer uid){
-        System.out.println(uid);
-        List<UsersEvent> events = userEventRepo.findAllEventByUid(uid);
+    public List<UsersEvent> findAllEventsByUEmail(@Argument String uEmail){
+        System.out.println(uEmail);
+        List<UsersEvent> events = userEventRepo.findAllEventByUEmail(uEmail.toLowerCase());
 //        System.out.println("HELLO BOID");
 //        for(int i=0;i<events.size();i++){
 //            System.out.println(events.get(i).getUid().getName());

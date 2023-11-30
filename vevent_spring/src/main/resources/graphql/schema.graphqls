@@ -1,7 +1,7 @@
 type Query {
     allEvents: [Event]
-    findAllEventsByUid(uid: ID): [User_Event]
-    findById(id: ID): Event
+    findAllEventsByUEmail(uEmail: ID): [User_Event]
+    findById(email: ID): Event
 }
 
 type User_Event {
@@ -9,13 +9,13 @@ type User_Event {
     user: User
     event: Event
     status:String
+    doneTimes:Int
 }
 
 type User {
-    userId: ID!
     username: String
     password: String
-    userEmail: String
+    userEmail: ID!
     name: String
     surName: String
     profileImg: String
@@ -44,4 +44,5 @@ type Event {
     locationLatitude: Float
     locationLongitude: Float
     description: String
+    validate_times: Int
 }

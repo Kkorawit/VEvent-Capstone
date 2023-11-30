@@ -74,5 +74,7 @@ public class Event {
     @Column(name = "location_longitude")
     private Double locationLongitude;
 
+    @Column(name = "total_validation_times")
+    private Integer validate_times;
 
 }

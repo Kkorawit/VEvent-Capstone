@@ -9,9 +9,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "users")
 public class User {
-    @Id
-    @Column(name = "user_id", nullable = false, length = 125)
-    private Integer userId;
 
     @Column(name = "username", nullable = false, length = 125)
     private String username;
@@ -19,6 +16,7 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Id
     @Column(name = "user_email", nullable = false, length = 125)
     private String userEmail;
 
