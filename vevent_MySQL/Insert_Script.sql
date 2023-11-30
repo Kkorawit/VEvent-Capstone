@@ -1,8 +1,8 @@
 USE vevent;
 -- -----------------------------------------------------
 INSERT INTO users VALUES("louis01","LouisGi01","louis_gi01@example.com","Llouis","Givran","https://nk2/soursec/profile01.jpg");
-INSERT INTO users VALUES("timothy02","Timothy.Do02","timothy.d02@example.com","Timothy","Dovin","https://nk2/soursec/profile02.jpg");
-INSERT INTO users VALUES("laure03","Laure-CA03","laure-ca03@example.com","Laure","Carnet","https://nk2/soursec/profile03.jpg");
+INSERT INTO users VALUES("timothy02","Timothy.Do02","timothy.d02@example.com","Timothy","Dovin","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FTimothy02.jpg?alt=media&token=a8787add-52a5-4993-a1d6-718ed4a2b308");
+INSERT INTO users VALUES("laure03","Laure-CA03","laure-ca03@example.com","Laure","Carnet","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FLaure03..jpg?alt=media&token=a78f0fcc-0664-4331-bb0a-ed4123111cf3");
 INSERT INTO users VALUES("anne04","Anne#04","anne#04@example.com","Anne","Petiton","https://nk2/soursec/profile04.jpg");
 INSERT INTO users VALUES("claudine05","Claudine[05]","claudine[05]@example.com","Claudine","Solignac","https://nk2/soursec/profile05.jpg");
 INSERT INTO users VALUES("florian06","Florian(06)","florian(06)@example.com","Florian","Burnat","https://nk2/soursec/profile06.jpg");
