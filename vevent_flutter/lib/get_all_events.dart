@@ -5,12 +5,12 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 // import 'package:hive/hive.dart';
 // import 'package:hive_flutter/hive_flutter.dart';
 
-Future<List> getAllUsers({int? uid}) async {
+Future<List> getAllUsers({String? uEmail}) async {
   //    await Hive.initFlutter();
   // await Hive.openBox('myBox'); //
 
   HttpLink link = HttpLink(
-      "http://172.26.160.1:8080/graphql"); // this is api call for getting all users
+      "http://cp23kw1.sit.kmutt.ac.th:8080/graphql"); // this is api call for getting all users
   GraphQLClient qlClient = GraphQLClient(
     // craete a graphql client
     link: link,
@@ -23,29 +23,33 @@ Future<List> getAllUsers({int? uid}) async {
     // here it's get type so using query method
     QueryOptions(
       fetchPolicy: FetchPolicy.networkOnly,
-      document: gql("""
-          query FindAllEventsByUid {
-              findAllEventsByUid(uid: $uid) {
+      document: gql(
+        """
+          query FindAllEventsByUEmail {
+              findAllEventsByUEmail(uEmail: "$uEmail") {
                   user_event_id
                   status
+                  doneTimes
                   user {
-                      userId
+                      userEmail
+                      username
                   }
                   event {
                       id
                       title
                       eventDescription
                       category
-                      endDate
                       startDate
+                      endDate
+                      eventOwner
                       validationType
                       validationRules
-                      posterImg
                       createBy
                       locationName
                       locationLatitude
                       locationLongitude
                       description
+                      validate_times
                   }
               }
           }
@@ -53,7 +57,7 @@ Future<List> getAllUsers({int? uid}) async {
           """, // let's see query string
       ),
       variables: {
-        "uid": uid,
+        "uEmail": uEmail,
       },
     ),
   );
@@ -62,10 +66,10 @@ Future<List> getAllUsers({int? uid}) async {
     print("ทุกอย่างปกติดีจ้าาา");
     log("ทุกอย่างปกติดีจ้าาา");
   } else {
-    print(queryResult.data?['findAllEventsByUid']);
+    print(queryResult.data?['findAllEventsByUEmail']);
     log("เกิด" + queryResult.data.toString());
     print("null จ้าแม่");
   }
-  return queryResult.data?['findAllEventsByUid'] ??
+  return queryResult.data?['findAllEventsByUEmail'] ??
       []; // here i am getting list in getUsers field which i am return
 }

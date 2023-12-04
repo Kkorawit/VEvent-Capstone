@@ -6,28 +6,28 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI with Maven
+# name: Java CI with Maven
 
-on:
-  push:
-    branches: [ "dev" ]
-  pull_request:
-    branches: [ "main" ]
+# on:
+#   push:
+#     branches: [ "dev" ]
+#   pull_request:
+#     branches: [ "main" ]
 
-jobs:
-  build:
+# jobs:
+#   build:
 
-    runs-on: self-hosted
+#     runs-on: self-hosted
 
-    steps:
-    - uses: actions/checkout@v3
+#     steps:
+#     - uses: actions/checkout@v3
 
-    - name: Shutdown Container
-      run: | 
-        docker-compose -f vevent_spring/docker-compose.yml down
-        docker-compose -f vevent_MySQL/docker-compose.yml down
+#     - name: Shutdown Container
+#       run: | 
+#         docker-compose -f vevent_spring/docker-compose.yml down
+#         docker-compose -f vevent_MySQL/docker-compose.yml down
         
-    - name: Build Container
-      run: |
-        DOCKER_BUILDKIT=0 docker-compose -f vevent_spring/docker-compose.yml up -d --build
-        DOCKER_BUILDKIT=0 docker-compose -f vevent_MySQL/docker-compose.yml up -d --build
+#     - name: Build Container
+#       run: |
+#         DOCKER_BUILDKIT=0 docker-compose -f vevent_spring/docker-compose.yml up -d --build
+#         DOCKER_BUILDKIT=0 docker-compose -f vevent_MySQL/docker-compose.yml up -d --build
