@@ -35,26 +35,18 @@ class _MyHomePageState extends State<MyHomePage> {
           preferredSize: Size.fromHeight(138), //size of app bar
           child: AppBar(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(28),
-                bottomLeft: Radius.circular(28)
-              )
-            ),
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(28),
+                    bottomLeft: Radius.circular(28))),
             flexibleSpace: Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(28), 
-                  bottomLeft: Radius.circular(28)
-                ),
-                gradient: LinearGradient(
-                  colors: [
-                    Color.fromARGB(100, 69, 32, 204), 
+                  borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(28),
+                      bottomLeft: Radius.circular(28)),
+                  gradient: LinearGradient(colors: [
+                    Color.fromARGB(100, 69, 32, 204),
                     Color.fromARGB(100, 106, 77, 214)
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter
-                )
-              ),
+                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
             ),
             title: Text(
               "All Event List",
@@ -63,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         body: FutureBuilder(
-            future: getAllUsers(uid: 3),
+            future: getAllUsers(uEmail: "laure-ca03@example.com"),
             builder: (context, snapshot) {
               debugPrint(
                   'In FutureBuilder -> getAllUsers() >>> ${snapshot.data}');
@@ -90,33 +82,55 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 );
               } else {
-                return Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 32, 16, 32),
-                    child: ListView.builder(
-                        itemCount: snapshot.data?.length,
-                        itemBuilder: (context, index) {
-                          
-                          debugPrint(' In ListView.builder event >>> ${snapshot.data?[index]}');
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 46, 16, 32),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "กิจกรรมของฉัน",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(
+                          height: 14,
+                        ),
+                        Container(
+                          height: 500,
+                          child: ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              itemCount: snapshot.data?.length,
+                              itemBuilder: (context, index) {
+                                debugPrint(
+                                    ' In ListView.builder event >>> ${snapshot.data?[index]}');
 
-                          return CustomCard(
-                            title: "${snapshot.data?[index]['event']['title']}",
-                            // startDate: formattedDate,
-                            startDate:
-                                "${snapshot.data?[index]['event']['startDate']}",
-                            location:
-                                "${snapshot.data?[index]['event']['locationName']}",
-                            category: "${snapshot.data?[index]['event']['category']}",
-                            createBy:
-                                "${snapshot.data?[index]['event']['createBy']}",
-                            eventStatus:
-                                "${snapshot.data?[index]['status']}",
-                            description:
-                                "${snapshot.data?[index]['event']['description']}",
-                            imagePath: "assets/images/poster.png",
-                            // event: [snapshot.data?[index]],
-                          );
-                          // }
-                        }));
+                                return CustomCard(
+                                  title:
+                                      "${snapshot.data?[index]['event']['title']}",
+                                  // startDate: formattedDate,
+                                  startDate:
+                                      "${snapshot.data?[index]['event']['startDate']}",
+                                  location:
+                                      "${snapshot.data?[index]['event']['locationName']}",
+                                  category:
+                                      "${snapshot.data?[index]['event']['category']}",
+                                  createBy:
+                                      "${snapshot.data?[index]['event']['createBy']}",
+                                  eventStatus:
+                                      "${snapshot.data?[index]['status']}",
+                                  description:
+                                      "${snapshot.data?[index]['event']['description']}",
+                                  imagePath: "assets/images/poster.png",
+                                  // event: [snapshot.data?[index]],
+                                );
+                                // }
+                              }),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               }
             }));
   }

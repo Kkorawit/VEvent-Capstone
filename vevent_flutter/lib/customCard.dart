@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'eventDetail.dart';
 import 'package:vevent_flutter/dateTimeFormat.dart';
+import 'statusTag.dart';
 
 
 /// Flutter code sample for custom list items.
@@ -127,7 +128,7 @@ class CustomCard extends StatelessWidget {
                       SizedBox(
                         height: 8,
                       ),
-                      statusTag(eventStatus),
+                      StatusTag(eventStatus, 4.0, 8.0)
                     ],
                   ),
                 ),
@@ -140,88 +141,3 @@ class CustomCard extends StatelessWidget {
   }
 }
 
-Widget statusTag(String eStatus) {
-  if (eStatus == "A") { // [A/P/Pending] mean event is pending
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      margin: const EdgeInsets.only(left: 4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: Color.fromARGB(100, 236, 233, 250),
-      ),
-      child: Text(
-        "Pending",
-        style: TextStyle(
-          fontSize: 12,
-          color: Color.fromARGB(100, 69, 32, 204),
-        ),
-      ),
-    );
-  } else if (eStatus == "D") { // [D/S/Success] mean event is success
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      margin: const EdgeInsets.only(left: 4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: Color.fromARGB(100, 197, 245, 196),
-      ),
-      child: Text(
-        "Success",
-        style: TextStyle(
-          fontSize: 12,
-          color: Color.fromARGB(100, 11, 91, 9),
-        ),
-      ),
-    );
-  }else if(eStatus == "I"){ // [I/In review] mean event is in review
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      margin: const EdgeInsets.only(left: 4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: Color.fromARGB(100, 239, 176, 8),
-      ),
-      child: Text(
-        "In review",
-        style: TextStyle(
-          fontSize: 12,
-          color: Color.fromARGB(99, 109, 81, 5),
-        ),
-      ),
-    );
-  }else if(eStatus == "F"){ // [F/Fail] mean event is fail
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      margin: const EdgeInsets.only(left: 4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: Color.fromARGB(100, 216, 50, 50),
-      ),
-      child: Text(
-        "Fail",
-        style: TextStyle(
-          fontSize: 12,
-          color: Color.fromARGB(100, 69, 10, 10),
-        ),
-      ),
-    );
-  }else{
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      margin: const EdgeInsets.only(left: 4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: Color.fromARGB(97, 243, 243, 243),
-      ),
-      child: Text(
-        "-",
-        style: TextStyle(
-          fontSize: 12,
-          color: Color.fromARGB(100, 81, 81, 81),
-        ),
-      ),
-    );
-  }
-
-
-}
