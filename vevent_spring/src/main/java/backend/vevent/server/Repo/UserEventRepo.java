@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface UserEventRepo extends JpaRepository<UsersEvent,Integer> {
 
-    @Query(value = "SELECT * FROM users_events WHERE user_email=:uEmail",nativeQuery = true)
+    @Query(value = "SELECT * FROM users_events WHERE user_email LIKE :uEmail",nativeQuery = true)
     List<UsersEvent> findAllEventByUEmail(@Param("uEmail")String uEmail);
 }

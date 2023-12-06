@@ -67,7 +67,7 @@ public class EventControllerQL {
     }
 
     @QueryMapping
-    public User findUserByEmail(@Argument String uEmail){
+    public Optional<User> findUserByEmail(@Argument String uEmail){
         return userRepo.findUserByEmail(uEmail);
     }
 

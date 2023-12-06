@@ -10,8 +10,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRepo extends JpaRepository<User,String> {
+public interface UserRepo extends JpaRepository<User,Integer> {
 
-    @Query(value = "SELECT * FROM users WHERE user_email=:uEmail",nativeQuery = true)
-    User findUserByEmail(@Param("uEmail")String uEmail);
+    @Query(value = "SELECT * FROM users WHERE user_email LIKE :uEmail",nativeQuery = true)
+    Optional<User> findUserByEmail(@Param("uEmail")String uEmail);
+
 }
