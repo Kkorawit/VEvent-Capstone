@@ -5,7 +5,6 @@ import backend.vevent.server.Entity.Event;
 import backend.vevent.server.Repo.EventRepo;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -36,7 +35,7 @@ public class GPSController {
         Optional<Event> event = eventRepo.findById(eid);
 
         if(event.get().getLocationLatitude() == null || event.get().getLocationLongitude() == null){
-            return ResponseEntity.badRequest().body("This Event Don't Registed The Event Location");
+            return ResponseEntity.badRequest().body("This Event Don't Registered The Event Location");
         }else{
             String result = restTemplate.getForObject(
                     "https://api.longdo.com/RouteService/json/route/guide?flon="+location.getFlong()+
@@ -48,10 +47,10 @@ public class GPSController {
             System.out.println("jsonnode : " + jsonNode);
             float distanceValue = jsonNode.at("/data/0/distance").asInt();
             System.out.println(distanceValue);
-//            if (distanceValue < 6000) {
-//                return new ResponseEntity("Success", HttpStatus.OK);
-//            }
-            return new ResponseEntity(jsonNode, HttpStatus.BAD_REQUEST);
+            if (distanceValue <= 3000) {
+                return new ResponseEntity("Success", HttpStatus.OK);
+            }
+            return new ResponseEntity("You're Not Around The Area", HttpStatus.BAD_REQUEST);
         }
 
 //        JsonReader meta = objectMapper.readValue(result,JsonReader.class);
