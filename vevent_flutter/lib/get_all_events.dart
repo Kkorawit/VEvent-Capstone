@@ -5,7 +5,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 // import 'package:hive/hive.dart';
 // import 'package:hive_flutter/hive_flutter.dart';
 
-Future<List> getAllUsers({String? uEmail}) async {
+Future<List> getAllEvents({String? uEmail}) async {
   //    await Hive.initFlutter();
   // await Hive.openBox('myBox'); //
 

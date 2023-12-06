@@ -27,12 +27,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   //การแสดงผล
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(138), //size of app bar
+          preferredSize:  Size.fromHeight(MediaQuery.of(context).size.height * 0.2), //size of app bar
           child: AppBar(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
@@ -55,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         body: FutureBuilder(
-            future: getAllUsers(uEmail: "laure-ca03@example.com"),
+            future: getAllEvents(uEmail: "Laure-CA03@example.com"),
             builder: (context, snapshot) {
               debugPrint(
                   'In FutureBuilder -> getAllUsers() >>> ${snapshot.data}');
@@ -97,17 +98,19 @@ class _MyHomePageState extends State<MyHomePage> {
                           height: 14,
                         ),
                         Container(
-                          height: 500,
+                          height: MediaQuery.of(context).size.height *0.58,
+                          // margin: EdgeInsets.only(bottom: 32),
                           child: ListView.builder(
                               scrollDirection: Axis.vertical,
                               itemCount: snapshot.data?.length,
                               itemBuilder: (context, index) {
                                 debugPrint(
                                     ' In ListView.builder event >>> ${snapshot.data?[index]}');
+                                    
 
                                 return CustomCard(
-                                  title:
-                                      "${snapshot.data?[index]['event']['title']}",
+                                  eventId: "${snapshot.data?[index]['event']['id']}",
+                                  title:"${snapshot.data?[index]['event']['title']}",
                                   // startDate: formattedDate,
                                   startDate:
                                       "${snapshot.data?[index]['event']['startDate']}",
