@@ -4,4 +4,10 @@ services:
                   container_name: be_container
                   build: ./
                   image: be_image
+                  ports:
+                      - 8080:8080
                   restart: always
+networks:
+        default:
+                external:
+                        name: capstone-vevent

@@ -13,7 +13,6 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,4 +70,5 @@ public class EventControllerQL {
     public User findUserByEmail(@Argument String uEmail){
         return userRepo.findUserByEmail(uEmail);
     }
+
 }
