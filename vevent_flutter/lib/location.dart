@@ -95,63 +95,53 @@ class LocationState extends State<Location> {
   }
 
   Future<void> FetchLocation() async {
+    var res;
     await _getCurrentPosition();
     print("${lat}, ${long}");
 
-    // print(
-    //     "eventId: ${eventId}, latitude: ${latitude}, longtitude: ${longitude}");
-    var res = await http.post(
-        Uri.parse(
-            "http://cp23kw1.sit.kmutt.ac.th:8080/api/longdo?eid=${widget.eventId}"),
-        body: jsonEncode(
-          {"flat": lat, "flong": long},
-        ),
-        headers: {
-          "Accept": "application/json",
-          "content-type": "application/json"
-        });
+    if (lat != '' && long != '') {
+      res = await http.post(
+          Uri.parse(
+              "http://cp23kw1.sit.kmutt.ac.th:8080/api/longdo?eid=${widget.eventId}"),
+          body: jsonEncode(
+            {"flat": lat, "flong": long},
+          ),
+          headers: {
+            "Accept": "application/json",
+            "content-type": "application/json"
+          });
+      print("Validate Location Respone: ${res.body}");
+      print("Validate Location Respone: ${res.statusCode}");
 
-    print("Validate Location Respone: ${res.body}");
-    print("Validate Location Respone: ${res.statusCode}");
-    
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Row(
           children: [
             Text("Status code: ${res.statusCode}"),
-            SizedBox(width: 16,),
-            Expanded(
-              child: Text("${res.body}")
+            SizedBox(
+              width: 16,
             ),
+            Expanded(child: Text("${res.body}")),
           ],
         ),
-        backgroundColor: res.statusCode == 200 ? Colors.green : Colors.grey ,
+        backgroundColor: res.statusCode == 200 ? Colors.green : Colors.grey,
       ));
-      
-    if(res.statusCode == 200){
-      setState(() {
-        widget.eventStatus = "S";
-      });
-    }else if(res.statusCode == 400 && res.body == "You're Not Around The Area"){
-      setState(() {
-        widget.eventStatus = "F";
-      });
+
+      if (res.statusCode == 200) {
+        setState(() {
+          widget.eventStatus = "S";
+        });
+      } else if (res.statusCode == 400 &&
+          res.body == "You're Not Around The Area") {
+        setState(() {
+          widget.eventStatus = "F";
+        });
+      }
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Please allow location permissions"),
+      ));
     }
 
-    // if (res.statusCode == 200 && res.body == "Success") {
-    //   return SnackBar(content: Text(res.body));
-    // } else if (res.statusCode == 400) {
-    //   if (res.body == "You're Not Around The Area") {
-    //     return SnackBar(content: Text(res.body));;
-    //   } else if (res.body == "This Event Don't Registered The Event Location") {
-    //     return SnackBar(content: Text(res.body));;
-    //   } else {
-    //     throw Exception('Status 400 Failed out of case');
-    //   }
-    // } else {
-    //   throw Exception("Eror ${res.statusCode}");
-    // }
-
-    
   }
 
   @override
@@ -173,7 +163,6 @@ class LocationState extends State<Location> {
             print("Click to validate again.");
 
             res = FetchLocation();
-          
           },
           child: Text("Validation is fail"));
     } else {
@@ -184,7 +173,6 @@ class LocationState extends State<Location> {
           print("Click to validate the event.");
 
           res = FetchLocation();
-         
         }, //if onPressed : null , button is disable
         child: Text("Confirm participation"),
       );

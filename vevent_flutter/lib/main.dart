@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'get_all_events.dart';
 import 'customCard.dart';
+// import 'firebase_storage_client.dart';
+// import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
   runApp(MyWidget());
 }
 
@@ -60,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
             builder: (context, snapshot) {
               debugPrint(
                   'In FutureBuilder -> getAllUsers() >>> ${snapshot.data}');
+              // await getImageUrl('path_to_image.jpg');
 
               //check list of data from backend is not empty if empty show logo with text else show list all events.
               if (snapshot.data?.length == 0) {
@@ -106,7 +111,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               itemBuilder: (context, index) {
                                 debugPrint(
                                     ' In ListView.builder event >>> ${snapshot.data?[index]}');
-                                    
+                                // var imageURL = getImageUrl();
+                                // print(imageURL);
 
                                 return CustomCard(
                                   eventId: "${snapshot.data?[index]['event']['id']}",
@@ -138,3 +144,8 @@ class _MyHomePageState extends State<MyHomePage> {
             }));
   }
 }
+
+// Future<String> getImageUrl() async {
+//  return await getDownloadURL();
+// }
+
