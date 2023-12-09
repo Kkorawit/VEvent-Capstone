@@ -7,7 +7,7 @@
 
 
     <application
-            android:label="vevent_flutter"
+            android:label="vevent"
             android:name="${applicationName}"
             android:icon="@mipmap/ic_launcher">
         <activity

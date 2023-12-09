@@ -51,14 +51,17 @@ class _EventDetailState extends State<EventDetail> {
               print("${snapshot.data}");
               print("${snapshot.data?["username"]}");
               widget.eventOwner = "${snapshot.data?["username"]}";
+              print(widget.imagePath);
+              print("${snapshot.data?["profileImg"]}");
 
 
             return Stack(
               children: [
                 Image(
-                  image: AssetImage(widget.imagePath),
-                  fit: BoxFit.cover,
+                  image: NetworkImage(widget.imagePath),
+                  fit: BoxFit.fitHeight,
                   width: double.infinity,
+                  height: MediaQuery.of(context).size.height *0.38,
                 ),
                 DraggableScrollableSheet(
                     initialChildSize: 0.6,
@@ -97,8 +100,16 @@ class _EventDetailState extends State<EventDetail> {
                                       width: 204,
                                       child: Row(
                                         children: [
-                                          CircleAvatar(
-                                            child: Icon(Icons.home_sharp),
+                                          Container(
+                                            width: 36,
+                                            height: 36,
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(40),
+                                              child: Image.network("https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FLaure03..jpg?alt=media&token=a78f0fcc-0664-4331-bb0a-ed4123111cf3",),
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(24),
+                                            ),
                                           ),
                                           SizedBox(
                                             width: 8,
@@ -174,13 +185,13 @@ class _EventDetailState extends State<EventDetail> {
                                     ),
                                     Container(
                                       alignment: Alignment.centerRight,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 6, horizontal: 16),
+                                      // padding: const EdgeInsets.symmetric(
+                                      //     vertical: 6, horizontal: 16),
                                       margin: const EdgeInsets.only(left: 4),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: Color.fromARGB(100, 236, 233, 250),
-                                      ),
+                                      // decoration: BoxDecoration(
+                                      //   borderRadius: BorderRadius.circular(15),
+                                      //   color: Color.fromARGB(100, 236, 233, 250),
+                                      // ),
                                       child: Text(
                                         widget.category,
                                         style: TextStyle(
@@ -230,26 +241,3 @@ class _EventDetailState extends State<EventDetail> {
   }
 }
 
-// Widget buttonDisable(eStatus) {
-//   if (eStatus == "S") {
-//     return ElevatedButton(
-//         onPressed: null, child: Text("Success participation"));
-//   } else if (eStatus == "IR") {
-//     return ElevatedButton(onPressed: null, child: Text("Validation in review"));
-//   } else if (eStatus == "F") {
-//     return ElevatedButton(
-//         onPressed: () {
-//           Location();
-//           print("Click to validate again.");
-//         },
-//         child: Text("Validation is fail"));
-//   } else {
-//     return ElevatedButton(
-//       onPressed: () {
-//         Location();
-//         print("Click to validate the event.");
-//       }, //if onPressed : null , button is disable
-//       child: Text("Confirm participation"),
-//     );
-//   }
-// }

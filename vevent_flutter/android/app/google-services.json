@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "494710804612",
+    "project_id": "vevent-capstone",
+    "storage_bucket": "vevent-capstone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:494710804612:android:016d0944781f7214c472d1",
+        "android_client_info": {
+          "package_name": "com.example.vevent_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtLDEwwZXCA_9pQtyPEe7xAiI9ET0kD6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

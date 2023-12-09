@@ -3,10 +3,14 @@ import 'get_all_events.dart';
 import 'customCard.dart';
 // import 'firebase_storage_client.dart';
 // import 'package:firebase_core/firebase_core.dart';
+// import 'firebase_options.dart';
 
-void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+
+Future main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp(
+//   options: DefaultFirebaseOptions.currentPlatform,
+// );
   runApp(MyWidget());
 }
 
@@ -31,6 +35,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  void initState() {
+    super.initState();
+  }
 
   //การแสดงผล
   @override
@@ -64,10 +72,10 @@ class _MyHomePageState extends State<MyHomePage> {
             builder: (context, snapshot) {
               debugPrint(
                   'In FutureBuilder -> getAllUsers() >>> ${snapshot.data}');
-              // await getImageUrl('path_to_image.jpg');
+              
 
               //check list of data from backend is not empty if empty show logo with text else show list all events.
-              if (snapshot.data?.length == 0) {
+              if (!snapshot.hasData) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -112,7 +120,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                 debugPrint(
                                     ' In ListView.builder event >>> ${snapshot.data?[index]}');
                                 // var imageURL = getImageUrl();
-                                // print(imageURL);
+                                // print("this is Url from Firebase =>  ${imageURL}");
+                                print("${snapshot.data?[index]['event']['posterImg']}");
+                                String imagePath = "${snapshot.data?[index]['event']['posterImg']}";
 
                                 return CustomCard(
                                   eventId: "${snapshot.data?[index]['event']['id']}",
@@ -130,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       "${snapshot.data?[index]['status']}",
                                   description:
                                       "${snapshot.data?[index]['event']['description']}",
-                                  imagePath: "assets/images/poster.png",
+                                  imagePath: "${snapshot.data?[index]['event']['posterImg']}",
                                   // event: [snapshot.data?[index]],
                                 );
                                 // }

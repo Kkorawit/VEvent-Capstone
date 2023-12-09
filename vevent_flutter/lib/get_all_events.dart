@@ -10,7 +10,7 @@ Future<List> getAllEvents({String? uEmail}) async {
   // await Hive.openBox('myBox'); //
 
   HttpLink link = HttpLink(
-      "http://cp23kw1.sit.kmutt.ac.th:8080/graphql"); // this is api call for getting all users
+      "http://capstone23.sit.kmutt.ac.th:8080/kw1/graphql"); // this is api call for getting all users => sub path"http://cp23kw1.sit.kmutt.ac.th:8080/graphql"
   GraphQLClient qlClient = GraphQLClient(
     // craete a graphql client
     link: link,
@@ -50,6 +50,7 @@ Future<List> getAllEvents({String? uEmail}) async {
                       locationLongitude
                       description
                       validate_times
+                      posterImg
                   }
               }
           }
