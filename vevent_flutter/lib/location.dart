@@ -164,7 +164,7 @@ class LocationState extends State<Location> {
 
             res = FetchLocation();
           },
-          child: Text("Validation is fail"));
+          child: Text("Validation is fail"),);
     } else {
       return ElevatedButton(
         onPressed: () {
