@@ -62,8 +62,8 @@ Future<List> getAllEvents({String? uEmail}) async {
       },
     ),
   );
-
-  if (queryResult.data != null) {
+// queryResult.data != null
+  if (queryResult.data != 0) {
     print("ทุกอย่างปกติดีจ้าาา");
     log("ทุกอย่างปกติดีจ้าาา");
   } else {

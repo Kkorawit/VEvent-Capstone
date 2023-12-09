@@ -7,7 +7,7 @@
 
 
     <application
-            android:label="vevent"
+            android:label="VEvent"
             android:name="${applicationName}"
             android:icon="@mipmap/ic_launcher">
         <activity

@@ -23,7 +23,7 @@ public class User {
     @Column(name = "name", nullable = false, length = 125)
     private String name;
 
-    @Column(name = "surName", nullable = false, length = 125)
+    @Column(name = "sur_name", nullable = false, length = 125)
     private String surName;
 
     @Column(name = "profile_img", nullable = false, length = 300)

@@ -50,21 +50,18 @@ public class EventControllerQL {
     public List<UsersEvent> findAllEventsByUEmail(@Argument String uEmail){
         System.out.println(uEmail);
         List<UsersEvent> events = userEventRepo.findAllEventByUEmail(uEmail.toLowerCase());
-//        System.out.println("HELLO BOID");
-//        for(int i=0;i<events.size();i++){
-//            System.out.println(events.get(i).getUid().getName());
-//
-//            System.out.println(events.get(i).getEid().getTitle());
+        System.out.println(events);
+//        if(events.isEmpty()){
+//            return
 //        }
-//        System.out.println(events);
 
         return events;
     }
 
-    @QueryMapping
-    public Optional<Event> findById(@Argument Integer id){
-        return eventRepo.findById(id);
-    }
+//    @QueryMapping
+//    public Optional<Event> findById(@Argument Integer id){
+//        return eventRepo.findById(id);
+//    }
 
     @QueryMapping
     public Optional<User> findUserByEmail(@Argument String uEmail){
