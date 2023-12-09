@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `vevent`.`users` (
   `password` VARCHAR(255) NOT NULL,
   `user_email` VARCHAR(125) NOT NULL,
   `name` VARCHAR(125) NOT NULL ,
-  `surName` VARCHAR(125) NOT NULL,
+  `sur_name` VARCHAR(125) NOT NULL,
   `profile_img` VARCHAR(300) NOT NULL,
   PRIMARY KEY (`user_email`))
 ENGINE = InnoDB;
