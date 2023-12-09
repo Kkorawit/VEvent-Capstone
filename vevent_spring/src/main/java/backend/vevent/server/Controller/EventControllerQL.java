@@ -2,16 +2,17 @@ package backend.vevent.server.Controller;
 
 
 import backend.vevent.server.Entity.Event;
+import backend.vevent.server.Entity.User;
 import backend.vevent.server.Entity.UsersEvent;
 import backend.vevent.server.Repo.EventRepo;
 import backend.vevent.server.Repo.UserEventRepo;
+import backend.vevent.server.Repo.UserRepo;
 import graphql.GraphQL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,9 @@ public class EventControllerQL {
 
     @Autowired
     private UserEventRepo userEventRepo;
+
+    @Autowired
+    private UserRepo userRepo;
 
     private GraphQL graphQL;
 
@@ -60,6 +64,11 @@ public class EventControllerQL {
     @QueryMapping
     public Optional<Event> findById(@Argument Integer id){
         return eventRepo.findById(id);
+    }
+
+    @QueryMapping
+    public Optional<User> findUserByEmail(@Argument String uEmail){
+        return userRepo.findUserByEmail(uEmail);
     }
 
 }

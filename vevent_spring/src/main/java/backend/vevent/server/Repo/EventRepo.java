@@ -19,6 +19,7 @@ public interface EventRepo extends JpaRepository<Event,Integer> {
     @Query(value = "SELECT * FROM events",nativeQuery = true)
     List<Event> getAllEvents();
 
+
 //    @Query(value = "SELECT * FROM users_events WHERE user_id=:uid",nativeQuery = true)
 //    List<Event> findAllEventByUid(@Param("uid")Integer uid);
 

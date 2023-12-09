@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI with Maven
+name: Build Docker Container
 
 on:
   push:
@@ -24,10 +24,10 @@ jobs:
 
     - name: Shutdown Container
       run: | 
-        docker-compose -f vevent_spring/docker-compose.yml down
-        docker-compose -f vevent_MySQL/docker-compose.yml down
+        docker compose -f vevent_spring/docker-compose.yml down
+        docker compose -f vevent_MySQL/docker-compose.yml down
         
     - name: Build Container
       run: |
-        DOCKER_BUILDKIT=0 docker-compose -f vevent_spring/docker-compose.yml up -d --build
-        DOCKER_BUILDKIT=0 docker-compose -f vevent_MySQL/docker-compose.yml up -d --build
+        docker compose -f vevent_spring/docker-compose.yml up -d --build
+        docker compose -f vevent_MySQL/docker-compose.yml up -d --build
