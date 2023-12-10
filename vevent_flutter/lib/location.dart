@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'main.dart';
 
 // import 'validateLocation.dart';
 import 'package:http/http.dart' as http;
@@ -9,10 +10,11 @@ import 'dart:convert';
 // ignore: must_be_immutable
 class Location extends StatefulWidget {
   String eventId;
+  String uEmail;
   String eventStatus;
   // const Location({super.key});
 
-  Location(this.eventId, this.eventStatus);
+  Location(this.eventId, this.uEmail, this.eventStatus);
 
   @override
   State<Location> createState() => LocationState();
@@ -37,9 +39,6 @@ class LocationState extends State<Location> {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       //serviceEnable == false
-      // Location services are not enabled don't continue
-      // accessing the position and request users of the
-      // App to enable the location services.
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content:
             Text("Location services are disable. Please enable the services."),
@@ -51,11 +50,6 @@ class LocationState extends State<Location> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Location permissions are denied"),
         ));
@@ -72,8 +66,6 @@ class LocationState extends State<Location> {
       return false;
     }
 
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
     return true;
   }
 
@@ -95,14 +87,14 @@ class LocationState extends State<Location> {
   }
 
   Future<void> FetchLocation() async {
-    var res;
+    // var res;
     await _getCurrentPosition();
     print("${lat}, ${long}");
 
     if (lat != '' && long != '') {
       res = await http.post(
           Uri.parse(
-              "http://cp23kw1.sit.kmutt.ac.th:8080/api/longdo?eid=${widget.eventId}"),
+              "http://cp23kw1.sit.kmutt.ac.th:8080/api/longdo?eid=${widget.eventId}&uemail=${widget.uEmail}"),
           body: jsonEncode(
             {"flat": lat, "flong": long},
           ),
@@ -130,18 +122,31 @@ class LocationState extends State<Location> {
         setState(() {
           widget.eventStatus = "S";
         });
+         Future.delayed(Duration(seconds: 1),(){
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (BuildContext context) => MyWidget(),
+          ),
+        );
+        });
       } else if (res.statusCode == 400 &&
           res.body == "You're Not Around The Area") {
         setState(() {
           widget.eventStatus = "F";
         });
+        Future.delayed(Duration(seconds: 1),(){
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (BuildContext context) => MyWidget(),
+          ),
+        );
+        });
       }
-    }else{
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Please allow location permissions"),
       ));
     }
-
   }
 
   @override
@@ -157,22 +162,17 @@ class LocationState extends State<Location> {
           onPressed: null, child: Text("Validation in review"));
     } else if (widget.eventStatus == "F") {
       return ElevatedButton(
-          onPressed: () {
-            // _getCurrentPosition();
-
-            print("Click to validate again.");
-
-            res = FetchLocation();
-          },
-          child: Text("Validation is fail"),);
+        onPressed: () {
+          print("Click to validate again.");
+          FetchLocation();
+        },
+        child: Text("Validation is fail"),
+      );
     } else {
       return ElevatedButton(
         onPressed: () {
-          // _getCurrentPosition();
-
           print("Click to validate the event.");
-
-          res = FetchLocation();
+          FetchLocation();
         }, //if onPressed : null , button is disable
         child: Text("Confirm participation"),
       );

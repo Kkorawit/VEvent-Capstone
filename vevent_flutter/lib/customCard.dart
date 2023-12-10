@@ -8,6 +8,7 @@ import 'statusTag.dart';
 /// Flutter code sample for custom list items.
 class CustomCard extends StatelessWidget {
   final String eventId;
+  final String uEmail;
   final String title;
   final String startDate;
   final String location;
@@ -21,6 +22,7 @@ class CustomCard extends StatelessWidget {
 
   CustomCard({
     required this.eventId,
+    required this.uEmail,
     required this.title,
     required this.startDate,
     required this.location,
@@ -42,8 +44,10 @@ class CustomCard extends StatelessWidget {
           onTap: () {
             print("Click event " + title);
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              print("this is uEmail at customCard => ${uEmail}");
               return EventDetail(
                   eventId: eventId,
+                  uEmail: uEmail,
                   title: title,
                   startDate: formattedDate,
                   location: location,
