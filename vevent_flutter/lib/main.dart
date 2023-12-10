@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-import 'get_all_events.dart';
+// import 'get_all_events.dart';
 import 'customCard.dart';
-// import 'firebase_storage_client.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'firebase_options.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 
-Future main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp(
-//   options: DefaultFirebaseOptions.currentPlatform,
-// );
+void main() async {
   runApp(const MyWidget());
 }
 
@@ -35,18 +29,92 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  // Map<String, dynamic> listEvents = {};
+  List<dynamic> listEvents = [];
+
+  Future<void> getAllEvents({String? uEmail}) async {
+    HttpLink link =
+        HttpLink("http://capstone23.sit.kmutt.ac.th:8080/kw1/graphql");
+    GraphQLClient qlClient = GraphQLClient(
+      link: link,
+      cache: GraphQLCache(
+        store: InMemoryStore(),
+      ),
+    );
+    QueryResult queryResult = await qlClient.query(
+      QueryOptions(
+        fetchPolicy: FetchPolicy.networkOnly,
+        document: gql(
+          """
+          query FindAllEventsByUEmail {
+              findAllEventsByUEmail(uEmail: "$uEmail") {
+                  user_event_id
+                  status
+                  doneTimes
+                  user {
+                      userEmail
+                      username
+                  }
+                  event {
+                      id
+                      title
+                      eventDescription
+                      category
+                      startDate
+                      endDate
+                      eventOwner
+                      validationType
+                      validationRules
+                      createBy
+                      locationName
+                      locationLatitude
+                      locationLongitude
+                      description
+                      validate_times
+                      posterImg
+                  }
+              }
+          }
+
+          """, // let's see query string
+        ),
+        variables: {
+          "uEmail": uEmail,
+        },
+      ),
+    );
+
+// queryResult.data != null
+    if (queryResult.data != 0) {
+      print("ทุกอย่างปกติดีจ้าาา");
+      // log("ทุกอย่างปกติดีจ้าาา");
+      setState(() {
+        listEvents = queryResult.data?['findAllEventsByUEmail'] ?? [];
+        // listEvents = queryResult.data!;
+      });
+    } else {
+      print(queryResult.data?['findAllEventsByUEmail']);
+      // log("เกิด" + queryResult.data.toString());
+      print("null จ้าแม่");
+    }
+    // return queryResult.data?['findAllEventsByUEmail'] ??[];
+  }
 
   @override
   void initState() {
     super.initState();
+    getAllEvents(uEmail: "Laure-CA03@example.com");
+    print("initState => ${listEvents}");
   }
 
   //การแสดงผล
   @override
   Widget build(BuildContext context) {
+      print("list event => ${listEvents}");
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize:  Size.fromHeight(MediaQuery.of(context).size.height * 0.2), //size of app bar
+          preferredSize: Size.fromHeight(
+              MediaQuery.of(context).size.height * 0.2), //size of app bar
           child: AppBar(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
@@ -68,42 +136,33 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ),
-        body: FutureBuilder(
-            future: getAllEvents(uEmail: "laure-ca03@example.com"),
-            builder: (context, snapshot) {
-              debugPrint(
-                  'In FutureBuilder -> getAllUsers() >>> ${snapshot.data}');
-              //check list of data from backend is not empty if empty show logo with text else show list all events.
-              if (!snapshot.hasData) {
-                return Center(
-                  child: const CircularProgressIndicator(
-                    backgroundColor: Color.fromARGB(100, 181, 166, 235),
-                    color: Color.fromARGB(100, 69, 32, 204),
-                    value: 0.75,
-                  ),
-                );
-                // return Center(
-                //   child: Column(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: [
-                //       Image(
-                //         image: AssetImage("assets/images/text_logo.png"),
-                //         height: 100,
-                //         width: 148,
-                //       ),
-                //       SizedBox(
-                //         height: 8,
-                //       ),
-                //       Text("No participating events"),
-                //       SizedBox(
-                //         height: 8,
-                //       ),
-                //     ],
-                //   ),
-                // );
-              } else {
-                if(snapshot.data?.length == 0){
-                  return Center(
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "กิจกรรมของฉัน",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
+              SizedBox(
+                height: 14,
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height *0.58,
+                child: showEventList(),
+              ),
+            ],
+          ),
+        ));
+  }
+
+
+Widget showEventList(){
+  print(listEvents);
+  if(listEvents.length == 0){
+  print(listEvents);
+    return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -122,67 +181,38 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                 );
-                }
-                return SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 46, 16, 32),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "กิจกรรมของฉัน",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 14,
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height *0.58,
-                          // margin: EdgeInsets.only(bottom: 32),
-                          child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              itemCount: snapshot.data?.length,
-                              itemBuilder: (context, index) {
-                                debugPrint(
-                                    ' In ListView.builder event >>> ${snapshot.data?[index]}');
-                                // var imageURL = getImageUrl();
-                                // print("this is Url from Firebase =>  ${imageURL}");
-                                print("${snapshot.data?[index]['event']['posterImg']}");
-                               
-
-                                return CustomCard(
-                                  eventId: "${snapshot.data?[index]['event']['id']}",
-                                  title:"${snapshot.data?[index]['event']['title']}",
-                                  // startDate: formattedDate,
-                                  startDate:
-                                      "${snapshot.data?[index]['event']['startDate']}",
-                                  location:
-                                      "${snapshot.data?[index]['event']['locationName']}",
-                                  category:
-                                      "${snapshot.data?[index]['event']['category']}",
-                                  createBy:
-                                      "${snapshot.data?[index]['event']['createBy']}",
-                                  eventStatus:
-                                      "${snapshot.data?[index]['status']}",
-                                  description:
-                                      "${snapshot.data?[index]['event']['description']}",
-                                  imagePath: "${snapshot.data?[index]['event']['posterImg']}",
-                                  // event: [snapshot.data?[index]],
-                                );
-                                // }
-                              }),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }
-            }));
+  }else{
+  print(listEvents);
+    return ListView.builder(
+                    itemCount: listEvents.length,
+                    itemBuilder: (context, index) {
+                      print(
+                          "Listview u-e-id => ${listEvents[index]["user_event_id"]}");
+                      print(
+                          "Listview uEmail => ${listEvents[index]["user"]["userEmail"]}");
+                      print(
+                          "Listview e-id => ${listEvents[index]["event"]["id"]}");
+                      print("Listview => ${listEvents[index]}");
+                      return CustomCard(
+                          eventId: "${listEvents[index]["event"]["id"]}",
+                          uEmail: "${listEvents[index]["user"]["userEmail"]}",
+                          title: "${listEvents[index]["event"]["title"]}",
+                          startDate:
+                              "${listEvents[index]["event"]["startDate"]}",
+                          location:
+                              "${listEvents[index]["event"]["locationName"]}",
+                          category:
+                              "${listEvents[index]["event"]["category"]}",
+                          createBy:
+                              "${listEvents[index]["event"]["createBy"]}",
+                          eventStatus: "${listEvents[index]["status"]}",
+                          description:
+                              "${listEvents[index]["event"]["description"]}",
+                          imagePath:
+                              "${listEvents[index]["event"]["posterImg"]}");
+                    });
   }
 }
 
-// Future<String> getImageUrl() async {
-//  return await getDownloadURL();
-// }
 
+}

@@ -19,14 +19,14 @@ Widget StatusTag(String eStatus, double verSize, double horSize) {
       margin: EdgeInsets.only(left: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: Color.fromARGB(100, 236, 233, 250),
+        color: Color.fromARGB(100, 230, 230, 230),
       ),
       child: Text(
         "Pending",
         style: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w500,
-          color: Color.fromARGB(100, 69, 32, 204),
+          color: Color.fromARGB(100, 111, 111, 111),
         ),
       ),
     );
@@ -37,14 +37,14 @@ Widget StatusTag(String eStatus, double verSize, double horSize) {
       margin: EdgeInsets.only(left: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: Color.fromARGB(100, 197, 245, 196),
+        color: Color.fromARGB(100, 195, 228, 209),
       ),
       child: Text(
         "Success",
         style: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w500,
-          color: Color.fromARGB(100, 11, 91, 9),
+          color: Color.fromARGB(100, 0, 99, 43),
         ),
       ),
     );
@@ -55,7 +55,7 @@ Widget StatusTag(String eStatus, double verSize, double horSize) {
       margin: EdgeInsets.only(left: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: Color.fromARGB(100, 255, 245, 233),
+        color: Color.fromARGB(100, 255, 235, 179),
       ),
       child: Text(
         "In review",
@@ -73,7 +73,7 @@ Widget StatusTag(String eStatus, double verSize, double horSize) {
       margin: EdgeInsets.only(left: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: Color.fromARGB(100, 253, 235, 235),
+        color: Color.fromARGB(100, 255, 192, 192),
       ),
       child: Text(
         "Fail",

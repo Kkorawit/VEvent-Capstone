@@ -6,6 +6,7 @@ import 'get_user.dart';
 // ignore: must_be_immutable
 class EventDetail extends StatefulWidget {
   final String eventId;
+  final String uEmail;
   final String title;
   final String startDate;
   final String location;
@@ -19,6 +20,7 @@ class EventDetail extends StatefulWidget {
 
   EventDetail(
       {required this.eventId,
+      required this.uEmail,
       required this.title,
       required this.startDate,
       required this.location,
@@ -266,7 +268,7 @@ class _EventDetailState extends State<EventDetail> {
                                   SizedBox(
                                     height: 32,
                                   ),
-                                  Location(widget.eventId, widget.eventStatus),
+                                  Location(widget.eventId, widget.uEmail, widget.eventStatus),
                                 ],
                               ),
                             ),

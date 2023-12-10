@@ -6,8 +6,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 // import 'package:hive_flutter/hive_flutter.dart';
 
 Future<List> getAllEvents({String? uEmail}) async {
-  //    await Hive.initFlutter();
-  // await Hive.openBox('myBox'); //
+
 
   HttpLink link = HttpLink(
       "http://capstone23.sit.kmutt.ac.th:8080/kw1/graphql"); // this is api call for getting all users => sub path"http://cp23kw1.sit.kmutt.ac.th:8080/graphql"
@@ -66,11 +65,12 @@ Future<List> getAllEvents({String? uEmail}) async {
   if (queryResult.data != 0) {
     print("ทุกอย่างปกติดีจ้าาา");
     log("ทุกอย่างปกติดีจ้าาา");
+    queryResult.data?['findAllEventsByUEmail'] ?? [];
   } else {
     print(queryResult.data?['findAllEventsByUEmail']);
     log("เกิด" + queryResult.data.toString());
     print("null จ้าแม่");
   }
-  return queryResult.data?['findAllEventsByUEmail'] ??
-      []; // here i am getting list in getUsers field which i am return
+
+  return queryResult.data?['findAllEventsByUEmail'] ?? [];
 }
