@@ -3,11 +3,11 @@ USE vevent;
 INSERT INTO users VALUES("louis01","LouisGi01","louis_gi01@example.com","Llouis","Givran","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FuserId-1.jpg?alt=media&token=9bc64b55-4dcc-4752-93d4-bddc60d53cd6");
 INSERT INTO users VALUES("timothy02","Timothy.Do02","timothy.d02@example.com","Timothy","Dovin","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FuserId-2.jpg?alt=media&token=b2d026b4-03a0-4f38-9b80-a2ec149e599d");
 INSERT INTO users VALUES("laure03","Laure-CA03","laure-ca03@example.com","Laure","Carnet","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FuserId-3.jpg?alt=media&token=91afeec3-d332-4cbf-98b2-3ab638bd832c");
-INSERT INTO users VALUES("anne04","Anne#04","anne#04@example.com","Anne","Petiton","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FuserId-4.jpg?alt=media&token=4faa8cd4-6832-4c6b-8c3a-399a27d1cc94");
+INSERT INTO users VALUES("anne04","Anne#04","anne04@example.com","Anne","Petiton","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FuserId-4.jpg?alt=media&token=4faa8cd4-6832-4c6b-8c3a-399a27d1cc94");
 INSERT INTO users VALUES("claudine05","Claudine[05]","claudine[05]@example.com","Claudine","Solignac","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FuserId-5.jpg?alt=media&token=8d6f86e6-4522-457b-af60-adc908df54a3");
 INSERT INTO users VALUES("florian06","Florian(06)","florian(06)@example.com","Florian","Burnat","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FuserId-6.jpg?alt=media&token=2f796028-3b8d-4ee3-850a-07fbe932880a");
-INSERT INTO users VALUES("bendjy07","Bendjy*G07","bendjy*g07@example.com","Bendjy","Gobbo","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FuserId-7.jpg?alt=media&token=01e41a22-6b7a-4d2f-8225-09b01f0c9b22");
-INSERT INTO users VALUES("danyel08","Danyel.Ca#08","danyel.ca#08@example.com","Danyel","Cambon","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FuserId-8.jpg?alt=media&token=4c65b766-f862-481a-ab74-6855f55f6d73");
+INSERT INTO users VALUES("bendjy07","Bendjy*G07","bendjyg07@example.com","Bendjy","Gobbo","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FuserId-7.jpg?alt=media&token=01e41a22-6b7a-4d2f-8225-09b01f0c9b22");
+INSERT INTO users VALUES("danyel08","Danyel.Ca#08","danyel.ca08@example.com","Danyel","Cambon","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FuserId-8.jpg?alt=media&token=4c65b766-f862-481a-ab74-6855f55f6d73");
 INSERT INTO users VALUES("genie09","Genie_N09","genie_n09@example.com","Genie","Naritan","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FuserId-9.jpg?alt=media&token=ce75b3b6-3ce6-47af-a852-232de8dbc3d6");
 INSERT INTO users VALUES("joel10","Joel-De.10","joel-de.10@example.com","Joel","Delanchy","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FuserId-10.jpg?alt=media&token=faeea19b-6887-4a40-b4b7-70160b87eef1");
 INSERT INTO users VALUES("organization01","Organization-01@BK","organization-01@example.com","Margaret","Beatrice","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2Forganiz-1.png?alt=media&token=36c3a6e0-2658-4e1d-b9ee-fbc2cec6ce13");
@@ -52,11 +52,11 @@ INSERT INTO events VALUES(32,"“KMITL Open House 2024” Digital Life & Smart C
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("timothy.d02@example.com",1,"F",0);
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("timothy.d02@example.com",2,"S",0);
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("laure-ca03@example.com",5,"P",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("laure-ca03@example.com",22,"IR",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("laure-ca03@example.com",22,"P",0);
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("laure-ca03@example.com",18,"S",0);
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("laure-ca03@example.com",28,"F",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("anne#04@example.com",32,"P",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("anne#04@example.com",31,"P",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("anne04@example.com",32,"P",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("anne04@example.com",31,"P",0);
 
 -- -----------------------------------------------------
 INSERT INTO history_log VALUES(1,"create","users","register","2023-11-05 10:20:48","joel-de.10@example.com");
