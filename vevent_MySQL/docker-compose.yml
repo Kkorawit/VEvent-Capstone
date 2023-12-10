@@ -7,7 +7,7 @@ services :
                         - TZ=Asia/Bangkok    
               image : mysql      
               ports:
-                  - 8080:8080
+                  - 3306:3306
               volumes :
                         - ./Create_Script.sql:/docker-entrypoint-initdb.d/Create_Script.sql
                         - ./Insert_Script.sql:/docker-entrypoint-initdb.d/Insert_Script.sql
