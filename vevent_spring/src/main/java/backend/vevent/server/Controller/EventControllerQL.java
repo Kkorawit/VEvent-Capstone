@@ -48,15 +48,10 @@ public class EventControllerQL {
 
     @QueryMapping
     public List<UsersEvent> findAllEventsByUEmail(@Argument String uEmail){
-        System.out.println(uEmail);
-        List<UsersEvent> events = userEventRepo.findAllEventByUEmail(uEmail.toLowerCase());
-        System.out.println(events);
-//        if(events.isEmpty()){
-//            return
-//        }
 
-        return events;
+        return userEventRepo.findAllEventByUEmail(uEmail);
     }
+
 
 //    @QueryMapping
 //    public Optional<Event> findById(@Argument Integer id){

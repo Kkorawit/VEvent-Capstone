@@ -43,6 +43,7 @@ public class GPSController {
         if(event.get().getLocationLatitude() == null || event.get().getLocationLongitude() == null){
             return ResponseEntity.badRequest().body("This Event Don't Registered The Event Location");
         }else if(usersEvent!=null){
+
             String result = restTemplate.getForObject(
                     "https://api.longdo.com/RouteService/json/route/guide?flon="+location.getFlong()+
                             "&flat="+location.getFlat()+ "&tlon="+event.get().getLocationLongitude()+"&tlat="+event.get().getLocationLatitude()+
