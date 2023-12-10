@@ -32,14 +32,6 @@ class CustomCard extends StatelessWidget {
     // required this.event
   });
 
-  // String title;
-  // String startDate;
-  // String location;
-  // String category;
-  // String createBy;
-  // String eventStatus;
-  // String description;
-  // String imagePath;
 
   @override
   Widget build(BuildContext context) {

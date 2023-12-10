@@ -55,7 +55,6 @@ INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("laure-ca03@example.com",22,"IR",0);
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("laure-ca03@example.com",18,"S",0);
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("laure-ca03@example.com",28,"F",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("laure-ca03@example.com",28,"F",0);
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("anne#04@example.com",32,"P",0);
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("anne#04@example.com",31,"P",0);
 

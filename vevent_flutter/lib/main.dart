@@ -11,7 +11,7 @@ Future main() async {
 //   await Firebase.initializeApp(
 //   options: DefaultFirebaseOptions.currentPlatform,
 // );
-  runApp(MyWidget());
+  runApp(const MyWidget());
 }
 
 class MyWidget extends StatelessWidget {
@@ -36,6 +36,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  @override
   void initState() {
     super.initState();
   }
@@ -68,20 +69,46 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         body: FutureBuilder(
-            future: getAllEvents(uEmail: "Laure-CA03@example.com"),
+            future: getAllEvents(uEmail: "laure-ca03@example.com"),
             builder: (context, snapshot) {
               debugPrint(
                   'In FutureBuilder -> getAllUsers() >>> ${snapshot.data}');
-              
-
               //check list of data from backend is not empty if empty show logo with text else show list all events.
               if (!snapshot.hasData) {
                 return Center(
+                  child: const CircularProgressIndicator(
+                    backgroundColor: Color.fromARGB(100, 181, 166, 235),
+                    color: Color.fromARGB(100, 69, 32, 204),
+                    value: 0.75,
+                  ),
+                );
+                // return Center(
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Image(
+                //         image: AssetImage("assets/images/text_logo.png"),
+                //         height: 100,
+                //         width: 148,
+                //       ),
+                //       SizedBox(
+                //         height: 8,
+                //       ),
+                //       Text("No participating events"),
+                //       SizedBox(
+                //         height: 8,
+                //       ),
+                //     ],
+                //   ),
+                // );
+              } else {
+                if(snapshot.data?.length == 0){
+                  return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image(
-                        image: AssetImage("assets/images/Logo_2.png"),
+                        image: AssetImage("assets/images/text_logo.png"),
                         height: 100,
                         width: 148,
                       ),
@@ -95,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                 );
-              } else {
+                }
                 return SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(16, 46, 16, 32),
@@ -122,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 // var imageURL = getImageUrl();
                                 // print("this is Url from Firebase =>  ${imageURL}");
                                 print("${snapshot.data?[index]['event']['posterImg']}");
-                                String imagePath = "${snapshot.data?[index]['event']['posterImg']}";
+                               
 
                                 return CustomCard(
                                   eventId: "${snapshot.data?[index]['event']['id']}",
