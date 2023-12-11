@@ -103,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    getAllEvents(uEmail: "Laure-CA03@example.com");
+    getAllEvents(uEmail: "anne04@example.com");
     print("initState => ${listEvents}");
   }
 
@@ -149,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 14,
               ),
               Container(
-                height: MediaQuery.of(context).size.height *0.58,
+                height: MediaQuery.of(context).size.height *0.60,
                 child: showEventList(),
               ),
             ],
