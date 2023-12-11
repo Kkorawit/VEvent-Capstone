@@ -6,6 +6,8 @@ services :
                         - MYSQL_ROOT_PASSWORD=cp23kw1-db
                         - TZ=Asia/Bangkok    
               image : mysql      
+              ports:
+                  - 3306:3306
               volumes :
                         - ./Create_Script.sql:/docker-entrypoint-initdb.d/Create_Script.sql
                         - ./Insert_Script.sql:/docker-entrypoint-initdb.d/Insert_Script.sql

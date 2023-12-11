@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `vevent`.`users_events` (
   `user_event_id` INT NOT NULL AUTO_INCREMENT,
   `user_email` VARCHAR(125) NOT NULL,
   `event_id` INT NOT NULL,
-  `validate_status` SET('P','IR',"S",'F') NOT NULL DEFAULT 'P' , 
+  `validate_status` SET('P',"S",'F') NOT NULL DEFAULT 'P' , 
   `done_times` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_event_id`),
   INDEX `fk_users_has_events_events1_idx` (`event_id` ASC) VISIBLE,
