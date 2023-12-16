@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class EventControllerQL {
+public class GraphQLController {
 
     private EventRepo eventRepo;
 
@@ -29,7 +29,7 @@ public class EventControllerQL {
 
     private GraphQL graphQL;
 
-    public EventControllerQL(EventRepo eventRepo) {
+    public GraphQLController(EventRepo eventRepo) {
         this.eventRepo = eventRepo;
     }
 
