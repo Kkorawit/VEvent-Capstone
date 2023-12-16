@@ -51,7 +51,7 @@ class LocationState extends State<Location> {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Location permissions are denied"),
+          content: Text("Location permissions are denied. Please allow permission."),
         ));
         return false;
       }
@@ -61,7 +61,7 @@ class LocationState extends State<Location> {
       // Permissions are denied forever, handle appropriately.
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(
-            "Locations are permanently denied, we cannot request permissions."),
+            "Locations are permanently denied, we cannot request permissions. Please allow permission"),
       ));
       return false;
     }
@@ -142,10 +142,11 @@ class LocationState extends State<Location> {
         );
         });
       }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Please allow location permissions"),
-      ));
+    }else {
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   content: Text("Please enable location service and allow location permissions"),
+      // ));
+      print("Unenable location service or did not allow location permissions");
     }
   }
 
@@ -156,17 +157,14 @@ class LocationState extends State<Location> {
 
     if (widget.eventStatus == "S") {
       return ElevatedButton(
-          onPressed: null, child: Text("Success participation"));
-    } else if (widget.eventStatus == "IR") {
-      return ElevatedButton(
-          onPressed: null, child: Text("Validation in review"));
+          onPressed: null, child: Text("Confirm participation"));
     } else if (widget.eventStatus == "F") {
       return ElevatedButton(
         onPressed: () {
           print("Click to validate again.");
           FetchLocation();
         },
-        child: Text("Validation is fail"),
+        child: Text("Confirm participation"),
       );
     } else {
       return ElevatedButton(
