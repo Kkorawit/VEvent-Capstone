@@ -30,6 +30,7 @@ DROP TABLE IF EXISTS users_events;
 CREATE TABLE IF NOT EXISTS `vevent`.`users` (
   `username` VARCHAR(125) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
+  `role` SET('Organization',"Participants") NOT NULL DEFAULT 'Participants',  
   `user_email` VARCHAR(125) NOT NULL,
   `name` VARCHAR(125) NOT NULL ,
   `sur_name` VARCHAR(125) NOT NULL,
@@ -61,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `vevent`.`users_events` (
   `user_event_id` INT NOT NULL AUTO_INCREMENT,
   `user_email` VARCHAR(125) NOT NULL,
   `event_id` INT NOT NULL,
-  `validate_status` SET('P',"S",'F') NOT NULL DEFAULT 'P' , 
+  `validate_status` SET('P','IP','S','F') NOT NULL DEFAULT 'P' , 
   `done_times` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_event_id`),
   INDEX `fk_users_has_events_events1_idx` (`event_id` ASC) VISIBLE,
@@ -98,6 +99,7 @@ CREATE TABLE IF NOT EXISTS `vevent`.`events` (
   `location_latitude` DOUBLE DEFAULT NULL,
   `location_longitude` DOUBLE DEFAULT NULL,
   `total_validation_times` INT NOT NULL DEFAULT 1,
+  `event_status` SET('P','O','C') NOT NULL DEFAULT 'P',
   PRIMARY KEY (`event_id`),
   UNIQUE INDEX `event_id_UNIQUE` (`event_id` ASC) VISIBLE)
 ENGINE = InnoDB;
