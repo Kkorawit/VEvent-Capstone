@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `vevent`.`events` (
   `location_latitude` DOUBLE DEFAULT NULL,
   `location_longitude` DOUBLE DEFAULT NULL,
   `total_validation_times` INT NOT NULL DEFAULT 1,
-  `event_status` SET('P','O','C') NOT NULL DEFAULT 'P',
+  `event_status` SET('UP','ON','CO','CA') NOT NULL DEFAULT 'UP',
   PRIMARY KEY (`event_id`),
   UNIQUE INDEX `event_id_UNIQUE` (`event_id` ASC) VISIBLE)
 ENGINE = InnoDB;
