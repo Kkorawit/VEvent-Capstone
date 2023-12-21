@@ -1,0 +1,16 @@
+version: "3.2"
+services: 
+          Proxy:
+                  container_name: nginx_prox
+                  image: nginx
+                  ports:
+                      - "80:80"
+                      - "443:443"
+                  restart: always
+                  volumes:
+                      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+                      - ~/certificateFiles/:/etc/nginx/ssl/
+networks:
+        default:
+                external:
+                        name: capstone-vevent
