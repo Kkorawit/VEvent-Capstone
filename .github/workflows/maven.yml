@@ -30,6 +30,6 @@ jobs:
         
     - name: Build Container
       run: |
-        docker compose -f reverse_prox/docker-compose.yml up -d --build
+        docker compose -f reverse_proxy/docker-compose.yml up -d --build
         docker compose -f vevent_spring/docker-compose.yml up -d --build
         docker compose -f vevent_MySQL/docker-compose.yml up -d --build
