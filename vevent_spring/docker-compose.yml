@@ -2,6 +2,7 @@ version: "3.2"
 services: 
           Backend:
                   container_name: be_container
+                  hostname: be_container
                   build: ./
                   image: be_image
                   ports:
