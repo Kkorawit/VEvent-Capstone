@@ -49,7 +49,8 @@ public class GraphQLController {
     @QueryMapping
     public List<UsersEvent> findAllEventsByUEmail(@Argument String uEmail){
 
-        return userEventRepo.findAllEventByUEmail(uEmail);
+        List<UsersEvent> usersEvent = userEventRepo.findAllEventByUEmail(uEmail);
+        return usersEvent;
     }
 
 

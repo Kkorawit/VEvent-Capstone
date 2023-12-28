@@ -1,0 +1,26 @@
+name: Build Docker Container for Development Server
+
+on:
+  push:
+    branches: [ "dev" ]
+
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Shutdown Container
+      run: | 
+        docker compose -f vevent_spring/docker-compose.yml down
+        docker compose -f vevent_MySQL/docker-compose.yml down
+        docker compose -f reverse_proxy/docker-compose.yml down
+        
+    - name: Build Container
+      run: |
+        docker compose -f vevent_MySQL/docker-compose.yml up -d --build -e ENV=dev
+        docker compose -f vevent_spring/docker-compose.yml up -d --build -e ENV=dev
+        docker compose -f reverse_proxy/docker-compose.yml up -d --build -e ENV=dev

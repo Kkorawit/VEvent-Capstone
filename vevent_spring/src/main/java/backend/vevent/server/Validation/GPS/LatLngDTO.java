@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LatLngDTO {
-    private String flat;
-    private String flong;
+    private double flat;
+    private double flong;
 }
