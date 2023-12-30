@@ -28,9 +28,9 @@ services:
                   restart: always
                   environment:
                       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
-                      - BASE_URL=${BASE_URL}
+                      - BASE_URL=${ENV}
                 
 networks:
   networkENV:
     external:
-      name: capstone-${ENV}-vevent
+      name: capstone-${NETWORK_URL}-vevent
