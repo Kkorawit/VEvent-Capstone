@@ -25,6 +25,7 @@ services:
                       - networkENV
                   # ports:
                   #     - 8080:8080
+                  restart: always
                   environment:
                       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
                       - ENV=${ENV:-dev}
