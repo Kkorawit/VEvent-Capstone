@@ -1,14 +1,5 @@
 version: "3.2"
 services: 
-          app-vevent:
-                  container_name: ${ENV:-dev}-app-vevent
-                  build: ../vevent_spring
-                  image: ${ENV:-dev}-app-image
-                #   ports:
-                #       - 8080:8080
-                  environment:
-                      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
-                
           db-vevent:
                   container_name : ${ENV:-dev}-db-vevent
                   environment : 
@@ -23,6 +14,16 @@ services:
                       - ../vevent_MySQL/my.cnf:/etc/mysql/conf.d/custom.cnf
                   restart : always
                   command : --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-time-zone=+07:00
+
+          app-vevent:
+                  container_name: ${ENV:-dev}-app-vevent
+                  build: ../vevent_spring
+                  image: ${ENV:-dev}-app-image
+                #   ports:
+                #       - 8080:8080
+                  environment:
+                      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
+                
 networks:
         default:
                 external:
