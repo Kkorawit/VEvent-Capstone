@@ -21,6 +21,7 @@ services:
                   image: ${ENV:-dev}-app-image
                   ports:
                       - 8080:8080
+                  restart: always
                   environment:
                       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
                 

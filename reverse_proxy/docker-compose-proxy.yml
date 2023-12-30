@@ -6,10 +6,15 @@ services:
                   ports:
                       - "80:80"
                       - "443:443"
+                  restart: always
                   volumes:
                       - ./nginx.conf:/etc/nginx/conf.d/default.conf
                       - /home/sysadmin/certificateFiles/:/etc/nginx/ssl/
 networks:
-        default:
-                external:
-                        name: capstone-vevent
+        capstone-dev-vevent:
+                external: true
+        capstone-prod-vevent:
+                external: true
+        capstone-qa-vevent:
+                external: true
+                        
