@@ -22,6 +22,6 @@ jobs:
         
     - name: Build Container
       run: |
-        docker compose -f docker/docker-compose.yml --env-file .env.dev up -d --build
+        docker compose -f docker/docker-compose.yml --env-file docker/.env.dev up -d --build
         # docker compose -f docker-compose.yml --env-file .env.prod up -d --build
         # docker compose -f docker-compose.yml --env-file .env.prod up -d --build
