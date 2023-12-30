@@ -8,19 +8,23 @@ services:
                       - "80:80"
                       - "443:443"
                   networks:
-                      - capstone-dev-vevent
-                      - capstone-prod-vevent
-                      - capstone-qa-vevent
+                      - networkDev
+                      - networkProd
+                      - networkQA
                   restart: always
                   volumes:
                       - ./nginx.conf:/etc/nginx/conf.d/default.conf
                       - /home/sysadmin/certificateFiles/:/etc/nginx/ssl/
 networks:
-        capstone-dev-vevent:
-                external: true
-        capstone-peod-vevent:
-                external: true
-        capstone-qa-vevent:
-                external: true
+        networkDev:
+                external:
+                        name: capstone-dev-vevent
+        networkProd:
+                external:
+                        name: capstone-prod-vevent
+        networkQA:
+                external:
+                        name: capstone-qa-vevent
+
 
                         

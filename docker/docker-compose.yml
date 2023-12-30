@@ -8,8 +8,6 @@ services:
                   image : mysql
                   ports:
                       - 3306:3306
-                  networks:
-                      - capstone-${ENV:-dev}-vevent
                   volumes :
                       - ../vevent_MySQL/Create_Script.sql:/docker-entrypoint-initdb.d/Create_Script.sql
                       - ../vevent_MySQL/Insert_Script.sql:/docker-entrypoint-initdb.d/Insert_Script.sql
@@ -23,11 +21,10 @@ services:
                   image: ${ENV:-dev}-app-image
                   ports:
                       - 8080:8080
-                  networks:
-                      - capstone-${ENV:-dev}-vevent
                   environment:
                       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
                 
 networks:
-  capstone-${ENV:-dev}-vevent:
-    external: true
+  default:
+    external:
+      name: capstone-${ENV:-dev}-vevent
