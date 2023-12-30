@@ -8,8 +8,8 @@ services:
                   image : mysql
                   networks:
                       - networkENV
-                  ports:
-                      - 3306:3306
+                  # ports:
+                  #     - 3306:3306
                   volumes :
                       - ../vevent_MySQL/Create_Script.sql:/docker-entrypoint-initdb.d/Create_Script.sql
                       - ../vevent_MySQL/Insert_Script.sql:/docker-entrypoint-initdb.d/Insert_Script.sql
@@ -23,10 +23,11 @@ services:
                   image: ${ENV:-dev}-app-image
                   networks:
                       - networkENV
-                  ports:
-                      - 8080:8080
+                  # ports:
+                  #     - 8080:8080
                   environment:
                       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
+                      - ENV=${ENV:-dev}
                 
 networks:
   networkENV:
