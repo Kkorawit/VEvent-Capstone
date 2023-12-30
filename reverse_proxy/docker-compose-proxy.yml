@@ -1,6 +1,6 @@
 version: "3.2"
 services: 
-          Proxy:
+          proxy:
                   container_name: nginx_prox
                   image: nginx
                   ports:
@@ -8,21 +8,19 @@ services:
                       - "443:443"
                   network_mode: bridge
                   networks:
-                      - development
-                      - production
-                      - tester
+                      - capstone-dev-vevent
+                      - capstone-prod-vevent
+                      - capstone-qa-vevent
                   restart: always
                   volumes:
                       - ./nginx.conf:/etc/nginx/conf.d/default.conf
                       - /home/sysadmin/certificateFiles/:/etc/nginx/ssl/
 networks:
-        development:
-                external:
-                        name: capstone-dev-vevent
-        production:
-                external:
-                        name: capstone-prod-vevent
-        tester:
-                external:
-                        name: capstone-qa-vevent
+        capstone-dev-vevent:
+                external: true
+        capstone-peod-vevent:
+                external: true
+        capstone-qa-vevent:
+                external: true
+
                         
