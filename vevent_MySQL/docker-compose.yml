@@ -1,11 +1,11 @@
 version : '3.2'
 services :
-        DB :
-              container_name : dev-db-vevent
+        ${ENV}-service :
+              container_name : ${ENV:-dev}-db-vevent
               environment : 
-                        - MYSQL_ROOT_PASSWORD=cp23kw1-db
-                        - TZ=Asia/Bangkok    
-              image : mysql      
+                        - MYSQL_ROOT_PASSWORD=cp23-db-Vevent
+                        - TZ=Asia/Bangkok
+              image : mysql
             #   ports:
             #       - 3306:3306
               volumes :
@@ -17,4 +17,4 @@ services :
 networks:
       default:
             external:
-                  name: capstone-vevent
+                  name: capstone-${ENV:-dev}-vevent
