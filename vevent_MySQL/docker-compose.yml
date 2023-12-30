@@ -8,6 +8,8 @@ services :
               image : mysql
             #   ports:
             #       - 3306:3306
+              networks: 
+                        - capstone-${ENV:-dev}-vevent
               volumes :
                         - ./Create_Script.sql:/docker-entrypoint-initdb.d/Create_Script.sql
                         - ./Insert_Script.sql:/docker-entrypoint-initdb.d/Insert_Script.sql
@@ -15,6 +17,5 @@ services :
               restart : always
               command : --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-time-zone=+07:00
 networks:
-      default:
-            external:
-                  name: capstone-${ENV:-dev}-vevent
+        capstone-${ENV:-dev}-vevent:
+                external: true

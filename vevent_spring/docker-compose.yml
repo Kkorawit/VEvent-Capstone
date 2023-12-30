@@ -6,10 +6,11 @@ services:
                   image: ${ENV:-dev}-app-image
                 #   ports:
                 #       - 8080:8080
+                  networks: 
+                      - capstone-${ENV:-dev}-vevent
                   environment:
                       - SPRING_PROFILES_ACTIVE=${ENV:-dev}
                   restart: always
 networks:
-        default:
-                external:
-                        name: capstone-${ENV:-dev}-vevent
+        capstone-${ENV:-dev}-vevent:
+                external: true
