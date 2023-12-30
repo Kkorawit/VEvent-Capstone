@@ -13,6 +13,8 @@ services:
                       - ../vevent_MySQL/Insert_Script.sql:/docker-entrypoint-initdb.d/Insert_Script.sql
                       - ../vevent_MySQL/my.cnf:/etc/mysql/conf.d/custom.cnf
                   restart : always
+                  networks:
+                      - capstone-${ENV:-dev}-capstone
                   command : --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-time-zone=+07:00
 
           app-vevent:
@@ -22,10 +24,11 @@ services:
                   ports:
                       - 8080:8080
                   restart: always
+                  networks:
+                      - capstone-${ENV:-dev}-capstone
                   environment:
                       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
                 
 networks:
-        default:
-                external:
-                        name: capstone-${ENV:-dev}-vevent
+    capstone-${ENV:-dev}-vevent:
+                       external: true
