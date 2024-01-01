@@ -1,13 +1,16 @@
 version: "3.2"
 services: 
           Backend:
-                  container_name: dev-app-vevent
+                  container_name: ${ENV:-dev}-app-vevent
                   build: ./
-                  image: be_image
-                  ports:
-                      - 8080:8080
+                  image: ${ENV:-dev}-app-image
+                #   ports:
+                #       - 8080:8080
+                  networks: 
+                      - capstone-${ENV:-dev}-vevent
+                  environment:
+                      - SPRING_PROFILES_ACTIVE=${ENV:-dev}
                   restart: always
 networks:
-        default:
-                external:
-                        name: capstone-vevent
+        capstone-${ENV:-dev}-vevent:
+                external: true

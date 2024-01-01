@@ -1,0 +1,26 @@
+name: Build Docker Container for Production Server
+
+on:
+  push:
+    branches: [ "prod" ]
+
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Shutdown Container
+      run: | 
+        docker compose down
+        # docker compose -f vevent_MySQL/docker-compose.yml down
+        # docker compose -f reverse_proxy/docker-compose.yml down
+        
+    - name: Build Container
+      run: |
+        docker compose --env-file .env.prod up -d --build
+        # docker compose -f docker-compose.yml --env-file .env.prod up -d --build
+        # docker compose -f docker-compose.yml --env-file .env.prod up -d --build
