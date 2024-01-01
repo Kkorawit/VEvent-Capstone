@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:vevent_flutter/page/vevent_app.dart';
 import 'main.dart';
 
 // import 'validateLocation.dart';
@@ -94,7 +95,7 @@ class LocationState extends State<Location> {
     if (lat != '' && long != '') {
       res = await http.post(
           Uri.parse(
-              "http://cp23kw1.sit.kmutt.ac.th:8080/api/longdo?eid=${widget.eventId}&uemail=${widget.uEmail}"),
+              "https://capstone23.sit.kmutt.ac.th/kw1/api/longdo?eid=${widget.eventId}&uemail=${widget.uEmail}"),
           body: jsonEncode(
             {"flat": lat, "flong": long},
           ),
@@ -107,12 +108,9 @@ class LocationState extends State<Location> {
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Status code: ${res.statusCode}"),
-            SizedBox(
-              width: 16,
-            ),
-            Expanded(child: Text("${res.body}")),
+            Text("${res.body}"),
           ],
         ),
         backgroundColor: res.statusCode == 200 ? Colors.green : Colors.grey,
@@ -125,7 +123,7 @@ class LocationState extends State<Location> {
          Future.delayed(Duration(seconds: 1),(){
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (BuildContext context) => MyWidget(),
+            builder: (BuildContext context) => VEventApp(),
           ),
         );
         });
@@ -137,7 +135,7 @@ class LocationState extends State<Location> {
         Future.delayed(Duration(seconds: 1),(){
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (BuildContext context) => MyWidget(),
+            builder: (BuildContext context) => VEventApp(),
           ),
         );
         });
@@ -146,7 +144,7 @@ class LocationState extends State<Location> {
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       //   content: Text("Please enable location service and allow location permissions"),
       // ));
-      print("Unenable location service or did not allow location permissions");
+      print("disable location service or did not allow location permissions");
     }
   }
 
