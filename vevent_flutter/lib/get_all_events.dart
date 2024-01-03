@@ -1,15 +1,12 @@
 import 'dart:developer';
 
 import 'package:graphql_flutter/graphql_flutter.dart';
-// import 'graphql_strings.dart' as gql_strings;
-// import 'package:hive/hive.dart';
-// import 'package:hive_flutter/hive_flutter.dart';
 
 Future<List> getAllEvents({String? uEmail}) async {
 
 
   HttpLink link = HttpLink(
-      "http://capstone23.sit.kmutt.ac.th:8080/kw1/graphql"); // this is api call for getting all users => sub path"http://cp23kw1.sit.kmutt.ac.th:8080/graphql"
+      "https://capstone23.sit.kmutt.ac.th/kw1/graphql"); // this is api call for getting all users => sub path"http://cp23kw1.sit.kmutt.ac.th:8080/graphql"
   GraphQLClient qlClient = GraphQLClient(
     // craete a graphql client
     link: link,

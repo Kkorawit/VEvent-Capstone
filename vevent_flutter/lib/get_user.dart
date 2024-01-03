@@ -3,7 +3,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 
 Future<Map> getUser({String? uEmail}) async {
   HttpLink link = HttpLink(
-      "http://capstone23.sit.kmutt.ac.th:8080/kw1/graphql"); // this is api call for getting all users
+      "https://capstone23.sit.kmutt.ac.th/kw1/graphql"); // this is api call for getting all users
   GraphQLClient qlClient = GraphQLClient(
     // craete a graphql client
     link: link,

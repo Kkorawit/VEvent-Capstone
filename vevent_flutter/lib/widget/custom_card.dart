@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:vevent_flutter/firebase_storage_client.dart';
-import 'eventDetail.dart';
+import '../page/event_detail_page.dart';
 import 'package:vevent_flutter/dateTimeFormat.dart';
 import 'statusTag.dart';
 
@@ -45,7 +45,7 @@ class CustomCard extends StatelessWidget {
             print("Click event " + title);
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
               print("this is uEmail at customCard => ${uEmail}");
-              return EventDetail(
+              return EventDetailPage(
                   eventId: eventId,
                   uEmail: uEmail,
                   title: title,
