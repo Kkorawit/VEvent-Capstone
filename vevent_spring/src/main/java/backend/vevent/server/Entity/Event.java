@@ -77,4 +77,8 @@ public class Event {
     @Column(name = "total_validation_times")
     private Integer validate_times;
 
+    @Lob
+    @Column(name = "event_status", nullable = false)
+    private String eventStatus;
+
 }

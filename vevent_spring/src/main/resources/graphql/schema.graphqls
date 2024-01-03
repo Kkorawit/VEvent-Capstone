@@ -1,8 +1,10 @@
 type Query {
     allEvents: [Event]
-    findAllEventsByUEmail(uEmail: ID): [User_Event]
+    findAllRegisEventsByUEmail(uEmail: ID): [User_Event]
+    findAllEventCreateByUEmail(uEmail: ID): [Event]
 #    findById(email: ID): Event
     findUserByEmail(uEmail:ID): User
+    findAllParticipantsByEventId(eid:ID): [User_Event]
 }
 
 type User_Event {
@@ -17,6 +19,7 @@ type User {
     username: String
     password: String
     userEmail: ID!
+    role: String
     name: String
     surName: String
     profileImg: String
@@ -31,7 +34,6 @@ type Event {
     subCategory: String
     startDate: String
     endDate: String
-    eventOwner: String
     registerStartDate: String
     registerEndDate: String
     validationType: String
