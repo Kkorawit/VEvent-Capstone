@@ -14,6 +14,6 @@ class ValidationErrorState extends ValidationState {
 }
 
 class ValidationFinishState extends ValidationState {
-  final String validateRes;
+  final ValidationResponse validateRes;
   ValidationFinishState({required this.validateRes});
 }

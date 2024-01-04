@@ -1,5 +1,8 @@
+import 'dart:io';
+// import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
 import 'package:vevent_flutter/provider/validation_provider.dart';
+import 'package:vevent_flutter/validation_response.dart';
 // import 'package:http/http.dart' as http;
 
 class ValidationRepository {
@@ -9,13 +12,10 @@ class ValidationRepository {
 
   ValidationRepository({required this.provider});
 
-  Future<dynamic> validateGPS(
-    String eId,
-    String uEmail,
-  ) async {
+  Future<ValidationResponse> validateGPS(String eId,String uEmail,) async {
     // String lat; String long;
     // Position? curPosition;
-    var res;
+    ValidationResponse res;
     await getCurrentPosition();
     // lat = curPosition?.latitude ?? '';
     // long = curPosition.longitude.toString();
@@ -28,7 +28,8 @@ class ValidationRepository {
         print("res in repository => ${res}");
         return res;
       } else {
-        print("disable location service or did not allow location permissions");
+        throw Exception("disable location service or did not allow location permissions");
+        // print("disable location service or did not allow location permissions");
       }
   }
 

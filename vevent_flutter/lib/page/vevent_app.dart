@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //การแสดงผล
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<EventBloc>(context).add(showEventList(uEmail: "claudine[05]@example.com"));
+    BlocProvider.of<EventBloc>(context).add(showEventList(uEmail: "laure-ca03@example.com"));
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(

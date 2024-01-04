@@ -68,10 +68,47 @@ class _EventDetailPageState extends State<EventDetailPage> {
               ),
             ),
             body: BlocListener<ValidationBloc, ValidationState>(
-              listener: (context, state) {
+              listener: (context, state) async {
+                // Color snackBarColor;
                 if (state is ValidationFinishState) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text(state.validateRes)));
+                  if (state.validateRes.httpStatus == 200) {
+                    // switch (state.validateRes.vStatus) {
+                    //   case 'Success':
+                    //     snackBarColor = Colors.green;
+                    //     break;
+                    //   case 'Fail':
+                    //     snackBarColor = Colors.red;
+                    //     break;
+                    //   default : snackBarColor = Colors.green;
+                    // }
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      backgroundColor: state.validateRes.vStatus == "Success"
+                          ? Colors.green
+                          : Colors.red,
+                      content: Row(children: [
+                        Text(state.validateRes.vStatus),
+                        SizedBox(
+                          width: 16,
+                        ),
+                        Text(
+                            "The distance between your current location and the event location is ${state.validateRes.displacement}")
+                      ]),
+                    ));
+
+                    await Future.delayed(Duration(seconds: 2));
+                    Navigator.of(context).pop();
+
+                  } else {
+                    // snackBarColor = Colors.yellow;
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      backgroundColor: Colors.yellow,
+                      content: Row(children: [
+                        Text(state.validateRes.vStatus),
+                      ]),
+                    ));
+                    await Future.delayed(Duration(seconds: 2));
+                    Navigator.of(context).pop();
+                  }
                 }
                 if (state is ValidationErrorState) {
                   ScaffoldMessenger.of(context)
