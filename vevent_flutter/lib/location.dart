@@ -1,8 +1,7 @@
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:vevent_flutter/page/vevent_app.dart';
-import 'main.dart';
 
 // import 'validateLocation.dart';
 import 'package:http/http.dart' as http;
@@ -95,7 +94,7 @@ class LocationState extends State<Location> {
     if (lat != '' && long != '') {
       res = await http.post(
           Uri.parse(
-              "https://capstone23.sit.kmutt.ac.th/kw1/api/longdo?eid=${widget.eventId}&uemail=${widget.uEmail}"),
+              "https://capstone23.sit.kmutt.ac.th/kw1/dev/api/distance?eid=${widget.eventId}&uemail=${widget.uEmail}"),
           body: jsonEncode(
             {"flat": lat, "flong": long},
           ),

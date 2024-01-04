@@ -8,12 +8,17 @@ import backend.vevent.server.Repo.EventRepo;
 import backend.vevent.server.Repo.UserEventRepo;
 import backend.vevent.server.Repo.UserRepo;
 import graphql.GraphQL;
+import graphql.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -47,10 +52,27 @@ public class GraphQLController {
     }
 
     @QueryMapping
-    public List<UsersEvent> findAllEventsByUEmail(@Argument String uEmail){
+    public List<UsersEvent> findAllRegisEventsByUEmail(@Argument String uEmail){
+        List<UsersEvent> eventList = userEventRepo.findAllRegisEventByUEmail(uEmail);
+//        switch (user.getRole()){
+//            case "Organization":
+//                System.out.println(user.getRole());
+//               eventsList = eventRepo.findAllEventByCreator(uEmail);
+//               break;
+//            case "Participants":
+//            default:
+//                System.out.println(user.getRole());
+//                eventsList = userEventRepo.findAllEventByUEmail(uEmail);
+//        }
+//
+//        return eventsList;
+        return eventList;
+    }
 
-        List<UsersEvent> usersEvent = userEventRepo.findAllEventByUEmail(uEmail);
-        return usersEvent;
+    @QueryMapping
+    public List<Event> findAllEventCreateByUEmail(@Argument String uEmail){
+        List<Event> eventList = eventRepo.findAllEventCreateByUEmail(uEmail);
+        return eventList;
     }
 
 
@@ -60,8 +82,22 @@ public class GraphQLController {
 //    }
 
     @QueryMapping
-    public Optional<User> findUserByEmail(@Argument String uEmail){
-        return userRepo.findUserByEmail(uEmail);
+    public User findUserByEmail(@Argument String uEmail){
+        User user = userRepo.findUserByEmail(uEmail);
+//        if(user == null){
+//            return new ResponseEntity("User Not Found",HttpStatus.NOT_FOUND);
+//        }
+        return user;
     }
 
+    @QueryMapping
+    public List<UsersEvent> findAllParticipantsByEventId(@Argument Integer eid){
+        List<UsersEvent> usersEventList = userEventRepo.findAllUserByEid(eid);
+//        if(usersEventList.isEmpty()){
+//
+//        }else {
+//
+//        }
+        return usersEventList;
+    }
 }

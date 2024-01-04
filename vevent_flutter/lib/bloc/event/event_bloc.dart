@@ -13,66 +13,8 @@ class EventBloc extends Bloc<EventEvent, EventState> {
       // TODO: implement event handler
       emit(EventLoadingState()); //emit(sth) โยน sth ออกไป
       try {
-        // HttpLink link =
-        //     HttpLink("https://capstone23.sit.kmutt.ac.th/kw1/dev/graphql");
-        // GraphQLClient qlClient = GraphQLClient(
-        //   link: link,
-        //   cache: GraphQLCache(
-        //     store: InMemoryStore(),
-        //   ),
-        // );
-        // QueryResult queryResult = await qlClient.query(
-        //   QueryOptions(
-        //     fetchPolicy: FetchPolicy.networkOnly,
-        //     document: gql(
-        //       """
-        //   query FindAllEventsByUEmail {
-        //       findAllEventsByUEmail(uEmail: "${event.uEmail}") {
-        //           user_event_id
-        //           status
-        //           doneTimes
-        //           user {
-        //               userEmail
-        //               username
-        //           }
-        //           event {
-        //               id
-        //               title
-        //               eventDescription
-        //               category
-        //               startDate
-        //               endDate
-        //               eventOwner
-        //               validationType
-        //               validationRules
-        //               createBy
-        //               locationName
-        //               locationLatitude
-        //               locationLongitude
-        //               description
-        //               validate_times
-        //               posterImg
-        //           }
-        //       }
-        //   }
-
-        //   """, // let's see query string
-        //     ),
-        //     variables: {
-        //       "uEmail": event.uEmail,
-        //     },
-        //   ),
-        // );
-
-        // var events = queryResult.data?['findAllEventsByUEmail'];
-        // print(events);
-
-        // if(events == null){
-        //   print("queryResult.data is null");
-        //   emit(EventErrorState("event list is null"));
-        //   return;
-        // }
         var events = await repository.getEventsByUserEmail(event.uEmail);
+        print("In EventBloc => ${events}");
         emit(EventFinishState(events: events));
 
       } catch (e) {
