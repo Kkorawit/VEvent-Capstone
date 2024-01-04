@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -96,8 +95,8 @@ public class GPSController {
 //        System.out.println(EARTH_RADIUS*c);
 //        return ResponseEntity.ok().body(EARTH_RADIUS*c);
         System.out.println(usersEvent);
-        String responseMsg;
-        HttpStatus httpStatus;
+        HashMap<String, Object> response = new HashMap<>();
+//        HashMap<String,HttpStatus> HttpStatusaa = new HashMap<>();
         switch (event.get().getEventStatus()){
             case "ON":
                 if (usersEvent != null && !usersEvent.getStatus().equals("S") && !usersEvent.getStatus().equals("P")) {
@@ -109,7 +108,7 @@ public class GPSController {
                     double endLat = Math.toRadians(event.get().getLocationLatitude());
                     System.out.println("before service");
                     double haversine = service.calHaversine(dLat) + Math.cos(startLat) * Math.cos(endLat) * service.calHaversine(dLong);
-                    HashMap<String, String> response = calDisplacementWithHaversine(haversine);
+                    response = calDisplacementWithHaversine(haversine);
 
                     if (response.get("Status").equals("Success")) {
                         usersEvent.setStatus("S");
@@ -120,48 +119,48 @@ public class GPSController {
                     }
                     return ResponseEntity.ok().body(response);
                 } else if (usersEvent.getStatus().equals("S")) {
-                    responseMsg = "Event Verified Passed";
-                    httpStatus = HttpStatus.BAD_REQUEST;
+                    response.put("VStatus","Event Verified Passed");
+                    response.put("Displacement",null);
+                    response.put("HTTP_Status", HttpStatus.BAD_REQUEST.value());
                 }else{
-                    responseMsg = "This Event Validation Not Open yet";
-                    httpStatus = HttpStatus.BAD_REQUEST;
+                    response.put("VStatus","This Event Validation Not Open yet");
+                    response.put("Displacement",null);
+                    response.put("HTTP_Status", HttpStatus.BAD_REQUEST.value());
                 }
                 break;
 
             case "UP":
-                responseMsg = "This Event is Not Start Yet";
-                httpStatus = HttpStatus.BAD_REQUEST;
+                response.put("VStatus","This Event is Not Start Yet");
+                response.put("Displacement",null);
+                response.put("HTTP_Status", HttpStatus.BAD_REQUEST.value());
                 break;
 
             default:
-                responseMsg = "This Event Validation Closed";
-                httpStatus = HttpStatus.BAD_REQUEST;
+                response.put("VStatus","This Event Validation Closed");
+                response.put("Displacement",null);
+                response.put("HTTP_Status", HttpStatus.BAD_REQUEST.value());
 
         }
-        return new ResponseEntity(responseMsg,httpStatus);
+        return ResponseEntity.badRequest().body(response);
     }
 
-    private static HashMap<String, String> calDisplacementWithHaversine(double hav) {
+    private static HashMap<String, Object> calDisplacementWithHaversine(double hav) {
         final double EARTH_RADIUS = 6371;
         double c = 2 * Math.atan2(Math.sqrt(hav),Math.sqrt(1- hav));
         BigDecimal bigDecimal = new BigDecimal(EARTH_RADIUS*c);
         BigDecimal displacementInDecimal = bigDecimal.setScale(5,RoundingMode.HALF_UP);
         double displacementInDouble = displacementInDecimal.toBigInteger().doubleValue();
 
-        System.out.println("c: "+c);
-        System.out.println(bigDecimal);
-        System.out.println("displacementInDecimal: "+ displacementInDecimal);
-        System.out.println("displacementInDouble: "+ displacementInDouble);
-        HashMap<String, String> response = new HashMap<>();
+        HashMap<String, Object> response = new HashMap<>();
 
         if(displacementInDouble>0.5) {
-            System.out.println("In failed condition");
-            response.put("Status", "Failed");
+            response.put("VStatus", "Failed");
             response.put("Displacement",displacementInDouble+"km");
+            response.put("HTTP_Status",HttpStatus.OK.value());
         }else{
-            System.out.println("In success condition");
-            response.put("Status","Success");
-            response.put("Displacement",displacementInDouble+" km");
+            response.put("VStatus", "Success");
+            response.put("Displacement",displacementInDouble+"km");
+            response.put("HTTP_Status",HttpStatus.OK.value());
         }
         return response;
     }

@@ -15,12 +15,12 @@ jobs:
 
     - name: Shutdown Container
       run: | 
+        docker system prune -a
         docker compose down
-        # docker compose -f vevent_MySQL/docker-compose.yml down
-        # docker compose -f reverse_proxy/docker-compose.yml down
+        docker compose -f reverse_proxy/docker-compose-proxy.yml down
         
     - name: Build Container
       run: |
-        docker compose --env-file .env.prod up -d --build
-        # docker compose -f docker-compose.yml --env-file .env.prod up -d --build
-        # docker compose -f docker-compose.yml --env-file .env.prod up -d --build
+        docker compose -f docker/docker-compose.yml --env-file docker/.env.prod up -d --build
+        docker compose -f reverse_proxy/docker-compose-proxy.yml up -d --build
+
