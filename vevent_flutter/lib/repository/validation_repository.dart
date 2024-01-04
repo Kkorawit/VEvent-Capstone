@@ -9,23 +9,27 @@ class ValidationRepository {
 
   ValidationRepository({required this.provider});
 
-  Future<dynamic> validateGPS(String eId,String uEmail,) async {
+  Future<dynamic> validateGPS(
+    String eId,
+    String uEmail,
+  ) async {
     // String lat; String long;
     // Position? curPosition;
     var res;
-    await _getCurrentPosition();
+    await getCurrentPosition();
     // lat = curPosition?.latitude ?? '';
     // long = curPosition.longitude.toString();
+    print("In validatioGPS");
     print("lat = ${lat}");
     print("long = ${long}");
-    if (lat != '' && long != '') {
-      res = await provider.validateGPS(eId, uEmail, lat, long);
-      print("res in repository => ${res}");
-      // return res;
-    } else {
-      print("disable location service or did not allow location permissions");
-    }
-    return res;
+
+      if (lat != '' && long != '') {
+        res = await provider.validateGPS(eId, uEmail, lat, long);
+        print("res in repository => ${res}");
+        return res;
+      } else {
+        print("disable location service or did not allow location permissions");
+      }
   }
 
   // void setLatitude(String latitude) {
@@ -35,17 +39,28 @@ class ValidationRepository {
   //   lat = latitude; // กำหนดค่าให้กับตัวแปร lat เมื่อค่าพร้อมใช้งาน
   // }
 
-  Future<void> _getCurrentPosition() async {
+  Future<void> getCurrentPosition() async {
     // late String? lat;
     // late String? long;
     print("_getCurrentPosition is ON");
     Position? _currentPosition;
-    final hasPermission = await _handleLocationPermission();
+    final hasPermission = await handleLocationPermission();
 
-    if (!hasPermission)
-      return; //return teXt ตรงนี้ีได้นะ ว่าเป็นขาดเปิด service อะไร
-    _currentPosition = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    if (!hasPermission) {
+      print("if hasPermisstion => ${hasPermission}");
+      return ; //return teXt ตรงนี้ีได้นะ ว่าเป็นขาดเปิด service อะไร
+    }
+      _currentPosition = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      lat = "${_currentPosition?.latitude ?? ''}";
+      long = "${_currentPosition?.longitude ?? ''}";
+        print("Set value to _currentPosition, lat, long");
+    print(_currentPosition); 
+    print("else hasPermisstion => ${hasPermission}");
+    // return hasPermission;
+
+    
+    
     //     .then((Position position) {
     //   () {
     //     print(position);
@@ -60,18 +75,17 @@ class ValidationRepository {
     //     _currentPosition = position;
     //     // setLatitude("${_currentPosition?.latitude ?? ''}");
     //     // setLatitude("${_currentPosition?.longitude ?? ''}");
-    lat = "${_currentPosition?.latitude ?? ''}";
-    long = "${_currentPosition?.longitude ?? ''}";
+    // lat = "${_currentPosition?.latitude ?? ''}";
+    // long = "${_currentPosition?.longitude ?? ''}";
     //   };
     // }).catchError((e) {
     //   print(e.toString());
     // });
-    print("Set value to _currentPosition, lat, long");
-    print(_currentPosition);
-
+    // print("Set value to _currentPosition, lat, long");
+    // print(_currentPosition);
   }
 
-  Future<bool> _handleLocationPermission() async {
+  Future<bool> handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
     print("_handleLocationPermission is ON");

@@ -15,13 +15,14 @@ class ValidateButton extends StatefulWidget {
 class _ValidateButtonState extends State<ValidateButton> {
   // @override
   // void initState(){
-  //   context.read<ValidationBloc>().add(validateGPS(uEmail: widget.uEmail, eId: widget.eId));
+  //   context.read<ValidationBloc>().close();
   //   super.initState();
   // }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ValidationBloc, ValidationState>(
       builder: (context, state) {
+
         return switch (state) {
           ValidationInitial() => ElevatedButton(
               onPressed: () => context
@@ -37,28 +38,11 @@ class _ValidateButtonState extends State<ValidateButton> {
                   .read<ValidationBloc>()
                   .add(validateGPS(uEmail: widget.uEmail, eId: widget.eventId)),
               child: Text("Confirm Validation")),
-          ValidationErrorState() => SnackBar(
-              content: Text(state.message),
-            ),
+          ValidationErrorState() => Text(state.message),
         };
       },
     );
   }
 }
 
-Future<void> statePop() async {
-  BlocListener<ValidationBloc, ValidationState>(
-    listener: (context, state) {
-      // TODO: implement listenerprint(state);
-      if (state is ValidationLoadingState || state is ValidationInitial) {
-        print(state);
-      }
-      if (state is ValidationFinishState) {
-        print(state);
-        print("In statePop -> ${state.validateRes}");
-      } else {
-        print(state);
-      }
-    },
-  );
-}
+

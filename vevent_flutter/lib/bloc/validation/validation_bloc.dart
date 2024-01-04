@@ -20,11 +20,14 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
         if (kDebugMode) {
           print("In EventBloc => ${res}");
         }
-
+        // if(res == "false"){
+        //   print(" IN ValidationBloc => plese enable location service or allow the access permstion");
+        //   emit(ValidationErrorState("plese enable location service or allow the access permstion"));
+        // }
         emit(ValidationFinishState(validateRes: res.toString()));
 
       }catch (e){
-        emit(ValidationErrorState(e.toString()));
+        emit(ValidationErrorState("Please enable the GPS services and allow the location permissions."));
       }
     });
   }

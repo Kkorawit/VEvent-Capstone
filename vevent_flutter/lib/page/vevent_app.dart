@@ -28,7 +28,7 @@ class VEventApp extends StatelessWidget {
       child: MaterialApp(
         title: "My App",
         home: MyHomePage(),
-        theme: ThemeData(colorSchemeSeed: Color.fromARGB(100, 69, 32, 204)),
+        theme: ThemeData(colorSchemeSeed: Color.fromARGB(100, 69, 32, 204),),
       ),
     );
   }
