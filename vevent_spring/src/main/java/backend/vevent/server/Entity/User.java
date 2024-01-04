@@ -29,6 +29,8 @@ public class User {
     @Column(name = "profile_img", nullable = false, length = 300)
     private String profileImg;
 
-
+    @Lob
+    @Column(name = "role", nullable = false)
+    private String role;
 
 }

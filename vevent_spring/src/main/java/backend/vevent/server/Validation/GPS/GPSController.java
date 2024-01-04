@@ -10,14 +10,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.HashMap;
 import java.util.Optional;
 
 
@@ -76,9 +77,8 @@ public class GPSController {
 
     @RequestMapping("/distance")
     public ResponseEntity findDisplacement(@RequestBody LatLngDTO location, @RequestParam(name = "eid")Integer eid, @RequestParam(name = "uemail")String uEmail){
-        final double EARTH_RADIUS = 6371;
-
         Optional<Event> event = eventRepo.findById(eid);
+        UsersEvent usersEvent = userEventRepo.findByEmailAndId(uEmail,eid);
 //        double lat1 = 13.6495877; //บ้าน ธรรมรักษา2
 //        double lat2 = 13.6524898; //SIT KMUTT
 //        double lon1 = 100.4919303;
@@ -95,20 +95,75 @@ public class GPSController {
 //
 //        System.out.println(EARTH_RADIUS*c);
 //        return ResponseEntity.ok().body(EARTH_RADIUS*c);
+        System.out.println(usersEvent);
+        String responseMsg;
+        HttpStatus httpStatus;
+        switch (event.get().getEventStatus()){
+            case "ON":
+                if (usersEvent != null && !usersEvent.getStatus().equals("S") && !usersEvent.getStatus().equals("P")) {
 
-        double dLat = Math.toRadians((event.get().getLocationLatitude()-location.getFlat()));
-        double dLong = Math.toRadians((event.get().getLocationLongitude()-location.getFlong()));
+                    double dLat = Math.toRadians((event.get().getLocationLatitude() - location.getFlat()));
+                    double dLong = Math.toRadians((event.get().getLocationLongitude() - location.getFlong()));
 
-        double startLat = Math.toRadians(location.getFlat());
-        double endLat = Math.toRadians(event.get().getLocationLatitude());
-        System.out.println("before service");
-        double a = service.calHaversine(dLat) + Math.cos(startLat) * Math.cos(endLat) * service.calHaversine(dLong);
-        double c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+                    double startLat = Math.toRadians(location.getFlat());
+                    double endLat = Math.toRadians(event.get().getLocationLatitude());
+                    System.out.println("before service");
+                    double haversine = service.calHaversine(dLat) + Math.cos(startLat) * Math.cos(endLat) * service.calHaversine(dLong);
+                    HashMap<String, String> response = calDisplacementWithHaversine(haversine);
 
-        System.out.println(EARTH_RADIUS*c);
-        return ResponseEntity.ok().body(EARTH_RADIUS*c);
+                    if (response.get("Status").equals("Success")) {
+                        usersEvent.setStatus("S");
+                        userEventRepo.save(usersEvent);
+                    } else {
+                        usersEvent.setStatus("F");
+                        userEventRepo.save(usersEvent);
+                    }
+                    return ResponseEntity.ok().body(response);
+                } else if (usersEvent.getStatus().equals("S")) {
+                    responseMsg = "Event Verified Passed";
+                    httpStatus = HttpStatus.BAD_REQUEST;
+                }else{
+                    responseMsg = "This Event Validation Not Open yet";
+                    httpStatus = HttpStatus.BAD_REQUEST;
+                }
+                break;
 
+            case "UP":
+                responseMsg = "This Event is Not Start Yet";
+                httpStatus = HttpStatus.BAD_REQUEST;
+                break;
 
+            default:
+                responseMsg = "This Event Validation Closed";
+                httpStatus = HttpStatus.BAD_REQUEST;
+
+        }
+        return new ResponseEntity(responseMsg,httpStatus);
+    }
+
+    private static HashMap<String, String> calDisplacementWithHaversine(double hav) {
+        final double EARTH_RADIUS = 6371;
+        double c = 2 * Math.atan2(Math.sqrt(hav),Math.sqrt(1- hav));
+        BigDecimal bigDecimal = new BigDecimal(EARTH_RADIUS*c);
+        BigDecimal displacementInDecimal = bigDecimal.setScale(5,RoundingMode.HALF_UP);
+        double displacementInDouble = displacementInDecimal.toBigInteger().doubleValue();
+
+        System.out.println("c: "+c);
+        System.out.println(bigDecimal);
+        System.out.println("displacementInDecimal: "+ displacementInDecimal);
+        System.out.println("displacementInDouble: "+ displacementInDouble);
+        HashMap<String, String> response = new HashMap<>();
+
+        if(displacementInDouble>0.5) {
+            System.out.println("In failed condition");
+            response.put("Status", "Failed");
+            response.put("Displacement",displacementInDouble+"km");
+        }else{
+            System.out.println("In success condition");
+            response.put("Status","Success");
+            response.put("Displacement",displacementInDouble+" km");
+        }
+        return response;
     }
 
     @RequestMapping("/vin")

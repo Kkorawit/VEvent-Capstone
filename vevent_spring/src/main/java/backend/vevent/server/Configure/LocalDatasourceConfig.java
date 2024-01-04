@@ -20,9 +20,12 @@ public class LocalDatasourceConfig {
     @Value("${spring.datasource.password}")
     private String dPass;
 
+    @Value("${server.servlet.context-path}")
+    private String baseURL;
     @Bean
     public DataSource dataSource() {
         System.out.println("in local config");
+        System.out.println(baseURL);
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
         dataSource.setUrl(dURL);
