@@ -21,5 +21,17 @@ class EventBloc extends Bloc<EventEvent, EventState> {
         emit(EventErrorState(e.toString()));
       }
     });
+
+    on<getEvent>((event, emit) async {
+      emit(EventLoadingState());
+      try{
+        var eventRes = await repository.getEventByUserEmailAndEventId(event.uEmail, event.eId);
+        print("In EventBloc => ${eventRes}");
+        emit(EventFinishState(events: [eventRes]));
+
+      }catch (e){
+        emit(EventErrorState(e.toString()));
+      }
+    });
   }
 }

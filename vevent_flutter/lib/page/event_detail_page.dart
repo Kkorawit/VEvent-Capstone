@@ -19,6 +19,7 @@ class EventDetailPage extends StatefulWidget {
   final String eventStatus;
   final String description;
   final String imagePath;
+  final String validateStatus;
   String? eventOwner;
   String? ownerProfile;
 
@@ -32,7 +33,8 @@ class EventDetailPage extends StatefulWidget {
       required this.createBy,
       required this.eventStatus,
       required this.description,
-      required this.imagePath});
+      required this.imagePath,
+      required this.validateStatus });
 
   @override
   State<EventDetailPage> createState() => _EventDetailPageState();
@@ -196,7 +198,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                       ),
                                       Container(
                                           child: StatusTag(
-                                              widget.eventStatus, 6, 16)),
+                                              widget.validateStatus, 6, 16)),
                                     ],
                                   ),
                                 ),
@@ -298,52 +300,52 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                 SizedBox(
                                   height: 32,
                                 ),
-                                // ValidateButton(uEmail: widget.uEmail, eventId: widget.eventId)
-                                BlocBuilder<ValidationBloc, ValidationState>(
-                                  builder: (context, state) {
-                                    if (state is ValidationInitial) {
-                                      return ElevatedButton(
-                                          onPressed: () => context
-                                              .read<ValidationBloc>()
-                                              .add(validateGPS(
-                                                  uEmail: widget.uEmail,
-                                                  eId: widget.eventId)),
-                                          child: Text("Confirm Validation"));
-                                    }
-                                    if (state is ValidationLoadingState) {
-                                      return ElevatedButton.icon(
-                                        onPressed: null,
-                                        icon: SizedBox(
-                                          width: 16,
-                                          height: 16,
-                                          child: CircularProgressIndicator(
-                                              strokeWidth: 2,
-                                              color: Colors.white),
-                                        ),
-                                        label: Padding(
-                                          padding: EdgeInsets.only(left: 6),
-                                          child: Text("Loading...",
-                                              style: TextStyle(
-                                                  color: Colors.white)),
-                                        ),
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStatePropertyAll(
-                                                  Color.fromARGB(
-                                                      100, 69, 32, 204)),
-                                        ),
-                                      );
-                                    } else {
-                                      return ElevatedButton(
-                                          onPressed: () => context
-                                              .read<ValidationBloc>()
-                                              .add(validateGPS(
-                                                  uEmail: widget.uEmail,
-                                                  eId: widget.eventId)),
-                                          child: Text("Confirm Validation"));
-                                    }
-                                  },
-                                )
+                                ValidateButton(uEmail: widget.uEmail, eventId: widget.eventId, eventStatus: "ON", validateStatus: widget.validateStatus)
+            //                     BlocBuilder<ValidationBloc, ValidationState>(
+            //                       builder: (context, state) {
+            //                         if (state is ValidationInitial) {
+            //                           return ElevatedButton(
+            //                               onPressed: () => context
+            //                                   .read<ValidationBloc>()
+            //                                   .add(validateGPS(
+            //                                       uEmail: widget.uEmail,
+            //                                       eId: widget.eventId)),
+            //                               child: Text("Confirm Validation"));
+            //                         }
+            //                         if (state is ValidationLoadingState) {
+            //                           return ElevatedButton.icon(
+            //                             onPressed: null,
+            //                             icon: SizedBox(
+            //                               width: 16,
+            //                               height: 16,
+            //                               child: CircularProgressIndicator(
+            //                                   strokeWidth: 2,
+            //                                   color: Colors.white),
+            //                             ),
+            //                             label: Padding(
+            //                               padding: EdgeInsets.only(left: 6),
+            //                               child: Text("Loading...",
+            //                                   style: TextStyle(
+            //                                       color: Colors.white)),
+            //                             ),
+            //                             style: ButtonStyle(
+            //                               backgroundColor:
+            //                                   MaterialStatePropertyAll(
+            //                                       Color.fromARGB(
+            //                                           100, 69, 32, 204)),
+            //                             ),
+            //                           );
+            //                         } else {
+            //                           return ElevatedButton(
+            //                               onPressed: () => context
+            //                                   .read<ValidationBloc>()
+            //                                   .add(validateGPS(
+            //                                       uEmail: widget.uEmail,
+            //                                       eId: widget.eventId)),
+            //                               child: Text("Confirm Validation"));
+            //                         }
+            //                       },
+            //                     )
                               ],
                             ),
                           ),

@@ -71,4 +71,11 @@ class EventProvider {
         throw Exception("Event api is fail !!");
       }
     }
+
+    Future<Map> getEventByUserEmailAndEventId(String uEmail, String eId) async {
+        // Read from DB or make network request etc...
+        //รอ
+        Map event = {"event":"event"}; //สมมุติ
+        return event;
+    }
 }
