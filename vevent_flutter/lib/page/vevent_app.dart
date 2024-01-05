@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:vevent_flutter/bloc/user/user_bloc.dart';
+import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
 import 'package:vevent_flutter/provider/event_provider.dart';
 import 'package:vevent_flutter/provider/user_provider.dart';
+import 'package:vevent_flutter/provider/validation_provider.dart';
 import 'package:vevent_flutter/repository/event_repository.dart';
+import 'package:vevent_flutter/repository/validation_repository.dart';
 import 'package:vevent_flutter/widget/my_events_section.dart';
 import 'package:vevent_flutter/repository/user_repository.dart';
 // void main() async {
@@ -18,13 +21,14 @@ class VEventApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final eventBloc = BlocProvider(create: (context) => EventBloc(EventRepository(provider: EventProvider())));
     final userBloc = BlocProvider(create: (context) => UserBloc(UserRepository(provider: UserProvider())));
+    final validationBloc = BlocProvider(create: (context) => ValidationBloc(ValidationRepository(provider: ValidationProvider())));
     return MultiBlocProvider(
-      providers: [eventBloc,userBloc],
+      providers: [eventBloc,userBloc,validationBloc],
       // create: (context) => EventBloc(EventRepository(provider: EventProvider())),
       child: MaterialApp(
         title: "My App",
         home: MyHomePage(),
-        theme: ThemeData(colorSchemeSeed: Color.fromARGB(100, 69, 32, 204)),
+        theme: ThemeData(colorSchemeSeed: Color.fromARGB(100, 69, 32, 204),),
       ),
     );
   }
@@ -41,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //การแสดงผล
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<EventBloc>(context).add(showEventList(uEmail: "laure-CA03@example.com"));
+    BlocProvider.of<EventBloc>(context).add(showEventList(uEmail: "laure-ca03@example.com"));
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(

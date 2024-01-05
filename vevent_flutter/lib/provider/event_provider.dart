@@ -19,8 +19,8 @@ class EventProvider {
             fetchPolicy: FetchPolicy.networkOnly,
             document: gql(
               """
-          query FindAllEventsByUEmail {
-              findAllEventsByUEmail(uEmail: "${uEmail}") {
+          query FindAllRegisEventsByUEmail {
+              findAllRegisEventsByUEmail (uEmail: "${uEmail}") {
                   user_event_id
                   status
                   doneTimes
@@ -35,7 +35,6 @@ class EventProvider {
                       category
                       startDate
                       endDate
-                      eventOwner
                       validationType
                       validationRules
                       createBy
@@ -52,12 +51,12 @@ class EventProvider {
           """, // let's see query string
             ),
             variables: {
-              "uEmail": uEmail,
+              "uEmail": "${uEmail}",
             },
           ),
         );
 
-        var events = queryResult.data?['findAllEventsByUEmail'];
+        var events = queryResult.data?['findAllRegisEventsByUEmail'];
         print(events);
 
         if(events == null){
@@ -71,5 +70,12 @@ class EventProvider {
         print(e.toString());
         throw Exception("Event api is fail !!");
       }
+    }
+
+    Future<Map> getEventByUserEmailAndEventId(String uEmail, String eId) async {
+        // Read from DB or make network request etc...
+        //รอ
+        Map event = {"event":"event"}; //สมมุติ
+        return event;
     }
 }

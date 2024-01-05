@@ -17,6 +17,7 @@ class CustomCard extends StatelessWidget {
   final String eventStatus;
   final String description;
   final String imagePath;
+  final String validateStatus;
   // final List<dynamic> event;
 
 
@@ -31,7 +32,7 @@ class CustomCard extends StatelessWidget {
     required this.eventStatus,
     required this.description,
     required this.imagePath,
-    // required this.event
+    required this.validateStatus
   });
 
 
@@ -55,7 +56,8 @@ class CustomCard extends StatelessWidget {
                   createBy: createBy,
                   eventStatus: eventStatus,
                   description: description,
-                  imagePath: imagePath);
+                  imagePath: imagePath,
+                  validateStatus: validateStatus,);
             }));
           },
           child: Card(
@@ -129,7 +131,7 @@ class CustomCard extends StatelessWidget {
                           SizedBox(
                             height: 8,
                           ),
-                          StatusTag(eventStatus, 4.0, 8.0)
+                          StatusTag(validateStatus, 4.0, 8.0)
                         ],
                       ),
                     ),

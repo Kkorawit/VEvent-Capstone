@@ -35,10 +35,11 @@ class _MyEventsSectionState extends State<MyEventsSection> {
                     location: "${state.events[index]["event"]["locationName"]}",
                     category: "${state.events[index]["event"]["category"]}",
                     createBy: "${state.events[index]["event"]["createBy"]}",
-                    eventStatus: "${state.events[index]["status"]}",
+                    eventStatus: "${state.events[index]["status"]}", //รอเปลี่ยนเป็น ${state.events[index]["event"]["eventStatus"]}
                     description:
                         "${state.events[index]["event"]["description"]}",
-                    imagePath: "${state.events[index]["event"]["posterImg"]}");
+                    imagePath: "${state.events[index]["event"]["posterImg"]}",
+                    validateStatus: "${state.events[index]["status"]}",);
               }),
         );
       } else {
