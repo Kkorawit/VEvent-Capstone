@@ -2,7 +2,7 @@ type Query {
     allEvents: [Event]
     findAllRegisEventsByUEmail(uEmail: ID): [User_Event]
     findAllEventCreateByUEmail(uEmail: ID): [Event]
-#    findById(email: ID): Event
+    findEventById(id: ID): Event
     findUserByEmail(uEmail:ID): User
     findAllParticipantsByEventId(eid:ID): [User_Event]
 }

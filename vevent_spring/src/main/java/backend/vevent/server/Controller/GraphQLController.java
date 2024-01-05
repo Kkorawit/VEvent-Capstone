@@ -76,10 +76,10 @@ public class GraphQLController {
     }
 
 
-//    @QueryMapping
-//    public Optional<Event> findById(@Argument Integer id){
-//        return eventRepo.findById(id);
-//    }
+    @QueryMapping
+    public Event findEventById(@Argument Integer id){
+        return eventRepo.findEventById(id);
+    }
 
     @QueryMapping
     public User findUserByEmail(@Argument String uEmail){
