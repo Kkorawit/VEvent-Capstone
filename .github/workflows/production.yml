@@ -2,7 +2,7 @@ name: Build Docker Container for Production Server
 
 on:
   push:
-    branches: [ "prod" ]
+    branches: [ "main" ]
 
 
 jobs:
@@ -16,7 +16,7 @@ jobs:
     - name: Shutdown Container
       run: | 
         docker system prune -a
-        docker compose down
+        docker compose -f docker/docker-compose.yml down
         docker compose -f reverse_proxy/docker-compose-proxy.yml down
         
     - name: Build Container
