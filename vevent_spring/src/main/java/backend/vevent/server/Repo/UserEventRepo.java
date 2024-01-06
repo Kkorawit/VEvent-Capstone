@@ -18,4 +18,7 @@ public interface UserEventRepo extends JpaRepository<UsersEvent,Integer> {
 
     @Query(value = "SELECT DISTINCT * FROM users_events ue WHERE ue.event_id = :eid",nativeQuery = true)
     List<UsersEvent> findAllUserByEid(@Param("eid")Integer eid);
+
+    @Query(value = "SELECT * FROM users_events WHERE user_event_id=:id",nativeQuery = true)
+    Optional<UsersEvent> findUsersEventById(@Param("id")Integer id);
 }

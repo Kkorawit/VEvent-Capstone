@@ -5,7 +5,12 @@ type Query {
     findEventById(id: ID): Event
     findUserByEmail(uEmail:ID): User
     findAllParticipantsByEventId(eid:ID): [User_Event]
+    testUnion(eid:ID,uEmail:ID): [EventList]
+    findEventDetailsByUserEventId(id:ID): User_Event
 }
+
+union EventList = Event | User_Event
+
 
 type User_Event {
     user_event_id: ID!
@@ -48,4 +53,5 @@ type Event {
     locationLongitude: Float
     description: String
     validate_times: Int
+    eventStatus: String
 }

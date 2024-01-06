@@ -7,8 +7,10 @@ import backend.vevent.server.Repo.EventRepo;
 import backend.vevent.server.Repo.UserEventRepo;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spencerwi.either.Either;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -72,6 +74,17 @@ public class GPSController {
         return new ResponseEntity("Event Not Found",HttpStatus.NOT_FOUND);
 //        JsonReader meta = objectMapper.readValue(result,JsonReader.class);
 //        System.out.println(distanceValue);
+    }
+
+    @RequestMapping("/either")
+    private static Either<String, Integer> computeWithEither(@RequestParam(name = "marks") int marks) {
+        if (marks < 85) {
+            System.out.println("left");
+            return Either.left("Marks not acceptable");
+        } else {
+            System.out.println("right");
+            return Either.right(marks);
+        }
     }
 
     @RequestMapping("/distance")

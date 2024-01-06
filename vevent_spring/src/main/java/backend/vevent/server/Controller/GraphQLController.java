@@ -7,6 +7,7 @@ import backend.vevent.server.Entity.UsersEvent;
 import backend.vevent.server.Repo.EventRepo;
 import backend.vevent.server.Repo.UserEventRepo;
 import backend.vevent.server.Repo.UserRepo;
+import com.spencerwi.either.Either;
 import graphql.GraphQL;
 import graphql.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,15 +71,15 @@ public class GraphQLController {
     }
 
     @QueryMapping
-    public List<Event> findAllEventCreateByUEmail(@Argument String uEmail){
+    public List<Event> findAllEventCreatedByUEmail(@Argument String uEmail){
         List<Event> eventList = eventRepo.findAllEventCreateByUEmail(uEmail);
         return eventList;
     }
 
-
     @QueryMapping
-    public Event findEventById(@Argument Integer id){
-        return eventRepo.findEventById(id);
+    public Optional<UsersEvent> findEventDetailsByUserEventId(@Argument Integer id){
+        Optional<UsersEvent> usersEvent = userEventRepo.findUsersEventById(id);
+        return usersEvent;
     }
 
     @QueryMapping
