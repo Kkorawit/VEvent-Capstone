@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/event/event_bloc.dart';
-import 'package:vevent_flutter/bloc/user/user_bloc.dart';
 import 'package:vevent_flutter/widget/custom_card.dart';
 
 class MyEventsSection extends StatefulWidget {

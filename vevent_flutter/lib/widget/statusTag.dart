@@ -48,7 +48,7 @@ Widget StatusTag(String eStatus, double verSize, double horSize) {
         ),
       ),
     );
-  } else if (eStatus == "IR") {
+  } else if (eStatus == "IP") {
     // [IR/In review] mean event is in review
     return Container(
       padding: EdgeInsets.symmetric(vertical: ver, horizontal: hor),
@@ -58,7 +58,7 @@ Widget StatusTag(String eStatus, double verSize, double horSize) {
         color: Color.fromARGB(100, 255, 235, 179),
       ),
       child: Text(
-        "In review",
+        "In Progress",
         style: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w500,
