@@ -7,15 +7,14 @@ sealed class EventEvent {
 }
 
 class showEventList extends EventEvent {
-  String uEmail;
+  final String uEmail;
 
   showEventList({required this.uEmail});
 }
 
-class getEvent extends EventEvent {
-  String uEmail;
-  String eId;
-  getEvent({required this.uEmail, required this.eId});
+class getEventDetails extends EventEvent {
+  final String uEventId;
+  getEventDetails({required this.uEventId});
 
  
 }

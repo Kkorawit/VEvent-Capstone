@@ -10,8 +10,8 @@ class EventRepository {
         return events;
     }
 
-    Future<Map> getEventByUserEmailAndEventId(String uEmail, String eId) async {
-        final event = await provider.getEventByUserEmailAndEventId(uEmail, eId);
+    Future<Map> getEventDetailsByUserEventId(String uEventId) async {
+        final event = await provider.getEventDetailsByUserEventId(uEventId);
         return event;
     }
 
