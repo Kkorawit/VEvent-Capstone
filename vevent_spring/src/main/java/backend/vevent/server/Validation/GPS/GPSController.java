@@ -84,7 +84,7 @@ public class GPSController {
         System.out.println("eid: "+eid);
         HashMap<String, Object> response = new HashMap<>();
 //        HashMap<String,HttpStatus> HttpStatusaa = new HashMap<>();
-        System.out.printf(event.get().getEventStatus());
+        System.out.printf("event status: "+ event.get().getEventStatus());
         switch (event.get().getEventStatus()){
             case "ON":
                 if (usersEvent != null && !usersEvent.getStatus().equals("S") && !usersEvent.getStatus().equals("P")) {
@@ -98,7 +98,11 @@ public class GPSController {
                     double haversine = service.calHaversine(dLat) + Math.cos(startLat) * Math.cos(endLat) * service.calHaversine(dLong);
                     response = calDisplacementWithHaversine(haversine);
                     System.out.println("out from cal displacement with haversine: " + response);
-                    if (response.get("Status").equals("Success")) {
+
+                    if (response.isEmpty()){
+                        return ResponseEntity.ofNullable("it's null");
+                    }
+                    if (response.get("VStatus").equals("Success")) {
                         usersEvent.setStatus("S");
                         userEventRepo.save(usersEvent);
                     } else {
