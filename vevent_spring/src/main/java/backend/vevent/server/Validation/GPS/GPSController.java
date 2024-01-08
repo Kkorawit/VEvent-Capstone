@@ -45,7 +45,7 @@ public class GPSController {
         RestTemplate restTemplate = new RestTemplate();
         Optional<Event> event = eventRepo.findById(eid);
         UsersEvent usersEvent = userEventRepo.findByEmailAndId(uEmail,eid);
-
+        System.out.println("eid: " + eid);
 
         if(event.get().getLocationLatitude() == null || event.get().getLocationLongitude() == null){
             return ResponseEntity.badRequest().body("This Event Don't Registered The Event Location");
@@ -76,38 +76,12 @@ public class GPSController {
 //        System.out.println(distanceValue);
     }
 
-    @RequestMapping("/either")
-    private static Either<String, Integer> computeWithEither(@RequestParam(name = "marks") int marks) {
-        if (marks < 85) {
-            System.out.println("left");
-            return Either.left("Marks not acceptable");
-        } else {
-            System.out.println("right");
-            return Either.right(marks);
-        }
-    }
-
     @RequestMapping("/distance")
     public ResponseEntity findDisplacement(@RequestBody LatLngDTO location, @RequestParam(name = "eid")Integer eid, @RequestParam(name = "uemail")String uEmail){
         Optional<Event> event = eventRepo.findById(eid);
         UsersEvent usersEvent = userEventRepo.findByEmailAndId(uEmail,eid);
-//        double lat1 = 13.6495877; //บ้าน ธรรมรักษา2
-//        double lat2 = 13.6524898; //SIT KMUTT
-//        double lon1 = 100.4919303;
-//        double lon2 = 100.4910494;
-
-//        double dLat = Math.toRadians((lat2-lat1));
-//        double dLong = Math.toRadians((lon2-lon1));
-//
-//        double startLat = Math.toRadians(lat1);
-//        double endLat = Math.toRadians(lat2);
-//        System.out.println("before service");
-//        double a = service.calHaversine(dLat) + Math.cos(startLat) * Math.cos(endLat) * service.calHaversine(dLong);
-//        double c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-//
-//        System.out.println(EARTH_RADIUS*c);
-//        return ResponseEntity.ok().body(EARTH_RADIUS*c);
         System.out.println(usersEvent);
+        System.out.println("eid: "+eid);
         HashMap<String, Object> response = new HashMap<>();
 //        HashMap<String,HttpStatus> HttpStatusaa = new HashMap<>();
         switch (event.get().getEventStatus()){
