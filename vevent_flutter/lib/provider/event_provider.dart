@@ -31,19 +31,20 @@ class EventProvider {
                   event {
                       id
                       title
-                      eventDescription
+                      amountReceived
                       category
                       startDate
                       endDate
                       validationType
                       validationRules
+                      posterImg
                       createBy
                       locationName
                       locationLatitude
                       locationLongitude
                       description
                       validate_times
-                      posterImg
+                      eventStatus
                   }
               }
           }
@@ -72,10 +73,72 @@ class EventProvider {
       }
     }
 
-    Future<Map> getEventByUserEmailAndEventId(String uEmail, String eId) async {
-        // Read from DB or make network request etc...
-        //รอ
-        Map event = {"event":"event"}; //สมมุติ
+    Future<Map> getEventDetailsByUserEventId(String uEventId) async {
+         try {
+        HttpLink link =
+            HttpLink("https://capstone23.sit.kmutt.ac.th/kw1/dev/graphql");
+        GraphQLClient qlClient = GraphQLClient(
+          link: link,
+          cache: GraphQLCache(
+            store: InMemoryStore(),
+          ),
+        );
+        QueryResult queryResult = await qlClient.query(
+          QueryOptions(
+            fetchPolicy: FetchPolicy.networkOnly,
+            document: gql(
+              """
+          query FindEventDetailsByUserEventId {
+              findEventDetailsByUserEventId (id: "${uEventId}") {
+                  user_event_id
+                  status
+                  doneTimes
+                  user {
+                      userEmail
+                  }
+                  event {
+                      id
+                      title
+                      amountReceived
+                      category
+                      startDate
+                      endDate
+                      validationType
+                      validationRules
+                      posterImg
+                      createBy
+                      locationName
+                      locationLatitude
+                      locationLongitude
+                      description
+                      validate_times
+                      eventStatus
+                  }
+              }
+          }
+
+          """, // let's see query string
+            ),
+            variables: {
+              "id": "${uEventId}",
+            },
+          ),
+        );
+
+        var event = queryResult.data?['findEventDetailsByUserEventId'];
+        print("getEventDetailsByUserEventId is ON");
+        print("event detail -> ${event}");
+
+        if(event == null){
+          print("queryResult.data is null");
+          throw Exception("event detail is null");
+        }
+
         return event;
+
+      } catch (e) {
+        print(e.toString());
+        throw Exception("EventDetail api is fail !!");
+      }
     }
 }

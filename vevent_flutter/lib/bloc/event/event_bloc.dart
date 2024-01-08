@@ -11,10 +11,11 @@ class EventBloc extends Bloc<EventEvent, EventState> {
   EventBloc(this.repository) : super(EventInitial()) {
     on<showEventList>((event, emit) async {
       // TODO: implement event handler
+      
       emit(EventLoadingState()); //emit(sth) โยน sth ออกไป
       try {
         var events = await repository.getEventsByUserEmail(event.uEmail);
-        print("In EventBloc => ${events}");
+        print("In EventBloc showEventList => ${events}");
         emit(EventFinishState(events: events));
 
       } catch (e) {
@@ -22,16 +23,5 @@ class EventBloc extends Bloc<EventEvent, EventState> {
       }
     });
 
-    on<getEvent>((event, emit) async {
-      emit(EventLoadingState());
-      try{
-        var eventRes = await repository.getEventByUserEmailAndEventId(event.uEmail, event.eId);
-        print("In EventBloc => ${eventRes}");
-        emit(EventFinishState(events: [eventRes]));
-
-      }catch (e){
-        emit(EventErrorState(e.toString()));
-      }
-    });
   }
 }

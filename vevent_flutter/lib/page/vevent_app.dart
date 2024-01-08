@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/event/event_bloc.dart';
+import 'package:vevent_flutter/bloc/event_detail/event_detail_bloc.dart';
 import 'package:vevent_flutter/bloc/user/user_bloc.dart';
 import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
 import 'package:vevent_flutter/provider/event_provider.dart';
@@ -22,8 +23,9 @@ class VEventApp extends StatelessWidget {
     final eventBloc = BlocProvider(create: (context) => EventBloc(EventRepository(provider: EventProvider())));
     final userBloc = BlocProvider(create: (context) => UserBloc(UserRepository(provider: UserProvider())));
     final validationBloc = BlocProvider(create: (context) => ValidationBloc(ValidationRepository(provider: ValidationProvider())));
+    final eventDetailBloc = BlocProvider(create: (context) => EventDetailBloc(EventRepository(provider: EventProvider())));
     return MultiBlocProvider(
-      providers: [eventBloc,userBloc,validationBloc],
+      providers: [eventBloc,userBloc,validationBloc,eventDetailBloc],
       // create: (context) => EventBloc(EventRepository(provider: EventProvider())),
       child: MaterialApp(
         title: "My App",
@@ -42,6 +44,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  // void initState() {
+  //   //เป็นการเรียกใช้งานครั้งเดียว
+  //   BlocProvider.of<EventBloc>(context).add(showEventList(uEmail: "laure-ca03@example.com"));
+  //   super.initState();
+  // }
   //การแสดงผล
   @override
   Widget build(BuildContext context) {

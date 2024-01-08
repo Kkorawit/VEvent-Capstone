@@ -11,6 +11,13 @@ class MyEventsSection extends StatefulWidget {
 }
 
 class _MyEventsSectionState extends State<MyEventsSection> {
+  // void initState() {
+  //   //เป็นการเรียกใช้งานครั้งเดียว
+  //   BlocProvider.of<EventBloc>(context)
+  //       .add(showEventList(uEmail: "laure-ca03@example.com"));
+  //   super.initState();
+  // }s
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EventBloc, EventState>(builder: (context, state) {
@@ -28,18 +35,21 @@ class _MyEventsSectionState extends State<MyEventsSection> {
               itemCount: state.events.length,
               itemBuilder: (context, index) {
                 return CustomCard(
-                    eventId: "${state.events[index]["event"]["id"]}",
-                    uEmail: "${state.events[index]["user"]["userEmail"]}",
-                    title: "${state.events[index]["event"]["title"]}",
-                    startDate: "${state.events[index]["event"]["startDate"]}",
-                    location: "${state.events[index]["event"]["locationName"]}",
-                    category: "${state.events[index]["event"]["category"]}",
-                    createBy: "${state.events[index]["event"]["createBy"]}",
-                    eventStatus: "${state.events[index]["status"]}", //รอเปลี่ยนเป็น ${state.events[index]["event"]["eventStatus"]}
-                    description:
-                        "${state.events[index]["event"]["description"]}",
-                    imagePath: "${state.events[index]["event"]["posterImg"]}",
-                    validateStatus: "${state.events[index]["status"]}",);
+                  uEmail: "${state.events[index]["user"]["userEmail"]}",
+                  uEventId: "${state.events[index]["user_event_id"]}",
+                  eventId: "${state.events[index]["event"]["id"]}",
+                  title: "${state.events[index]["event"]["title"]}",
+                  startDate: "${state.events[index]["event"]["startDate"]}",
+                  location: "${state.events[index]["event"]["locationName"]}",
+                  category: "${state.events[index]["event"]["category"]}",
+                  createBy: "${state.events[index]["event"]["createBy"]}",
+                  eventStatus:
+                      "${state.events[index]["eventStatus"]}", //รอเปลี่ยนเป็น ${state.events[index]["event"]["eventStatus"]}
+                  description:
+                      "${state.events[index]["event"]["description"]}",
+                  imagePath: "${state.events[index]["event"]["posterImg"]}",
+                  validateStatus: "${state.events[index]["status"]}",
+                );
               }),
         );
       } else {
