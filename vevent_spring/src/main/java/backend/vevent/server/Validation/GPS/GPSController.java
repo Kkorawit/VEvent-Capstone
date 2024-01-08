@@ -124,7 +124,7 @@ public class GPSController {
 
             default:
                 response.put("VStatus","This Event Validation Closed");
-                response.put("Displacement",null);
+                response.put("Displacement","");
                 response.put("HTTP_Status", HttpStatus.BAD_REQUEST.value());
 
         }
