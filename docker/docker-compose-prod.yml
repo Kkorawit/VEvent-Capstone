@@ -1,6 +1,6 @@
 version: "3.2"
 services: 
-          db-vevent:
+          prod-db-vevent:
                   container_name : ${ENV}-db-vevent
                   environment : 
                       - MYSQL_ROOT_PASSWORD=cp23-db-Vevent
@@ -17,7 +17,7 @@ services:
                   restart : always
                   command : --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-time-zone=+07:00
 
-          app-vevent:
+          prod-app-vevent:
                   container_name: ${ENV}-app-vevent
                   build: ../vevent_spring
                   image: ${ENV}-app-image
