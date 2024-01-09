@@ -17,7 +17,7 @@ services:
                   restart : always
                   command : --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-time-zone=+07:00
 
-          app-vevent:
+          qa-app-vevent:
                   container_name: ${ENV}-app-vevent
                   build: ../vevent_spring
                   image: ${ENV}-app-image
