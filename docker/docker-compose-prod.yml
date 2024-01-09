@@ -3,7 +3,7 @@ services:
           prod-db-vevent:
                   container_name : ${ENV}-db-vevent
                   environment : 
-                      - MYSQL_ROOT_PASSWORD=cp23-db-Vevent
+                      - MYSQL_ROOT_PASSWORD=cp23-prod-db-Vevent
                       - TZ=Asia/Bangkok
                   image : mysql
                   networks:
