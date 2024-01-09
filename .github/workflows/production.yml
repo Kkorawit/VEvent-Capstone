@@ -16,7 +16,10 @@ jobs:
     - name: Shutdown Container
       run: | 
         docker system prune -a
-        docker compose -f docker/docker-compose.yml --env-file docker/.env.prod down 
+        docker rm -f -v dev-app-vevent
+        docker rm -f -v dev-db-vevent
+        docker image prune
+        # docker compose -f docker/docker-compose.yml --env-file docker/.env.prod down 
         docker compose -f reverse_proxy/docker-compose-proxy.yml down
         
     - name: Build Container
