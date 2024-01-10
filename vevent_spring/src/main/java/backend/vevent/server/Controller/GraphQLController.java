@@ -83,6 +83,21 @@ public class GraphQLController {
     }
 
     @QueryMapping
+    public Event findEventDetailsByEventId(@Argument Integer id){
+        Event event = eventRepo.findEventById(id);
+        return event;
+    }
+
+//   @QueryMapping
+//   public static Either<String, Integer> computeWithEither(int marks) {
+//       if (marks < 85) {
+//           return Either.left("Marks not acceptable");
+//       } else {
+//           return Either.right(marks);
+//       }
+//   }
+
+    @QueryMapping
     public User findUserByEmail(@Argument String uEmail){
         User user = userRepo.findUserByEmail(uEmail);
 //        if(user == null){
