@@ -3,18 +3,15 @@ part of 'event_bloc.dart';
 @immutable
 sealed class EventEvent {
   // late String uEmail;
+  // late String uRole;
 
 }
 
 class showEventList extends EventEvent {
-  final String uEmail;
+  String uEmail;
+  String uRole;
 
-  showEventList({required this.uEmail});
+  showEventList({required this.uEmail, required this.uRole});
 }
 
-class getEventDetails extends EventEvent {
-  final String uEventId;
-  getEventDetails({required this.uEventId});
 
- 
-}

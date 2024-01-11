@@ -1,3 +1,4 @@
+// import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:vevent_flutter/provider/event_provider.dart';
 
 class EventRepository {
@@ -5,13 +6,23 @@ class EventRepository {
 
   EventRepository({required this.provider});
 
-    Future<List<dynamic>> getEventsByUserEmail(String uEmail) async {
-        final events = await provider.getEventsByUserEmail(uEmail);
+    Future<List<dynamic>> getEventsByUserEmail(String uEmail, String uRole) async {
+      final List events;
+      if (uRole == 'Participant'){
+        events = await provider.getEventsByParticipantEmail(uEmail); 
+      }else{
+        events = await provider.getEventsByOrganizerEmail(uEmail);
+      }
         return events;
     }
 
-    Future<Map> getEventDetailsByUserEventId(String uEventId) async {
-        final event = await provider.getEventDetailsByUserEventId(uEventId);
+    Future<Map> getEventDetailsByUserEventId(String id, String uRole) async {
+        final Map event ;
+      if (uRole == 'Participant'){
+        event = await provider.getEventDetailsByUserEventId(id);
+      }else{
+        event = await provider.getEventDetailsByEventId(id);
+      }
         return event;
     }
 

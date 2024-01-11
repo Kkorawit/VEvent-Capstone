@@ -11,7 +11,7 @@ class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
     on<getEventDetail>((event, emit) async{
       emit(EventDetailInitial());
       try{
-        Map eventRes = await repository.getEventDetailsByUserEventId(event.uEventId);
+        Map eventRes = await repository.getEventDetailsByUserEventId(event.id, event.uRole);
         print("In EventBloc getEventDetails => ${eventRes}");
         emit(EventDetailFinishState(event: eventRes));
 

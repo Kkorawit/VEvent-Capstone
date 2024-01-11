@@ -44,15 +44,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // void initState() {
-  //   //เป็นการเรียกใช้งานครั้งเดียว
-  //   BlocProvider.of<EventBloc>(context).add(showEventList(uEmail: "laure-ca03@example.com"));
-  //   super.initState();
-  // }
   //การแสดงผล
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<EventBloc>(context).add(showEventList(uEmail: "laure-ca03@example.com"));
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(
@@ -92,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Container(
                 height: MediaQuery.of(context).size.height * 0.60,
-                child: const MyEventsSection(),
+                child: MyEventsSection(),
               ),
             ],
           ),
