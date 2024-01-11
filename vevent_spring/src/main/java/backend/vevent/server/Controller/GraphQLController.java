@@ -25,6 +25,7 @@ import java.util.Optional;
 @Controller
 public class GraphQLController {
 
+    @Autowired
     private EventRepo eventRepo;
 
     @Autowired
@@ -35,9 +36,6 @@ public class GraphQLController {
 
     private GraphQL graphQL;
 
-    public GraphQLController(EventRepo eventRepo) {
-        this.eventRepo = eventRepo;
-    }
 
 //    @SchemaMapping(typeName = "Query", value = "allEvents")
 //    @PostMapping("/graphql")
@@ -55,24 +53,14 @@ public class GraphQLController {
     @QueryMapping
     public List<UsersEvent> findAllRegisEventsByUEmail(@Argument String uEmail){
         List<UsersEvent> eventList = userEventRepo.findAllRegisEventByUEmail(uEmail);
-//        switch (user.getRole()){
-//            case "Organization":
-//                System.out.println(user.getRole());
-//               eventsList = eventRepo.findAllEventByCreator(uEmail);
-//               break;
-//            case "Participants":
-//            default:
-//                System.out.println(user.getRole());
-//                eventsList = userEventRepo.findAllEventByUEmail(uEmail);
-//        }
-//
-//        return eventsList;
+        System.out.println(eventList);
         return eventList;
     }
 
     @QueryMapping
     public List<Event> findAllEventCreatedByUEmail(@Argument String uEmail){
         List<Event> eventList = eventRepo.findAllEventCreateByUEmail(uEmail);
+        System.out.println(eventList);
         return eventList;
     }
 
