@@ -78,7 +78,7 @@ class EventProvider {
     // Read from DB or make network request etc...
     try {
       HttpLink link =
-          HttpLink("https://capstone23.sit.kmutt.ac.th/kw1/qa/graphql");
+          HttpLink("https://capstone23.sit.kmutt.ac.th/kw1/dev/graphql");
       GraphQLClient qlClient = GraphQLClient(
         link: link,
         cache: GraphQLCache(
@@ -90,8 +90,8 @@ class EventProvider {
           fetchPolicy: FetchPolicy.networkOnly,
           document: gql(
             """
-          query FindAllEventCreateByUEmail {
-              findAllEventCreateByUEmail (uEmail: "${uEmail}") {
+          query FindAllEventCreatedByUEmail {
+              findAllEventCreatedByUEmail (uEmail: "${uEmail}") {
                 id
                 title
                 eventDescription
@@ -126,7 +126,7 @@ class EventProvider {
         ),
       );
 
-      var events = queryResult.data?['findAllEventCreateByUEmail'];
+      var events = queryResult.data?['findAllEventCreatedByUEmail'];
       print(events);
 
       if (events == null) {

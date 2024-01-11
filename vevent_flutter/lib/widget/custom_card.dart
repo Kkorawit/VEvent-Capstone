@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:vevent_flutter/firebase_storage_client.dart';
 import 'package:vevent_flutter/dateTimeFormat.dart';
+import 'package:vevent_flutter/widget/image.dart';
 import 'statusTag.dart';
 
 /// Flutter code sample for custom list items.
@@ -13,7 +14,7 @@ class CustomCard extends StatelessWidget {
   final String description;
   final String imagePath;
   final String eventStatus;
-  final String? validateStatus;
+  final String? status; // status of participant is validateStatus || status of organization is eventStatus
 
   const CustomCard(
       {super.key,
@@ -25,7 +26,7 @@ class CustomCard extends StatelessWidget {
       required this.description,
       required this.imagePath,
       required this.eventStatus,
-      required this.validateStatus});
+      required this.status});
   // final List<dynamic> event;
 
   @override
@@ -50,7 +51,7 @@ class CustomCard extends StatelessWidget {
               child: ClipRRect(
                 // clipBehavior: Clip.hardEdge,
                 borderRadius: BorderRadius.circular(10),
-                child: getImage(imagePath),
+                child: getEventImage(imagePath),
               ),
             ),
             // ข้อมูลทางขวา
@@ -104,7 +105,7 @@ class CustomCard extends StatelessWidget {
                     SizedBox(
                       height: 8,
                     ),
-                    StatusTag(validateStatus, 4.0, 8.0)
+                    StatusTag(status, 4.0, 8.0)
                   ],
                 ),
               ),
@@ -116,16 +117,20 @@ class CustomCard extends StatelessWidget {
   }
 }
 
-Widget getImage(img) {
-  if (img == null) {
-    return Image.asset(
-      "assets/images/poster.png",
-      fit: BoxFit.cover,
-    );
-  } else {
-    return Image.network(
-      img,
-      fit: BoxFit.fitHeight,
-    );
-  }
-}
+// Widget getImage(img) {
+//   if (img == null) {
+//     return Image.asset(
+//       "assets/images/poster.png",
+//       fit: BoxFit.cover,
+//     );
+//   } else {
+//     return Image.asset(
+//       "assets/images/poster.png",
+//       fit: BoxFit.cover,
+//     );
+//     // return Image.network(
+//     //   img,
+//     //   fit: BoxFit.fitHeight,
+//     // );
+//   }
+// }

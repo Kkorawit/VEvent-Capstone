@@ -5,8 +5,10 @@ import 'package:vevent_flutter/page/event_detail_page.dart';
 import 'package:vevent_flutter/widget/custom_card.dart';
 
 class MyEventsSection extends StatefulWidget {
-  String uEmail = "Laure-CA03@example.com";
-  String uRole = "Participant";
+  // String uEmail = "Laure-CA03@example.com";
+  String uEmail = "organization-02@example.com";
+  // String uRole = "Participant";
+  String uRole = "Organization";
 
   // MyEventsSection({super.key});
 
@@ -64,7 +66,7 @@ class _MyEventsSectionState extends State<MyEventsSection> {
                       description:
                           "${state.events[index]["event"]["description"]}",
                       imagePath: "${state.events[index]["event"]["posterImg"]}",
-                      validateStatus: "${state.events[index]["status"]}",
+                      status: "${state.events[index]["status"]}", //validateStatus
                     ),
                   );
                 } else {
@@ -92,7 +94,7 @@ class _MyEventsSectionState extends State<MyEventsSection> {
                       imagePath: "${state.events[index]["posterImg"]}",
                       eventStatus:
                           "${state.events[index]["eventStatus"]}", //รอเปลี่ยนเป็น ${state.events[index]["event"]["eventStatus"]}
-                      validateStatus: null,
+                      status: "${state.events[index]["eventStatus"]}",
                     ),
                   );
                 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/event_detail/event_detail_bloc.dart';
 import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
+import 'package:vevent_flutter/dateTimeFormat.dart';
+import 'package:vevent_flutter/widget/participant_section.dart';
 import 'package:vevent_flutter/widget/user_profile_section.dart';
 import 'package:vevent_flutter/widget/validate_btn.dart';
 import '../widget/statusTag.dart';
@@ -18,14 +20,14 @@ class EventDetailPage extends StatefulWidget {
   late String eventStatus;
   late String description;
   late String imagePath;
-  late String validateStatus;
+  late String? validateStatus;
+  late String status;
   late String organizer;
   late String organizerProfile;
   final String uEventId;
   final String uRole;
 
   EventDetailPage({required this.uEventId, required this.uRole});
-
 
   @override
   State<EventDetailPage> createState() => _EventDetailPageState();
@@ -34,8 +36,22 @@ class EventDetailPage extends StatefulWidget {
 class _EventDetailPageState extends State<EventDetailPage> {
   @override
   void initState() {
-    context.read<EventDetailBloc>().add(getEventDetail(id: widget.uEventId, uRole: widget.uRole ));
+    context
+        .read<EventDetailBloc>()
+        .add(getEventDetail(id: widget.uEventId, uRole: widget.uRole));
     super.initState();
+  }
+
+  Widget actionSection(String uRole) {
+    if(uRole == "Participant"){
+      return ValidateButton(
+          uEmail: widget.uEmail,
+          eventId: widget.eventId,
+          eventStatus: widget.eventStatus,
+          validateStatus: widget.validateStatus!);
+    }else{
+      return const ParticipantSection();
+    }
   }
 
   @override
@@ -49,11 +65,11 @@ class _EventDetailPageState extends State<EventDetailPage> {
             body: Center(child: CircularProgressIndicator()),
           );
         } else if (state is EventDetailFinishState) {
-
+            if(widget.uRole == "Participant"){
           widget.eventId = "${state.event["event"]["id"]}";
           widget.uEmail = "${state.event["user"]["userEmail"]}";
           widget.title = "${state.event["event"]["title"]}";
-          widget.startDate = "${state.event["event"]["startDate"]}";
+          widget.startDate = dateTimeFormat("${state.event["event"]["startDate"]}");
           widget.location = "${state.event["event"]["locationName"]}";
           widget.category = "${state.event["event"]["category"]}";
           widget.createBy = "${state.event["event"]["createBy"]}";
@@ -61,6 +77,22 @@ class _EventDetailPageState extends State<EventDetailPage> {
           widget.description = "${state.event["event"]["description"]}";
           widget.imagePath = "${state.event["event"]["posterImg"]}";
           widget.validateStatus = "${state.event["status"]}";
+          widget.status = "${state.event["status"]}";
+            }else{
+              widget.eventId = "${state.event["id"]}";
+          widget.uEmail = "${state.event["createBy"]}";
+          widget.title = "${state.event["title"]}";
+          widget.startDate = dateTimeFormat("${state.event["startDate"]}");
+          widget.location = "${state.event["locationName"]}";
+          widget.category = "${state.event["category"]}";
+          widget.createBy = "${state.event["createBy"]}";
+          widget.eventStatus = "${state.event["eventStatus"]}";
+          widget.description = "${state.event["description"]}";
+          widget.imagePath = "${state.event["posterImg"]}";
+          widget.validateStatus = null;
+          widget.status = "${state.event["eventStatus"]}";
+            }
+
           // context.read<UserBloc>().add(getUser(uEmail: widget.createBy));
 
           print("in BlocListener => state is ${state}");
@@ -90,20 +122,22 @@ class _EventDetailPageState extends State<EventDetailPage> {
                           ? Colors.green
                           : Colors.red,
                       content: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(state.validateRes.vStatus, style: TextStyle(fontWeight: FontWeight.bold)),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          Text(
-                              "The distance between your current location and the event location is ${state.validateRes.displacement}")
-                      ]),
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(state.validateRes.vStatus,
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            SizedBox(
+                              height: 4,
+                            ),
+                            Text(
+                                "The distance between your current location and the event location is ${state.validateRes.displacement}")
+                          ]),
                     ));
 
                     await Future.delayed(Duration(seconds: 1));
                     //อาจมีปัญหาเรื่องลำดับการแสดงผลถ้ามีก็อาจเปลี่ยน snackbar เป็น alert dialog ดูก่อน
-                    context.read<EventDetailBloc>().add(getEventDetail(id: widget.uEventId, uRole: widget.uRole ));
+                    context.read<EventDetailBloc>().add(getEventDetail(
+                        id: widget.uEventId, uRole: widget.uRole));
                     // Navigator.of(context).pop();
                   } else {
                     // snackBarColor = Colors.yellow;
@@ -164,10 +198,11 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      ProfileSection(organizerEmail: widget.createBy),
+                                      ProfileSection(
+                                          organizerEmail: widget.createBy),
                                       Container(
                                           child: StatusTag(
-                                              widget.validateStatus, 6, 16)),
+                                              widget.status, 6, 16)),
                                     ],
                                   ),
                                 ),
@@ -260,11 +295,9 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                 SizedBox(
                                   height: 32,
                                 ),
-                                ValidateButton(
-                                    uEmail: widget.uEmail,
-                                    eventId: widget.eventId,
-                                    eventStatus: widget.eventStatus,
-                                    validateStatus: widget.validateStatus)
+                                Container(
+                                  child: actionSection(widget.uRole)
+                                )
                               ],
                             ),
                           ),
@@ -285,12 +318,17 @@ class _EventDetailPageState extends State<EventDetailPage> {
   }
 }
 
-Widget getProfileImage(img) {
-  print("this is owner profile = " + img);
-  if (img == "") {
-    // return CircleAvatar(child: Icon(Icons.home_work),backgroundColor: Color.fromARGB(100, 218, 210, 245),);
-    return Image(image: AssetImage("assets/images/default_profile.png"),);
-  } else {
-    return Image.network(img);
-  }
-}
+// Widget getProfileImage(img) {
+//   print("this is owner profile = " + img);
+//   if (img == "") {
+//     // return CircleAvatar(child: Icon(Icons.home_work),backgroundColor: Color.fromARGB(100, 218, 210, 245),);
+//     return Image(
+//       image: AssetImage("assets/images/default_profile.png"),
+//     );
+//   } else {
+//     return Image.asset(
+//       "assets/images/poster.png",
+//     );
+//     // return Image.network(img);
+//   }
+// }

@@ -8,6 +8,8 @@ class EventRepository {
 
     Future<List<dynamic>> getEventsByUserEmail(String uEmail, String uRole) async {
       final List events;
+      print("in event repository");
+      print("${uEmail} : ${uRole}");
       if (uRole == 'Participant'){
         events = await provider.getEventsByParticipantEmail(uEmail); 
       }else{
@@ -18,6 +20,8 @@ class EventRepository {
 
     Future<Map> getEventDetailsByUserEventId(String id, String uRole) async {
         final Map event ;
+        print("in event repository");
+        print("${id} : ${uRole}");
       if (uRole == 'Participant'){
         event = await provider.getEventDetailsByUserEventId(id);
       }else{
