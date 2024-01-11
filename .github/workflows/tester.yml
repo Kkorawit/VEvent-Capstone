@@ -16,11 +16,13 @@ jobs:
     - name: Shutdown Container
       run: | 
         docker system prune -a
-        docker compose -f docker/docker-compose.yml --env-file docker/.env.qa down 
+        docker volume prune
+        docker images prune
+        docker compose -f docker/docker-compose-qa.yml down 
         docker compose -f reverse_proxy/docker-compose-proxy.yml down
         
     - name: Build Container
       run: |
-        docker compose -f docker/docker-compose.yml --env-file docker/.env.qa up -d --build
+        docker compose -f docker/docker-compose-qa.yml --env-file docker/.env.qa up -d --build
         docker compose -f reverse_proxy/docker-compose-proxy.yml up -d --build
 

@@ -45,7 +45,7 @@ public class GPSController {
         RestTemplate restTemplate = new RestTemplate();
         Optional<Event> event = eventRepo.findById(eid);
         UsersEvent usersEvent = userEventRepo.findByEmailAndId(uEmail,eid);
-
+        System.out.println("eid: " + eid);
 
         if(event.get().getLocationLatitude() == null || event.get().getLocationLongitude() == null){
             return ResponseEntity.badRequest().body("This Event Don't Registered The Event Location");
@@ -76,40 +76,15 @@ public class GPSController {
 //        System.out.println(distanceValue);
     }
 
-    @RequestMapping("/either")
-    private static Either<String, Integer> computeWithEither(@RequestParam(name = "marks") int marks) {
-        if (marks < 85) {
-            System.out.println("left");
-            return Either.left("Marks not acceptable");
-        } else {
-            System.out.println("right");
-            return Either.right(marks);
-        }
-    }
-
     @RequestMapping("/distance")
     public ResponseEntity findDisplacement(@RequestBody LatLngDTO location, @RequestParam(name = "eid")Integer eid, @RequestParam(name = "uemail")String uEmail){
         Optional<Event> event = eventRepo.findById(eid);
         UsersEvent usersEvent = userEventRepo.findByEmailAndId(uEmail,eid);
-//        double lat1 = 13.6495877; //บ้าน ธรรมรักษา2
-//        double lat2 = 13.6524898; //SIT KMUTT
-//        double lon1 = 100.4919303;
-//        double lon2 = 100.4910494;
-
-//        double dLat = Math.toRadians((lat2-lat1));
-//        double dLong = Math.toRadians((lon2-lon1));
-//
-//        double startLat = Math.toRadians(lat1);
-//        double endLat = Math.toRadians(lat2);
-//        System.out.println("before service");
-//        double a = service.calHaversine(dLat) + Math.cos(startLat) * Math.cos(endLat) * service.calHaversine(dLong);
-//        double c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-//
-//        System.out.println(EARTH_RADIUS*c);
-//        return ResponseEntity.ok().body(EARTH_RADIUS*c);
-        System.out.println(usersEvent);
+        System.out.println("userevent: "+usersEvent);
+        System.out.println("eid: "+eid);
         HashMap<String, Object> response = new HashMap<>();
 //        HashMap<String,HttpStatus> HttpStatusaa = new HashMap<>();
+        System.out.printf("event status: "+ event.get().getEventStatus());
         switch (event.get().getEventStatus()){
             case "ON":
                 if (usersEvent != null && !usersEvent.getStatus().equals("S") && !usersEvent.getStatus().equals("P")) {
@@ -122,8 +97,12 @@ public class GPSController {
                     System.out.println("before service");
                     double haversine = service.calHaversine(dLat) + Math.cos(startLat) * Math.cos(endLat) * service.calHaversine(dLong);
                     response = calDisplacementWithHaversine(haversine);
+                    System.out.println("out from cal displacement with haversine: " + response);
 
-                    if (response.get("Status").equals("Success")) {
+                    if (response.isEmpty()){
+                        return ResponseEntity.ofNullable("it's null");
+                    }
+                    if (response.get("VStatus").equals("Success")) {
                         usersEvent.setStatus("S");
                         userEventRepo.save(usersEvent);
                     } else {
@@ -150,7 +129,7 @@ public class GPSController {
 
             default:
                 response.put("VStatus","This Event Validation Closed");
-                response.put("Displacement",null);
+                response.put("Displacement","");
                 response.put("HTTP_Status", HttpStatus.BAD_REQUEST.value());
 
         }
@@ -158,19 +137,25 @@ public class GPSController {
     }
 
     private static HashMap<String, Object> calDisplacementWithHaversine(double hav) {
+        System.out.println("On cal displacement");
+        System.out.println("hav: " + hav);
         final double EARTH_RADIUS = 6371;
         double c = 2 * Math.atan2(Math.sqrt(hav),Math.sqrt(1- hav));
         BigDecimal bigDecimal = new BigDecimal(EARTH_RADIUS*c);
         BigDecimal displacementInDecimal = bigDecimal.setScale(5,RoundingMode.HALF_UP);
         double displacementInDouble = displacementInDecimal.toBigInteger().doubleValue();
-
+        System.out.println("In double: "+displacementInDouble);
+        System.out.println("In Decimal: "+displacementInDecimal);
         HashMap<String, Object> response = new HashMap<>();
 
         if(displacementInDouble>0.5) {
+            System.out.println("failed");
             response.put("VStatus", "Failed");
             response.put("Displacement",displacementInDouble+"km");
             response.put("HTTP_Status",HttpStatus.OK.value());
+            System.out.println("out from status failed");
         }else{
+            System.out.println("pass");
             response.put("VStatus", "Success");
             response.put("Displacement",displacementInDouble+"km");
             response.put("HTTP_Status",HttpStatus.OK.value());

@@ -1,0 +1,36 @@
+version: "3.2"
+services: 
+          qa-db-vevent:
+                  container_name : ${ENV}-db-vevent
+                  environment : 
+                      - MYSQL_ROOT_PASSWORD=cp23-qa-db-Vevent
+                      - TZ=Asia/Bangkok
+                  image : mysql
+                  networks:
+                      - networkENV
+                  # ports:
+                  #     - 3306:3306
+                  volumes :
+                      - ../vevent_MySQL/Create_Script.sql:/docker-entrypoint-initdb.d/Create_Script.sql
+                      - ../vevent_MySQL/Insert_Script.sql:/docker-entrypoint-initdb.d/Insert_Script.sql
+                      - ../vevent_MySQL/my.cnf:/etc/mysql/conf.d/custom.cnf
+                  restart : always
+                  command : --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-time-zone=+07:00
+
+          qa-app-vevent:
+                  container_name: ${ENV}-app-vevent
+                  build: ../vevent_spring
+                  image: ${ENV}-app-image
+                  networks:
+                      - networkENV
+                  # ports:
+                  #     - 8080:8080
+                  restart: always
+                  environment:
+                      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+                      - BASE_URL=${ENV}
+                
+networks:
+  networkENV:
+    external:
+      name: capstone-${NETWORK_URL}-vevent
