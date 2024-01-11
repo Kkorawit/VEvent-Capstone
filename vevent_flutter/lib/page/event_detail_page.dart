@@ -22,8 +22,9 @@ class EventDetailPage extends StatefulWidget {
   late String organizer;
   late String organizerProfile;
   final String uEventId;
+  final String uRole;
 
-  EventDetailPage({required this.uEventId});
+  EventDetailPage({required this.uEventId, required this.uRole});
 
 
   @override
@@ -33,7 +34,7 @@ class EventDetailPage extends StatefulWidget {
 class _EventDetailPageState extends State<EventDetailPage> {
   @override
   void initState() {
-    context.read<EventDetailBloc>().add(getEventDetail(uEventId: widget.uEventId));
+    context.read<EventDetailBloc>().add(getEventDetail(id: widget.uEventId, uRole: widget.uRole ));
     super.initState();
   }
 
@@ -88,19 +89,21 @@ class _EventDetailPageState extends State<EventDetailPage> {
                       backgroundColor: state.validateRes.vStatus == "Success"
                           ? Colors.green
                           : Colors.red,
-                      content: Row(children: [
-                        Text(state.validateRes.vStatus),
-                        SizedBox(
-                          width: 16,
-                        ),
-                        Text(
-                            "The distance between your current location and the event location is ${state.validateRes.displacement}")
+                      content: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(state.validateRes.vStatus, style: TextStyle(fontWeight: FontWeight.bold)),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          Text(
+                              "The distance between your current location and the event location is ${state.validateRes.displacement}")
                       ]),
                     ));
 
                     await Future.delayed(Duration(seconds: 1));
                     //อาจมีปัญหาเรื่องลำดับการแสดงผลถ้ามีก็อาจเปลี่ยน snackbar เป็น alert dialog ดูก่อน
-                    context.read<EventDetailBloc>().add(getEventDetail(uEventId: widget.uEventId));
+                    context.read<EventDetailBloc>().add(getEventDetail(id: widget.uEventId, uRole: widget.uRole ));
                     // Navigator.of(context).pop();
                   } else {
                     // snackBarColor = Colors.yellow;
@@ -262,51 +265,6 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                     eventId: widget.eventId,
                                     eventStatus: widget.eventStatus,
                                     validateStatus: widget.validateStatus)
-                                //                     BlocBuilder<ValidationBloc, ValidationState>(
-                                //                       builder: (context, state) {
-                                //                         if (state is ValidationInitial) {
-                                //                           return ElevatedButton(
-                                //                               onPressed: () => context
-                                //                                   .read<ValidationBloc>()
-                                //                                   .add(validateGPS(
-                                //                                       uEmail: widget.uEmail,
-                                //                                       eId: widget.eventId)),
-                                //                               child: Text("Confirm Validation"));
-                                //                         }
-                                //                         if (state is ValidationLoadingState) {
-                                //                           return ElevatedButton.icon(
-                                //                             onPressed: null,
-                                //                             icon: SizedBox(
-                                //                               width: 16,
-                                //                               height: 16,
-                                //                               child: CircularProgressIndicator(
-                                //                                   strokeWidth: 2,
-                                //                                   color: Colors.white),
-                                //                             ),
-                                //                             label: Padding(
-                                //                               padding: EdgeInsets.only(left: 6),
-                                //                               child: Text("Loading...",
-                                //                                   style: TextStyle(
-                                //                                       color: Colors.white)),
-                                //                             ),
-                                //                             style: ButtonStyle(
-                                //                               backgroundColor:
-                                //                                   MaterialStatePropertyAll(
-                                //                                       Color.fromARGB(
-                                //                                           100, 69, 32, 204)),
-                                //                             ),
-                                //                           );
-                                //                         } else {
-                                //                           return ElevatedButton(
-                                //                               onPressed: () => context
-                                //                                   .read<ValidationBloc>()
-                                //                                   .add(validateGPS(
-                                //                                       uEmail: widget.uEmail,
-                                //                                       eId: widget.eventId)),
-                                //                               child: Text("Confirm Validation"));
-                                //                         }
-                                //                       },
-                                //                     )
                               ],
                             ),
                           ),

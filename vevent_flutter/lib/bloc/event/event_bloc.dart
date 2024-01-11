@@ -14,7 +14,7 @@ class EventBloc extends Bloc<EventEvent, EventState> {
       
       emit(EventLoadingState()); //emit(sth) โยน sth ออกไป
       try {
-        var events = await repository.getEventsByUserEmail(event.uEmail);
+        var events = await repository.getEventsByUserEmail(event.uEmail,event.uRole);
         print("In EventBloc showEventList => ${events}");
         emit(EventFinishState(events: events));
 

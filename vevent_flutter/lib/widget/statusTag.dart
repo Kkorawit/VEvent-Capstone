@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget StatusTag(String eStatus, double verSize, double horSize) {
+Widget StatusTag(String? status, double verSize, double horSize) {
   double ver;
   double hor;
 
@@ -12,7 +12,7 @@ Widget StatusTag(String eStatus, double verSize, double horSize) {
     hor = 8;
   }
 
-  if (eStatus == "P") {
+  if (status == "P") {
     // [P/Pending] mean event is pending
     return Container(
       padding: EdgeInsets.symmetric(vertical: ver, horizontal: hor),
@@ -30,7 +30,7 @@ Widget StatusTag(String eStatus, double verSize, double horSize) {
         ),
       ),
     );
-  } else if (eStatus == "S") {
+  } else if (status == "S") {
     // [S/Success] mean event is success
     return Container(
       padding: EdgeInsets.symmetric(vertical: ver, horizontal: hor),
@@ -48,7 +48,7 @@ Widget StatusTag(String eStatus, double verSize, double horSize) {
         ),
       ),
     );
-  } else if (eStatus == "IP") {
+  } else if (status == "IP") {
     // [IR/In review] mean event is in review
     return Container(
       padding: EdgeInsets.symmetric(vertical: ver, horizontal: hor),
@@ -66,7 +66,7 @@ Widget StatusTag(String eStatus, double verSize, double horSize) {
         ),
       ),
     );
-  } else if (eStatus == "F") {
+  } else if (status == "F") {
     // [F/Fail] mean event is fail
     return Container(
       padding: EdgeInsets.symmetric(vertical: ver, horizontal: hor),
