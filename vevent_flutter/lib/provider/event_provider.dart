@@ -1,6 +1,7 @@
 // import 'dart:math';
 
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:vevent_flutter/models/app_environment.dart';
 
 class EventProvider {
   // --------------------------Get all events / List of events--------------------------
@@ -8,7 +9,7 @@ class EventProvider {
   Future<List<dynamic>> getEventsByParticipantEmail(String uEmail) async {
     try {
       HttpLink link =
-          HttpLink("https://capstone23.sit.kmutt.ac.th/kw1/dev/graphql");
+          HttpLink("${AppEnvironment.baseApiUrl}/graphql");
       GraphQLClient qlClient = GraphQLClient(
         link: link,
         cache: GraphQLCache(
@@ -78,7 +79,7 @@ class EventProvider {
     // Read from DB or make network request etc...
     try {
       HttpLink link =
-          HttpLink("https://capstone23.sit.kmutt.ac.th/kw1/dev/graphql");
+          HttpLink("${AppEnvironment.baseApiUrl}/graphql");
       GraphQLClient qlClient = GraphQLClient(
         link: link,
         cache: GraphQLCache(
@@ -146,7 +147,7 @@ class EventProvider {
   Future<Map> getEventDetailsByUserEventId(String uEventId) async {
     try {
       HttpLink link =
-          HttpLink("https://capstone23.sit.kmutt.ac.th/kw1/dev/graphql");
+          HttpLink("${AppEnvironment.baseApiUrl}/graphql");
       GraphQLClient qlClient = GraphQLClient(
         link: link,
         cache: GraphQLCache(
@@ -214,7 +215,7 @@ class EventProvider {
   Future<Map> getEventDetailsByEventId(String id) async {
     try {
       HttpLink link =
-          HttpLink("https://capstone23.sit.kmutt.ac.th/kw1/dev/graphql");
+          HttpLink("${AppEnvironment.baseApiUrl}/graphql");
       GraphQLClient qlClient = GraphQLClient(
         link: link,
         cache: GraphQLCache(

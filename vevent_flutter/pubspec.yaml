@@ -81,6 +81,9 @@ flutter:
   assets:
     - assets/images/
     - .env
+    - .env.dev
+    - .env.qa
+    - .env.prod
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
