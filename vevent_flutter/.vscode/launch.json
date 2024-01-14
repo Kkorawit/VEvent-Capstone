@@ -4,10 +4,34 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        // { กรณีมี main.dart file เดียว
+        //     "name": "vevent_flutter",
+        //     "request": "launch",
+        //     "type": "dart"
+        // },
         {
-            "name": "vevent_flutter",
+            "name": "vevent_flutter_local",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "program": "lib/main.dart"
+        },
+        {
+            "name": "vevent_flutter_dev",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_dev.dart"
+        },
+        {
+            "name": "vevent_flutter_qa",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_qa.dart"
+        },
+        {
+            "name": "vevent_flutter_prod",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_prod.dart"
         },
         {
             "name": "vevent_flutter (profile mode)",
@@ -23,3 +47,4 @@
         }
     ]
 }
+

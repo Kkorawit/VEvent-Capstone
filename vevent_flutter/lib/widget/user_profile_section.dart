@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/user/user_bloc.dart';
+import 'package:vevent_flutter/widget/image.dart';
 
 class ProfileSection extends StatefulWidget {
   late String organizer;
@@ -70,11 +71,11 @@ class _ProfileSectionState extends State<ProfileSection> {
   }
 }
 
-Widget getProfileImage(img) {
-  print("this is owner profile = " + img);
-  if (img == "") {
-    return const CircularProgressIndicator();
-  } else {
-    return Image.network(img);
-  }
-}
+// Widget getProfileImage(img) {
+//   print("this is owner profile = " + img);
+//   if (img == "") {
+//     return const CircularProgressIndicator();
+//   } else {
+//     return Image.network(img);
+//   }
+// }
