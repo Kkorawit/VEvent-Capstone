@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:vevent_flutter/bloc/event_detail/event_detail_bloc.dart';
 import 'package:vevent_flutter/bloc/user/user_bloc.dart';
 import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
+import 'package:vevent_flutter/models/app_environment.dart';
 import 'package:vevent_flutter/provider/event_provider.dart';
 import 'package:vevent_flutter/provider/user_provider.dart';
 import 'package:vevent_flutter/provider/validation_provider.dart';
@@ -79,6 +81,10 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               Text(
                 "กิจกรรมของฉัน",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
+              Text(
+                AppEnvironment.baseApiUrl,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               SizedBox(

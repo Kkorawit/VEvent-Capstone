@@ -1,10 +1,11 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:vevent_flutter/models/app_environment.dart';
 
 class UserProvider {
   Future<Map> getUserByUserEmail(String uEmail) async {
     try {
       HttpLink link =
-          HttpLink("https://capstone23.sit.kmutt.ac.th/kw1/dev/graphql");
+          HttpLink("${AppEnvironment.baseApiUrl}/graphql");
       GraphQLClient qlClient = GraphQLClient(
         link: link,
         cache: GraphQLCache(
