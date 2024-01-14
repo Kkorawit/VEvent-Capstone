@@ -8,16 +8,18 @@ part 'event_detail_state.dart';
 class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
   final EventRepository repository;
   EventDetailBloc(this.repository) : super(EventDetailInitial()) {
-    on<getEventDetail>((event, emit) async{
+    on<getEventDetail>((event, emit) async {
       emit(EventDetailInitial());
-      try{
-        Map eventRes = await repository.getEventDetailsByUserEventId(event.id, event.uRole);
+      try {
+        Map eventRes = await repository.getEventDetailsByUserEventId(
+            event.id, event.uRole);
         print("In EventBloc getEventDetails => ${eventRes}");
         emit(EventDetailFinishState(event: eventRes));
-
-      }catch (e){
+      } catch (e) {
         emit(EventDetailErrorState(e.toString()));
       }
     });
   }
+
+  read() {}
 }

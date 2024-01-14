@@ -43,7 +43,7 @@ class EventProvider {
                       locationName
                       locationLatitude
                       locationLongitude
-                      description
+                      descriptionuEmail
                       validate_times
                       eventStatus
                   }

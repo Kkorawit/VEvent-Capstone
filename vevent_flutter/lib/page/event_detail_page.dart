@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/event_detail/event_detail_bloc.dart';
+import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
 import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
 import 'package:vevent_flutter/dateTimeFormat.dart';
 import 'package:vevent_flutter/widget/participant_section.dart';
@@ -39,18 +40,21 @@ class _EventDetailPageState extends State<EventDetailPage> {
     context
         .read<EventDetailBloc>()
         .add(getEventDetail(id: widget.uEventId, uRole: widget.uRole));
+
     super.initState();
   }
 
   Widget actionSection(String uRole) {
-    if(uRole == "Participant"){
+    if (uRole == "Participant") {
       return ValidateButton(
           uEmail: widget.uEmail,
           eventId: widget.eventId,
           eventStatus: widget.eventStatus,
           validateStatus: widget.validateStatus!);
-    }else{
-      return const ParticipantSection();
+    } else {
+      return ParticipantSection(
+        eventId: widget.eventId,
+      );
     }
   }
 
@@ -65,33 +69,34 @@ class _EventDetailPageState extends State<EventDetailPage> {
             body: Center(child: CircularProgressIndicator()),
           );
         } else if (state is EventDetailFinishState) {
-            if(widget.uRole == "Participant"){
-          widget.eventId = "${state.event["event"]["id"]}";
-          widget.uEmail = "${state.event["user"]["userEmail"]}";
-          widget.title = "${state.event["event"]["title"]}";
-          widget.startDate = dateTimeFormat("${state.event["event"]["startDate"]}");
-          widget.location = "${state.event["event"]["locationName"]}";
-          widget.category = "${state.event["event"]["category"]}";
-          widget.createBy = "${state.event["event"]["createBy"]}";
-          widget.eventStatus = "${state.event["event"]["eventStatus"]}";
-          widget.description = "${state.event["event"]["description"]}";
-          widget.imagePath = "${state.event["event"]["posterImg"]}";
-          widget.validateStatus = "${state.event["status"]}";
-          widget.status = "${state.event["status"]}";
-            }else{
-              widget.eventId = "${state.event["id"]}";
-          widget.uEmail = "${state.event["createBy"]}";
-          widget.title = "${state.event["title"]}";
-          widget.startDate = dateTimeFormat("${state.event["startDate"]}");
-          widget.location = "${state.event["locationName"]}";
-          widget.category = "${state.event["category"]}";
-          widget.createBy = "${state.event["createBy"]}";
-          widget.eventStatus = "${state.event["eventStatus"]}";
-          widget.description = "${state.event["description"]}";
-          widget.imagePath = "${state.event["posterImg"]}";
-          widget.validateStatus = null;
-          widget.status = "${state.event["eventStatus"]}";
-            }
+          if (widget.uRole == "Participant") {
+            widget.eventId = "${state.event["event"]["id"]}";
+            widget.uEmail = "${state.event["user"]["userEmail"]}";
+            widget.title = "${state.event["event"]["title"]}";
+            widget.startDate =
+                dateTimeFormat("${state.event["event"]["startDate"]}");
+            widget.location = "${state.event["event"]["locationName"]}";
+            widget.category = "${state.event["event"]["category"]}";
+            widget.createBy = "${state.event["event"]["createBy"]}";
+            widget.eventStatus = "${state.event["event"]["eventStatus"]}";
+            widget.description = "${state.event["event"]["description"]}";
+            widget.imagePath = "${state.event["event"]["posterImg"]}";
+            widget.validateStatus = "${state.event["status"]}";
+            widget.status = "${state.event["status"]}";
+          } else {
+            widget.eventId = "${state.event["id"]}";
+            widget.uEmail = "${state.event["createBy"]}";
+            widget.title = "${state.event["title"]}";
+            widget.startDate = dateTimeFormat("${state.event["startDate"]}");
+            widget.location = "${state.event["locationName"]}";
+            widget.category = "${state.event["category"]}";
+            widget.createBy = "${state.event["createBy"]}";
+            widget.eventStatus = "${state.event["eventStatus"]}";
+            widget.description = "${state.event["description"]}";
+            widget.imagePath = "${state.event["posterImg"]}";
+            widget.validateStatus = null;
+            widget.status = "${state.event["eventStatus"]}";
+          }
 
           // context.read<UserBloc>().add(getUser(uEmail: widget.createBy));
 
@@ -201,8 +206,8 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                       ProfileSection(
                                           organizerEmail: widget.createBy),
                                       Container(
-                                          child: StatusTag(
-                                              widget.status, 6, 16)),
+                                          child:
+                                              StatusTag(widget.status, 6, 16)),
                                     ],
                                   ),
                                 ),
@@ -295,9 +300,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                 SizedBox(
                                   height: 32,
                                 ),
-                                Container(
-                                  child: actionSection(widget.uRole)
-                                )
+                                Container(child: actionSection(widget.uRole))
                               ],
                             ),
                           ),
