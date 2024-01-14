@@ -9,21 +9,19 @@ Widget getProfileImage(img) {
   }
 }
 
-Widget getEventImage(img) {
+Widget getEventImage(img)  {
   if (img == null) {
     return Image.asset(
       "assets/images/poster.png",
       fit: BoxFit.cover,
     );
   } else {
-    // return Image.asset(
-    //   "assets/images/poster.png",
-    //   fit: BoxFit.cover,
-    // );
-    return Image.network(
-      img,
-      fit: BoxFit.fitHeight,
-    );
+  try{
+    return Image.network(img, fit: BoxFit.fitHeight,);
+  }catch(e){
+    print(e.toString());
+    return const CircularProgressIndicator();
+  }
   }
 }
 

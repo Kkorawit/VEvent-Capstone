@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:vevent_flutter/models/app_environment.dart';
 import 'package:vevent_flutter/validation_response.dart';
 
 class ValidationProvider {
@@ -10,7 +11,7 @@ class ValidationProvider {
     try {
       res = await http.post(
           Uri.parse(
-              "https://capstone23.sit.kmutt.ac.th/kw1/dev/api/distance?eid=${eId}&uemail=${uEmail}"),
+              "${AppEnvironment.baseApiUrl}/api/distance?eid=${eId}&uemail=${uEmail}"),
           body: jsonEncode(
             {"flat": lat, "flong": long},
           ),
