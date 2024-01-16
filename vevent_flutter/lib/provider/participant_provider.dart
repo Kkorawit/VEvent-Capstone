@@ -1,12 +1,12 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:vevent_flutter/models/app_environment.dart';
 
 class ParticipantProvider {
   //  สำหรับดึง participant ที่เข้าร่วม event นั้นๆ
   Future<List<dynamic>> getParticipantByEventID(String eid) async {
     // Read from DB or make network request etc...
     try {
-      HttpLink link =
-          HttpLink("https://capstone23.sit.kmutt.ac.th/kw1/dev/graphql");
+      HttpLink link = HttpLink("${AppEnvironment.baseApiUrl}/graphql");
       GraphQLClient qlClient = GraphQLClient(
         link: link,
         cache: GraphQLCache(
@@ -18,13 +18,16 @@ class ParticipantProvider {
           fetchPolicy: FetchPolicy.networkOnly,
           document: gql(
             """
-          query FindAllParticipantsByEventId {
+ query FindAllParticipantsByEventId {
     findAllParticipantsByEventId(eid: "${eid}") {
+        user_event_id
         status
         doneTimes
         user {
             username
+            password
             userEmail
+            role
             name
             surName
             profileImg
@@ -40,7 +43,7 @@ class ParticipantProvider {
         ),
       );
 
-      var participants = queryResult.data?['FindAllParticipantsByEventId'];
+      var participants = queryResult.data?['findAllParticipantsByEventId'];
       print(participants);
 
       if (participants == null) {

@@ -72,6 +72,8 @@ INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("claudine.05@example.com",15,"S",0);
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("claudine.05@example.com",28,"S",0);
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("claudine.05@example.com",30,"F",0);
+
+
 -- -----------------------------------------------------
 INSERT INTO history_log VALUES(1,"create","users","register","2023-11-05 10:20:48","joel-de.10@example.com");
 INSERT INTO history_log VALUES(2,"update","events","edit-document","2023-12-13 15:16:12","organization-01@example.com");

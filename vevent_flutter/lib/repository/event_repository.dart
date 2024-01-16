@@ -6,29 +6,31 @@ class EventRepository {
 
   EventRepository({required this.provider});
 
-    Future<List<dynamic>> getEventsByUserEmail(String uEmail, String uRole) async {
-      final List events;
-      print("in event repository");
-      print("${uEmail} : ${uRole}");
-      if (uRole == 'Participant'){
-        events = await provider.getEventsByParticipantEmail(uEmail); 
-      }else{
-        events = await provider.getEventsByOrganizerEmail(uEmail);
-      }
-        return events;
+  Future<List<dynamic>> getEventsByUserEmail(
+      String uEmail, String uRole) async {
+    final List events;
+    print("in event repository");
+    print("${uEmail} : ${uRole}");
+    if (uRole == 'Participant') {
+      events = await provider.getEventsByParticipantEmail(uEmail);
+    } else {
+      events = await provider.getEventsByOrganizerEmail(uEmail);
     }
+    return events;
+  }
 
-    Future<Map> getEventDetailsByUserEventId(String id, String uRole) async {
-        final Map event ;
-        print("in event repository");
-        print("${id} : ${uRole}");
-      if (uRole == 'Participant'){
-        event = await provider.getEventDetailsByUserEventId(id);
-      }else{
-        event = await provider.getEventDetailsByEventId(id);
-      }
-        return event;
+  Future<Map> getEventDetailsByUserEventId(String id, String uRole) async {
+    final Map event;
+    print("in event repository");
+    print("${id} : ${uRole}");
+    if (uRole == 'Participant') {
+      event = await provider.getEventDetailsByUserEventId(id);
+    } else {
+      event = await provider.getEventDetailsByEventId(id);
     }
+    print(event);
+    return event;
+  }
 
-    // filter method is here
+  // filter method is here
 }

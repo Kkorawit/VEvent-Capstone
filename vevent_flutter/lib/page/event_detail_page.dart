@@ -52,6 +52,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
           eventStatus: widget.eventStatus,
           validateStatus: widget.validateStatus!);
     } else {
+      print(widget.eventId);
       return ParticipantSection(
         eventId: widget.eventId,
       );

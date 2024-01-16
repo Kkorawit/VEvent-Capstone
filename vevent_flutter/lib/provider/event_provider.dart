@@ -8,8 +8,7 @@ class EventProvider {
 
   Future<List<dynamic>> getEventsByParticipantEmail(String uEmail) async {
     try {
-      HttpLink link =
-          HttpLink("${AppEnvironment.baseApiUrl}/graphql");
+      HttpLink link = HttpLink("${AppEnvironment.baseApiUrl}/graphql");
       GraphQLClient qlClient = GraphQLClient(
         link: link,
         cache: GraphQLCache(
@@ -77,9 +76,10 @@ class EventProvider {
 // findAllEventCreateByUEmail สำหรับดึง event ที่ user คนนั้นๆ สร้างไว้
   Future<List<dynamic>> getEventsByOrganizerEmail(String uEmail) async {
     // Read from DB or make network request etc...
+    print("start func");
+    print(uEmail);
     try {
-      HttpLink link =
-          HttpLink("${AppEnvironment.baseApiUrl}/graphql");
+      HttpLink link = HttpLink("${AppEnvironment.baseApiUrl}/graphql");
       GraphQLClient qlClient = GraphQLClient(
         link: link,
         cache: GraphQLCache(
@@ -128,6 +128,7 @@ class EventProvider {
       );
 
       var events = queryResult.data?['findAllEventCreatedByUEmail'];
+      print("ดึง event ที่ organiz สร้างขึ้น");
       print(events);
 
       if (events == null) {
@@ -146,8 +147,7 @@ class EventProvider {
 
   Future<Map> getEventDetailsByUserEventId(String uEventId) async {
     try {
-      HttpLink link =
-          HttpLink("${AppEnvironment.baseApiUrl}/graphql");
+      HttpLink link = HttpLink("${AppEnvironment.baseApiUrl}/graphql");
       GraphQLClient qlClient = GraphQLClient(
         link: link,
         cache: GraphQLCache(
@@ -214,8 +214,7 @@ class EventProvider {
 
   Future<Map> getEventDetailsByEventId(String id) async {
     try {
-      HttpLink link =
-          HttpLink("${AppEnvironment.baseApiUrl}/graphql");
+      HttpLink link = HttpLink("${AppEnvironment.baseApiUrl}/graphql");
       GraphQLClient qlClient = GraphQLClient(
         link: link,
         cache: GraphQLCache(
