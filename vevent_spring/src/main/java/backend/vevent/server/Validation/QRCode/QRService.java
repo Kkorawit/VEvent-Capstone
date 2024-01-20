@@ -17,25 +17,32 @@ public class QRService {
     public boolean QrTimeCheck(Instant qrStart,Integer duration,Instant currentDateTime){
 
         Boolean isInTime = false;
+        System.out.println("isBefore: "+currentDateTime.isBefore(qrStart));
+        System.out.println("isAfter: "+currentDateTime.isAfter(qrStart.plus(duration, ChronoUnit.MINUTES)));
+        System.out.println("plus duration: "+qrStart.plus(duration, ChronoUnit.MINUTES));
+//        System.out.println("current: "+currentDateTime<qrStart);
+//        currentDateTime>qrStart+duration
 
         if (currentDateTime.isBefore(qrStart) || currentDateTime.isAfter(qrStart.plus(duration, ChronoUnit.MINUTES))){
+            System.out.println("validate false");
             isInTime = false;
         }else if (currentDateTime.isAfter(qrStart)&&currentDateTime.isBefore(qrStart.plus(duration,ChronoUnit.MINUTES))){
+            System.out.println("validate true");
             isInTime = true;
         }
         return isInTime;
     }
 
-    public String EventTimeCheck(Integer eid,Instant currentDateTime){
+    public String EventTimeCheck(Integer eid,Instant qrStart,Integer duration){
 
         Event event = eventRepo.findEventById(eid);
         String timeStatus = null;
 
-        if (currentDateTime.isBefore(event.getStartDate())){
+        if (qrStart.isBefore(event.getStartDate())){
             timeStatus = "This Event Haven't Start Yet";
-        } else if (currentDateTime.isAfter(event.getEndDate())) {
+        } else if (qrStart.isAfter(event.getEndDate())) {
             timeStatus = "This Event Ended";
-        } else if (currentDateTime.isBefore(event.getEndDate())&& currentDateTime.isAfter(event.getStartDate())) {
+        } else if (qrStart.isBefore(event.getEndDate())&& qrStart.isAfter(event.getStartDate())) {
             timeStatus = "During the Activity";
         }
         return timeStatus;

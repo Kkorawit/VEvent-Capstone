@@ -20,22 +20,22 @@ public class QRController {
     private QRService qrService;
 
     @PostMapping("/qrcode")
-    public ResponseEntity validateQRCode(@RequestParam(value = "eid")Integer eid,
+    public ResponseEntity validateQRCode(@RequestParam(value = "ueid")Integer ueid,
                                          @RequestParam(value = "QRstart")Instant qrstart,
                                          @RequestParam(value = "duration",defaultValue = "5")Integer duration,
-                                         @RequestParam(value = "currentDateTime",defaultValue = "null")Instant currentDateTime){
+                                         @RequestParam(value = "currentDateTime",defaultValue = "null")Instant currentDateTime,
+                                         @RequestParam(value = "lat",defaultValue = "null")long lat,
+                                         @RequestParam(value = "long",defaultValue = "null")long lng){
 
         boolean isInTime = qrService.QrTimeCheck(qrstart,duration,currentDateTime);
-        String EventTimeStatus = qrService.EventTimeCheck(eid, currentDateTime);
-        if (isInTime && EventTimeStatus.equals("During the Activity")){
+        System.out.println(isInTime);
+//        String EventTimeStatus = qrService.EventTimeCheck(eid, qrstart,duration);
+        if (isInTime){
             return ResponseEntity.ok().body("Validate Success");
-        }else {
-            return ResponseEntity.badRequest().body(EventTimeStatus);
+        } else {
+            return ResponseEntity.badRequest().body("Validate Failed: This QRCode is Expired");
         }
 
     }
-
-
-
 
 }
