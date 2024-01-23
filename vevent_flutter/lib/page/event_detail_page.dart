@@ -100,7 +100,6 @@ class _EventDetailPageState extends State<EventDetailPage> {
           }
 
           // context.read<UserBloc>().add(getUser(uEmail: widget.createBy));
-
           print("in BlocListener => state is ${state}");
           return Scaffold(
             appBar: AppBar(

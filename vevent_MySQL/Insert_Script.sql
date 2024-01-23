@@ -73,10 +73,29 @@ INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("claudine.05@example.com",28,"S",0);
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("claudine.05@example.com",30,"F",0);
 
+-- test list participants-
+-- event 1
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("anne04@example.com",1,"S",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("joel-de.10@example.com",1,"P",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("genie_n09@example.com",1,"S",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("danyel.ca08@example.com",1,"F",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("bendjyg07@example.com",1,"S",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("florian(06)@example.com",1,"F",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("claudine.05@example.com",1,"S",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("laure-ca03@example.com",1,"S",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("louis_gi01@example.com",1,"S",0);
+-- event 2
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("anne04@example.com",2,"S",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("joel-de.10@example.com",2,"P",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("genie_n09@example.com",2,"S",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("danyel.ca08@example.com",2,"F",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("bendjyg07@example.com",2,"S",0);
+
 
 -- -----------------------------------------------------
 INSERT INTO history_log VALUES(1,"create","users","register","2023-11-05 10:20:48","joel-de.10@example.com");
 INSERT INTO history_log VALUES(2,"update","events","edit-document","2023-12-13 15:16:12","organization-01@example.com");
 INSERT INTO history_log VALUES(3,"delete","events","delete-event","2023-12-19 08:46:17","organization-02@example.com");
 
-select * from events;
+use vevent;
+select * from users_events;

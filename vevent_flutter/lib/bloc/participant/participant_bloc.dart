@@ -11,7 +11,8 @@ class ParticipantBloc extends Bloc<ParticipantEvent, ParticipantState> {
     on<showParticipant>((event, emit) async {
       emit(ParticipantLoadingState());
       try {
-        var participants = await repository.getParticipantByEventID(event.id);
+        List<dynamic> participants =
+            await repository.getParticipantByEventID(event.id);
         emit(ParticipantFinishState(participants: participants));
       } catch (e) {
         emit(ParticipantErrorState(e.toString()));

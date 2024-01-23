@@ -16,10 +16,11 @@ class ProfileSection extends StatefulWidget {
 
 class _ProfileSectionState extends State<ProfileSection> {
   @override
-    void initState(){
-      context.read<UserBloc>().add(getUser(uEmail: widget.organizerEmail));
-      super.initState();
-    }
+  void initState() {
+    context.read<UserBloc>().add(getUser(uEmail: widget.organizerEmail));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(

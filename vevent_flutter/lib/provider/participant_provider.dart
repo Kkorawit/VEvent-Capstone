@@ -44,7 +44,7 @@ class ParticipantProvider {
       );
 
       var participants = queryResult.data?['findAllParticipantsByEventId'];
-      print(participants);
+      print("get value from provider${participants}");
 
       if (participants == null) {
         print("queryResult.data is null");
