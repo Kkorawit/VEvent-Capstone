@@ -5,10 +5,10 @@ import 'package:vevent_flutter/page/event_detail_page.dart';
 import 'package:vevent_flutter/widget/custom_card.dart';
 
 class MyEventsSection extends StatefulWidget {
-  // String uEmail = "Laure-CA03@example.com";
-  String uEmail = "organization-01@example.com";
-  // String uRole = "Participant";
-  String uRole = "Organization";
+  String uEmail = "Laure-CA03@example.com";
+  // String uEmail = "organization-01@example.com";
+  String uRole = "Participant";
+  // String uRole = "Organization";
 
   // MyEventsSection({super.key});
 

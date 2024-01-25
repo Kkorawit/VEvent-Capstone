@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/event_detail/event_detail_bloc.dart';
 import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
 import 'package:vevent_flutter/dateTimeFormat.dart';
+import 'package:vevent_flutter/widget/gen_qrcode.dart';
 import 'package:vevent_flutter/widget/participant_section.dart';
+import 'package:vevent_flutter/widget/scan_qrcode_btn.dart';
 import 'package:vevent_flutter/widget/user_profile_section.dart';
 import 'package:vevent_flutter/widget/validate_btn.dart';
 import '../widget/statusTag.dart';
@@ -26,6 +28,7 @@ class EventDetailPage extends StatefulWidget {
   late String organizerProfile;
   final String uEventId;
   final String uRole;
+  late String validationType;
 
   EventDetailPage({required this.uEventId, required this.uRole});
 
@@ -42,15 +45,34 @@ class _EventDetailPageState extends State<EventDetailPage> {
     super.initState();
   }
 
-  Widget actionSection(String uRole) {
-    if(uRole == "Participant"){
-      return ValidateButton(
+  Widget actionSection(String uRole, String validationType) {
+    if (uRole == "Participant") {
+        return ValidateButton(
           uEmail: widget.uEmail,
+          uEventId: widget.uEventId,
           eventId: widget.eventId,
           eventStatus: widget.eventStatus,
-          validateStatus: widget.validateStatus!);
-    }else{
-      return const ParticipantSection();
+          validateStatus: widget.validateStatus!,
+          validationType: widget.validationType,
+        );
+      
+    } else {
+      if (validationType.contains("QR_code")) {
+        return Column(
+          children: [
+            GenerateQRCodeSection(eventID: widget.eventId),
+            SizedBox(
+              height: 24,
+            ),
+            ParticipantSection()
+          ],
+        );
+      }else{
+        return ParticipantSection();
+      }
+      // return GenerateQRCodeSection(
+      //     uEventId: widget.eventId); //ลบออกเมื่อมี test data
+      // return ParticipantSection();
     }
   }
 
@@ -65,33 +87,36 @@ class _EventDetailPageState extends State<EventDetailPage> {
             body: Center(child: CircularProgressIndicator()),
           );
         } else if (state is EventDetailFinishState) {
-            if(widget.uRole == "Participant"){
-          widget.eventId = "${state.event["event"]["id"]}";
-          widget.uEmail = "${state.event["user"]["userEmail"]}";
-          widget.title = "${state.event["event"]["title"]}";
-          widget.startDate = dateTimeFormat("${state.event["event"]["startDate"]}");
-          widget.location = "${state.event["event"]["locationName"]}";
-          widget.category = "${state.event["event"]["category"]}";
-          widget.createBy = "${state.event["event"]["createBy"]}";
-          widget.eventStatus = "${state.event["event"]["eventStatus"]}";
-          widget.description = "${state.event["event"]["description"]}";
-          widget.imagePath = "${state.event["event"]["posterImg"]}";
-          widget.validateStatus = "${state.event["status"]}";
-          widget.status = "${state.event["status"]}";
-            }else{
-              widget.eventId = "${state.event["id"]}";
-          widget.uEmail = "${state.event["createBy"]}";
-          widget.title = "${state.event["title"]}";
-          widget.startDate = dateTimeFormat("${state.event["startDate"]}");
-          widget.location = "${state.event["locationName"]}";
-          widget.category = "${state.event["category"]}";
-          widget.createBy = "${state.event["createBy"]}";
-          widget.eventStatus = "${state.event["eventStatus"]}";
-          widget.description = "${state.event["description"]}";
-          widget.imagePath = "${state.event["posterImg"]}";
-          widget.validateStatus = null;
-          widget.status = "${state.event["eventStatus"]}";
-            }
+          if (widget.uRole == "Participant") {
+            widget.eventId = "${state.event["event"]["id"]}";
+            widget.uEmail = "${state.event["user"]["userEmail"]}";
+            widget.title = "${state.event["event"]["title"]}";
+            widget.startDate =
+                dateTimeFormat("${state.event["event"]["startDate"]}");
+            widget.location = "${state.event["event"]["locationName"]}";
+            widget.category = "${state.event["event"]["category"]}";
+            widget.createBy = "${state.event["event"]["createBy"]}";
+            widget.eventStatus = "${state.event["event"]["eventStatus"]}";
+            widget.description = "${state.event["event"]["description"]}";
+            widget.imagePath = "${state.event["event"]["posterImg"]}";
+            widget.validateStatus = "${state.event["status"]}";
+            widget.status = "${state.event["status"]}";
+            widget.validationType = "${state.event["event"]["validationType"]}";
+          } else {
+            widget.eventId = "${state.event["id"]}";
+            widget.uEmail = "${state.event["createBy"]}";
+            widget.title = "${state.event["title"]}";
+            widget.startDate = dateTimeFormat("${state.event["startDate"]}");
+            widget.location = "${state.event["locationName"]}";
+            widget.category = "${state.event["category"]}";
+            widget.createBy = "${state.event["createBy"]}";
+            widget.eventStatus = "${state.event["eventStatus"]}";
+            widget.description = "${state.event["description"]}";
+            widget.imagePath = "${state.event["posterImg"]}";
+            widget.validateStatus = null;
+            widget.status = "${state.event["eventStatus"]}";
+            widget.validationType = "${state.event["validationType"]}";
+          }
 
           // context.read<UserBloc>().add(getUser(uEmail: widget.createBy));
 
@@ -201,8 +226,8 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                       ProfileSection(
                                           organizerEmail: widget.createBy),
                                       Container(
-                                          child: StatusTag(
-                                              widget.status, 6, 16)),
+                                          child:
+                                              StatusTag(widget.status, 6, 16)),
                                     ],
                                   ),
                                 ),
@@ -296,8 +321,8 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                   height: 32,
                                 ),
                                 Container(
-                                  child: actionSection(widget.uRole)
-                                )
+                                    child: actionSection(
+                                        widget.uRole, widget.validationType))
                               ],
                             ),
                           ),

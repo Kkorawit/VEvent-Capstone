@@ -1,6 +1,9 @@
-import 'dart:io';
+// import 'dart:io';
 // import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
 import 'package:vevent_flutter/provider/validation_provider.dart';
 import 'package:vevent_flutter/validation_response.dart';
 // import 'package:http/http.dart' as http;
@@ -129,4 +132,28 @@ class ValidationRepository {
 
     return true;
   }
+
+  Future<void> scanQR() async {
+    late String qrRes = "Response from qr code is here";
+    try {
+      String res = await FlutterBarcodeScanner.scanBarcode(
+          "#ff6666", "Cancel", true, ScanMode.QR);
+      // if(!mounted)return;
+        qrRes = res;
+    } on PlatformException {
+      qrRes = "Fail to read qr code";
+    }
+  }
+
+  Future<http.Response> validateQRCode(String uEventId, String qrData, String currentDateTime) async{
+    List<String> data = qrData.split(";");
+    print(data[0]);
+    print(uEventId);
+    // print(data[1]);
+    print(data[2]);
+    print(currentDateTime);  
+    http.Response res = await provider.validateQRCode(uEventId,data[0],data[2],currentDateTime);
+    return res;
+  }
+  
 }

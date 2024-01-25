@@ -1,19 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
+import 'package:vevent_flutter/widget/gps_btn.dart';
+import 'package:vevent_flutter/widget/scan_qrcode_btn.dart';
 
 class ValidateButton extends StatefulWidget {
   final String uEmail;
+  final String uEventId;
   final String eventId;
   final String eventStatus;
   final String validateStatus;
+  final String validationType;
+  late String qrRes;
 
-  const ValidateButton(
-      {super.key,
-      required this.uEmail,
-      required this.eventId,
-      required this.eventStatus,
-      required this.validateStatus});
+  ValidateButton({
+    super.key,
+    required this.uEmail,
+    required this.uEventId,
+    required this.eventId,
+    required this.eventStatus,
+    required this.validateStatus,
+    required this.validationType,
+  });
 
   @override
   State<ValidateButton> createState() => _ValidateButtonState();
@@ -25,45 +35,39 @@ class _ValidateButtonState extends State<ValidateButton> {
   //   context.read<ValidationBloc>().close();
   //   super.initState();
   // }
+
+  Future<void> scanQR() async {
+    try {
+      String res = await FlutterBarcodeScanner.scanBarcode(
+          "#ff6666", "Cancel", true, ScanMode.QR);
+      if (!mounted) return;
+      setState(() {
+        widget.qrRes = res;
+      });
+    } on PlatformException {
+      widget.qrRes = "Fail to read qr code";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.eventStatus == "ON") {
       if (widget.validateStatus == "IP" || widget.validateStatus == "F") {
-        return BlocBuilder<ValidationBloc, ValidationState>(
-          builder: (context, state) {
-            if (state is ValidationInitial) {
-              return ElevatedButton(
-                  onPressed: () => context.read<ValidationBloc>().add(
-                      validateGPS(uEmail: widget.uEmail, eId: widget.eventId)),
-                  child: Text("Confirm Validation"));
-            }
-            if (state is ValidationLoadingState) {
-              return ElevatedButton.icon(
-                onPressed: null,
-                icon: SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(
-                      strokeWidth: 2, color: Colors.white),
-                ),
-                label: Padding(
-                  padding: EdgeInsets.only(left: 6),
-                  child:
-                      Text("Loading...", style: TextStyle(color: Colors.white)),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(
-                      Color.fromARGB(100, 69, 32, 204)),
-                ),
-              );
-            } else {
-              return ElevatedButton(
-                  onPressed: () => context.read<ValidationBloc>().add(
-                      validateGPS(uEmail: widget.uEmail, eId: widget.eventId)),
-                  child: Text("Confirm Validation"));
-            }
-          },
-        );
+        if (widget.validationType.contains("QR_CODE")) {
+          return ScanQRCodeBtn(
+              uEmail: widget.uEmail,
+              uEventId: widget.uEventId,
+              eventStatus: widget.eventStatus,
+              validateStatus: widget.validateStatus,
+              validationType: widget.validationType);
+        } else {
+          return GPSBtn(
+              uEmail: widget.uEmail,
+              eventId: widget.eventId,
+              eventStatus: widget.eventStatus,
+              validateStatus: widget.validateStatus,
+              validationType: widget.validationType);
+        }
       } else if (widget.validateStatus == "S") {
         return ElevatedButton(
             onPressed: null, child: Text("Confirm Validation"));

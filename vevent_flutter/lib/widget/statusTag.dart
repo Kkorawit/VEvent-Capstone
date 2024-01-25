@@ -19,7 +19,7 @@ Widget StatusTag(String? status, double verSize, double horSize) {
     case "P" || "UP":
       bgColor = Color.fromARGB(100, 230, 230, 230);
       fColor = Color.fromARGB(100, 111, 111, 111);
-      status == "P" ? tagLabel = "Fail" : tagLabel = "Cancel";
+      // status == "P" ? tagLabel = "Fail" : tagLabel = "Cancel";
       status == "P" ? tagLabel = "Pending" : tagLabel = "Upcoming";
       break;
     case "S" || "CO":

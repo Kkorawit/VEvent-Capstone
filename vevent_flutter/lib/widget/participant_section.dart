@@ -14,6 +14,9 @@ class _ParticipantSectionState extends State<ParticipantSection> {
     return Column(
       children: [
         Text("Participant"),
+        TextButton(onPressed: (){
+          
+        }, child: Text("see more")),
         Container(
           height: MediaQuery.of(context).size.height * 0.3,
           child: ListView.builder(
