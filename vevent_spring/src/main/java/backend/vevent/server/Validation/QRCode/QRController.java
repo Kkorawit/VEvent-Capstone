@@ -52,6 +52,8 @@ public class QRController {
                     userEventRepo.save(usersEvent);
                     return ResponseEntity.ok().body("Validate Success");
                 } else {
+                    usersEvent.setStatus("F");
+                    userEventRepo.save(usersEvent);
                     return ResponseEntity.badRequest().body("Validate Failed: This QRCode is Expired");
                 }
             }else{
