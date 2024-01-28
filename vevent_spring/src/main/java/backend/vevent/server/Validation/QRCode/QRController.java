@@ -1,6 +1,10 @@
 package backend.vevent.server.Validation.QRCode;
 
 
+import backend.vevent.server.Entity.Event;
+import backend.vevent.server.Entity.UsersEvent;
+import backend.vevent.server.Repo.EventRepo;
+import backend.vevent.server.Repo.UserEventRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -19,6 +24,12 @@ public class QRController {
     @Autowired
     private QRService qrService;
 
+    @Autowired
+    private UserEventRepo userEventRepo;
+
+    @Autowired
+    private EventRepo eventRepo;
+
     @PostMapping("/qrcode")
     public ResponseEntity validateQRCode(@RequestParam(value = "ueid")Integer ueid,
                                          @RequestParam(value = "QRstart")Instant qrstart,
@@ -27,15 +38,25 @@ public class QRController {
                                          @RequestParam(name = "lat",value = "lat",required = false)Long lat,
                                          @RequestParam(name = "long",value = "long",required = false)Long lng){
 
+        Optional<UsersEvent> usersEvent = userEventRepo.findUsersEventById(ueid);
         boolean isInTime = qrService.QrTimeCheck(qrstart,duration,currentDateTime);
         System.out.println(isInTime);
 //        String EventTimeStatus = qrService.EventTimeCheck(eid, qrstart,duration);
-        if (isInTime){
-            return ResponseEntity.ok().body("Validate Success");
-        } else {
-            return ResponseEntity.badRequest().body("Validate Failed: This QRCode is Expired");
+        if(usersEvent.isPresent()){
+            Event event = eventRepo.findEventById(usersEvent.get().getEvent().getId());
+
+            if(usersEvent.get().getStatus().equals("IP") && event.getEventStatus().equals("ON")) {
+
+                if (isInTime) {
+                    usersEvent.get().setStatus("S");
+                    return ResponseEntity.ok().body("Validate Success");
+                } else {
+                    return ResponseEntity.badRequest().body("Validate Failed: This QRCode is Expired");
+                }
+            }else{
+                return ResponseEntity.badRequest().body("Can't Validate This Event Now");
+            }
         }
-
+        return ResponseEntity.notFound().build();
     }
-
 }
