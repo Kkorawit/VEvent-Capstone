@@ -24,8 +24,8 @@ public class QRController {
                                          @RequestParam(value = "QRstart")Instant qrstart,
                                          @RequestParam(value = "duration",defaultValue = "5")Integer duration,
                                          @RequestParam(value = "currentDateTime",defaultValue = "null")Instant currentDateTime,
-                                         @RequestParam(value = "lat",defaultValue = "null")long lat,
-                                         @RequestParam(value = "long",defaultValue = "null")long lng){
+                                         @RequestParam(name = "lat",value = "lat",required = false)Long lat,
+                                         @RequestParam(name = "long",value = "long",required = false)Long lng){
 
         boolean isInTime = qrService.QrTimeCheck(qrstart,duration,currentDateTime);
         System.out.println(isInTime);
