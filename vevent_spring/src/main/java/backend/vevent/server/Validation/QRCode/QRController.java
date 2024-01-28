@@ -38,17 +38,18 @@ public class QRController {
                                          @RequestParam(name = "lat",value = "lat",required = false)Long lat,
                                          @RequestParam(name = "long",value = "long",required = false)Long lng){
 
-        Optional<UsersEvent> usersEvent = userEventRepo.findUsersEventById(ueid);
+        UsersEvent usersEvent = userEventRepo.findUsersEventById(ueid);
         boolean isInTime = qrService.QrTimeCheck(qrstart,duration,currentDateTime);
         System.out.println(isInTime);
 //        String EventTimeStatus = qrService.EventTimeCheck(eid, qrstart,duration);
-        if(usersEvent.isPresent()){
-            Event event = eventRepo.findEventById(usersEvent.get().getEvent().getId());
+        if(usersEvent != null){
+            Event event = eventRepo.findEventById(usersEvent.getEvent().getId());
 
-            if(usersEvent.get().getStatus().equals("IP") && event.getEventStatus().equals("ON")) {
+            if(usersEvent.getStatus().equals("IP") && event.getEventStatus().equals("ON")) {
 
                 if (isInTime) {
-                    usersEvent.get().setStatus("S");
+                    usersEvent.setStatus("S");
+                    userEventRepo.save(usersEvent);
                     return ResponseEntity.ok().body("Validate Success");
                 } else {
                     return ResponseEntity.badRequest().body("Validate Failed: This QRCode is Expired");

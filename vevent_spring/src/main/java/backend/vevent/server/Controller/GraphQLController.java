@@ -65,8 +65,8 @@ public class GraphQLController {
     }
 
     @QueryMapping
-    public Optional<UsersEvent> findEventDetailsByUserEventId(@Argument Integer id){
-        Optional<UsersEvent> usersEvent = userEventRepo.findUsersEventById(id);
+    public UsersEvent findEventDetailsByUserEventId(@Argument Integer id){
+        UsersEvent usersEvent = userEventRepo.findUsersEventById(id);
         return usersEvent;
     }
 
