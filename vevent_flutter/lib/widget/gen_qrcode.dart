@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vevent_flutter/page/qr_code_page.dart';
 
+// ignore: must_be_immutable
 class GenerateQRCodeSection extends StatefulWidget {
   // late String qrData;
   late String qrStart = DateTime.now().toUtc().toIso8601String();

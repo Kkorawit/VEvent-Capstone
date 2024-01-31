@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
 
+// ignore: must_be_immutable
 class GPSBtn extends StatefulWidget {
   final String uEmail;
   final String eventId;

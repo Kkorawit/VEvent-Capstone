@@ -1,10 +1,11 @@
 import 'dart:async';
-
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:vevent_flutter/models/app_environment.dart';
+// import 'package:vevent_flutter/models/app_environment.dart';
 
+// ignore: must_be_immutable
 class QRCodePage extends StatefulWidget {
   late String qrData;
   final String qrStart;

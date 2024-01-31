@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
+// import 'dart:ui';
 import 'package:http/http.dart' as http;
 import 'package:vevent_flutter/models/app_environment.dart';
 import 'package:vevent_flutter/validation_response.dart';
@@ -45,16 +45,18 @@ class ValidationProvider {
       String duration, String currentDateTime) async {
     http.Response res;
     // {{host}}/local/api/qrcode?QRstart=2024-01-20T15:25:54.378693Z&eid=30&duration=15&currentDateTime=2024-01-20T15:27:54.378693
+    // https://capstone23.sit.kmutt.ac.th/kw1/api/qrcode?QRstart=2024-01-20T15:25:54.378693Z&eid=30&duration=15&currentDateTime=2024-01-20T15:27:54.378693Z
+    print("${AppEnvironment.baseApiUrl}/api/qrcode?QRstart=${qrStart}&ueid=${uEventId}&duration=${duration}&currentDateTime=${currentDateTime}");
     try {
       res = await http.post(
           Uri.parse(
-              "${AppEnvironment.baseApiUrl}/api/qrcode?QRstart=${qrStart}&euid=${uEventId}&duration=${duration}&currentDateTime=${currentDateTime}"),
+              "${AppEnvironment.baseApiUrl}/api/qrcode?QRstart=${qrStart}&ueid=${uEventId}&duration=${duration}&currentDateTime=${currentDateTime}"),
           headers: {
             "Accept": "application/json",
             "content-type": "application/json"
           });
 
-      print("In Provider");
+      print("In QR Validate Provider");
       print(res.body);
       print(res.statusCode);
 

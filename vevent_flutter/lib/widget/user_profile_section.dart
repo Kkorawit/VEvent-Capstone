@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/user/user_bloc.dart';
 import 'package:vevent_flutter/widget/image.dart';
 
+// ignore: must_be_immutable
 class ProfileSection extends StatefulWidget {
   late String organizer;
   late String organizerImg;

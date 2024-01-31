@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:vevent_flutter/page/event_detail_page.dart';
 import 'package:vevent_flutter/widget/custom_card.dart';
+import 'dart:ui';
 
+// ignore: must_be_immutable
 class MyEventsSection extends StatefulWidget {
   String uEmail = "Laure-CA03@example.com";
   // String uEmail = "organization-01@example.com";
@@ -105,6 +107,8 @@ class _MyEventsSectionState extends State<MyEventsSection> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              if(state is EventErrorState)
+              Text(state.message),
               Image(
                 image: AssetImage("assets/images/text_logo.png"),
                 height: 100,

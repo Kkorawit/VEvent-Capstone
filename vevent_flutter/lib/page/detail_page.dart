@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:vevent_flutter/bloc/event_detail/event_detail_bloc.dart';
 import 'package:vevent_flutter/bloc/qrcode/qrcode_bloc.dart';
 import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
@@ -130,13 +129,6 @@ class _EventDetailPageState extends State<EventDetailPage> {
                 widget.title,
                 style: TextStyle(fontSize: 24),
               ),
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  context.read<EventBloc>().add(showEventList(uEmail: widget.uEmail, uRole: widget.uRole));
-                  Navigator.of(context).pop();
-                },
-              ),
             ),
             body: MultiBlocListener(
               listeners: [
@@ -200,7 +192,6 @@ class _EventDetailPageState extends State<EventDetailPage> {
                     await Future.delayed(Duration(seconds: 1));
                     context.read<EventDetailBloc>().add(getEventDetail(
                         id: widget.uEventId, uRole: widget.uRole));
-                    // Navigator.of(context).pop();
                   }
                   if (state is QrcodeErrorState) {
                     ScaffoldMessenger.of(context)

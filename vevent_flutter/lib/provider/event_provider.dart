@@ -7,6 +7,7 @@ class EventProvider {
   // --------------------------Get all events / List of events--------------------------
 
   Future<List<dynamic>> getEventsByParticipantEmail(String uEmail) async {
+    print(uEmail);
     try {
       HttpLink link =
           HttpLink("${AppEnvironment.baseApiUrl}/graphql");
@@ -22,7 +23,7 @@ class EventProvider {
           document: gql(
             """
           query FindAllRegisEventsByUEmail {
-              findAllRegisEventsByUEmail (uEmail: "${uEmail}") {
+              findAllRegisEventsByUEmail (uEmail: "$uEmail") {
                   user_event_id
                   status
                   doneTimes
@@ -54,7 +55,7 @@ class EventProvider {
           """, // let's see query string
           ),
           variables: {
-            "uEmail": "${uEmail}",
+            "uEmail": "$uEmail",
           },
         ),
       );
@@ -77,6 +78,7 @@ class EventProvider {
 // findAllEventCreateByUEmail สำหรับดึง event ที่ user คนนั้นๆ สร้างไว้
   Future<List<dynamic>> getEventsByOrganizerEmail(String uEmail) async {
     // Read from DB or make network request etc...
+      print(uEmail);
     try {
       HttpLink link =
           HttpLink("${AppEnvironment.baseApiUrl}/graphql");
@@ -92,7 +94,7 @@ class EventProvider {
           document: gql(
             """
           query FindAllEventCreatedByUEmail {
-              findAllEventCreatedByUEmail (uEmail: "${uEmail}") {
+               findAllEventCreatedByUEmail (uEmail: "$uEmail") {
                 id
                 title
                 eventDescription
@@ -122,7 +124,7 @@ class EventProvider {
           """, // let's see query string
           ),
           variables: {
-            "uEmail": "${uEmail}",
+            "uEmail": "$uEmail",
           },
         ),
       );

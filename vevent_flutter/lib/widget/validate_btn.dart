@@ -6,6 +6,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:vevent_flutter/widget/gps_btn.dart';
 import 'package:vevent_flutter/widget/scan_qrcode_btn.dart';
 
+// ignore: must_be_immutable
 class ValidateButton extends StatefulWidget {
   final String uEmail;
   final String uEventId;
@@ -70,7 +71,7 @@ class _ValidateButtonState extends State<ValidateButton> {
         }
       } else if (widget.validateStatus == "S") {
         return ElevatedButton(
-            onPressed: null, child: Text("Confirm Validation"));
+            onPressed: null, child: Text(widget.validationType.contains("QR_CODE")?"Scan QR Code":"Confirm Validation"));
       } else {
         return Container();
       }

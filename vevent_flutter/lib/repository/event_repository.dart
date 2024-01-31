@@ -1,4 +1,5 @@
 // import 'package:vevent_flutter/bloc/event/event_bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:vevent_flutter/provider/event_provider.dart';
 
 class EventRepository {
@@ -8,11 +9,14 @@ class EventRepository {
 
     Future<List<dynamic>> getEventsByUserEmail(String uEmail, String uRole) async {
       final List events;
+      if(kDebugMode){
       print("in event repository");
-      print("${uEmail} : ${uRole}");
+      print(uEmail +" : "+ uRole);
+      }
       if (uRole == 'Participant'){
         events = await provider.getEventsByParticipantEmail(uEmail); 
       }else{
+        print("here");
         events = await provider.getEventsByOrganizerEmail(uEmail);
       }
         return events;

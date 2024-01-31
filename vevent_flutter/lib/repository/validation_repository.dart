@@ -147,12 +147,14 @@ class ValidationRepository {
 
   Future<http.Response> validateQRCode(String uEventId, String qrData, String currentDateTime) async{
     List<String> data = qrData.split(";");
-    print(data[0]);
-    print(uEventId);
+    String qrStart = data[0];
+    String duration = data[2];
+    // print(data[0]);
+    // print(uEventId);
     // print(data[1]);
-    print(data[2]);
-    print(currentDateTime);  
-    http.Response res = await provider.validateQRCode(uEventId,data[0],data[2],currentDateTime);
+    // print(data[2]);
+    // print(currentDateTime);  
+    http.Response res = await provider.validateQRCode(uEventId,qrStart,duration,currentDateTime);
     return res;
   }
   
