@@ -30,23 +30,23 @@ class _GPSBtnState extends State<GPSBtn> {
                       validateGPS(uEmail: widget.uEmail, eId: widget.eventId));
                     // ElevatedButton(onPressed: scanQR, child: Text("Scan QR Code"));
                   },
-                  child: Text("Confirm Validation"));
+                  child: const Text("Confirm Validation"));
             }
             if (state is ValidationLoadingState) {
               return ElevatedButton.icon(
                 onPressed: null,
-                icon: SizedBox(
+                icon: const SizedBox(
                   width: 16,
                   height: 16,
                   child: CircularProgressIndicator(
                       strokeWidth: 2, color: Colors.white),
                 ),
-                label: Padding(
+                label: const Padding(
                   padding: EdgeInsets.only(left: 6),
                   child:
                       Text("Loading...", style: TextStyle(color: Colors.white)),
                 ),
-                style: ButtonStyle(
+                style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(
                       Color.fromARGB(100, 69, 32, 204)),
                 ),
@@ -55,7 +55,7 @@ class _GPSBtnState extends State<GPSBtn> {
               return ElevatedButton(
                   onPressed: () => context.read<ValidationBloc>().add(
                       validateGPS(uEmail: widget.uEmail, eId: widget.eventId)),
-                  child: Text("Confirm Validation"));
+                  child: const Text("Confirm Validation"));
             }
           },
         );

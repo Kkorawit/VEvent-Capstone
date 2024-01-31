@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:vevent_flutter/models/app_environment.dart';
 
@@ -18,7 +19,7 @@ class UserProvider {
           document: gql(
             """
                   query FindUserByEmail {
-                          findUserByEmail(uEmail:"${uEmail}") {
+                          findUserByEmail(uEmail:"$uEmail") {
                               username
                               password
                               userEmail
@@ -31,22 +32,22 @@ class UserProvider {
                   """, // let's see query string
           ),
           variables: {
-            "uEmail": "${uEmail}",
+            "uEmail": uEmail,
           },
         ),
       );
 
       var user = queryResult.data?['findUserByEmail'];
-      print(user);
+      debugPrint(user);
 
       if (user == null) {
-        print("queryResult.data is null");
+        debugPrint("queryResult.data is null");
         throw Exception("user is not found");
       }
 
       return user;
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       throw Exception("User api is fail !!");
     }
   }

@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
+// import 'dart:ui';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:vevent_flutter/bloc/event_detail/event_detail_bloc.dart';
 import 'package:vevent_flutter/bloc/qrcode/qrcode_bloc.dart';
+// import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
 import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
-import 'package:vevent_flutter/dateTimeFormat.dart';
+import 'package:vevent_flutter/date_time_format.dart';
 import 'package:vevent_flutter/widget/gen_qrcode.dart';
 import 'package:vevent_flutter/widget/participant_section.dart';
 // ignore: unused_import
 import 'package:vevent_flutter/widget/scan_qrcode_btn.dart';
 import 'package:vevent_flutter/widget/user_profile_section.dart';
 import 'package:vevent_flutter/widget/validate_btn.dart';
-import '../widget/statusTag.dart';
+import '../widget/status_tag.dart';
 
 // ignore: must_be_immutable
 class EventDetailPage extends StatefulWidget {
@@ -34,7 +35,7 @@ class EventDetailPage extends StatefulWidget {
   final String uRole;
   late String validationType;
 
-  EventDetailPage({required this.uEventId, required this.uRole});
+  EventDetailPage({super.key, required this.uEventId, required this.uRole});
 
   @override
   State<EventDetailPage> createState() => _EventDetailPageState();
@@ -46,6 +47,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
     context
         .read<EventDetailBloc>()
         .add(getEventDetail(id: widget.uEventId, uRole: widget.uRole));
+
     super.initState();
   }
 
@@ -64,18 +66,19 @@ class _EventDetailPageState extends State<EventDetailPage> {
         return Column(
           children: [
             GenerateQRCodeSection(eventID: widget.eventId),
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
-            ParticipantSection()
+            ParticipantSection(
+              eventId: widget.eventId,
+            )
           ],
         );
       } else {
-        return ParticipantSection();
+        return ParticipantSection(
+          eventId: widget.eventId,
+        );
       }
-      // return GenerateQRCodeSection(
-      //     uEventId: widget.eventId); //ลบออกเมื่อมี test data
-      // return ParticipantSection();
     }
   }
 
@@ -83,10 +86,10 @@ class _EventDetailPageState extends State<EventDetailPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<EventDetailBloc, EventDetailState>(
       builder: (context, state) {
-        print(state);
+        debugPrint("$state");
         if (state is EventDetailLoadingState || state is EventDetailInitial) {
-          print(state);
-          return Scaffold(
+          debugPrint("$state");
+          return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
         } else if (state is EventDetailFinishState) {
@@ -122,16 +125,15 @@ class _EventDetailPageState extends State<EventDetailPage> {
           }
 
           // context.read<UserBloc>().add(getUser(uEmail: widget.createBy));
-
-          print("in BlocListener => state is ${state}");
+          debugPrint("in BlocListener => state is $state");
           return Scaffold(
             appBar: AppBar(
               title: Text(
                 widget.title,
-                style: TextStyle(fontSize: 24),
+                style: const TextStyle(fontSize: 24),
               ),
               leading: IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon: const Icon(Icons.arrow_back),
                 onPressed: () {
                   context.read<EventBloc>().add(showEventList(uEmail: widget.uEmail, uRole: widget.uRole));
                   Navigator.of(context).pop();
@@ -153,15 +155,15 @@ class _EventDetailPageState extends State<EventDetailPage> {
                             children: [
                               Text(state.validateRes.vStatus,
                                   style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                              SizedBox(
+                                      const TextStyle(fontWeight: FontWeight.bold)),
+                              const SizedBox(
                                 height: 4,
                               ),
                               Text(
                                   "The distance between your current location and the event location is ${state.validateRes.displacement}")
                             ]),
                       ));
-                      await Future.delayed(Duration(seconds: 1));
+                      await Future.delayed(const Duration(seconds: 1));
                       //อาจมีปัญหาเรื่องลำดับการแสดงผลถ้ามีก็อาจเปลี่ยน snackbar เป็น alert dialog ดูก่อน
                       context.read<EventDetailBloc>().add(getEventDetail(
                           id: widget.uEventId, uRole: widget.uRole));
@@ -174,13 +176,13 @@ class _EventDetailPageState extends State<EventDetailPage> {
                           Text(state.validateRes.vStatus),
                         ]),
                       ));
-                      await Future.delayed(Duration(seconds: 2));
+                      await Future.delayed(const Duration(seconds: 2));
                       Navigator.of(context).pop();
                     }
                   }
                   if (state is ValidationErrorState) {
                     ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text(state.message)));
+.showSnackBar(SnackBar(content: Text(state.message)));
                   }
                 }),
                 BlocListener<QrcodeBloc, QrcodeState>(
@@ -197,7 +199,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                         backgroundColor: Colors.red,
                       ));
                     }
-                    await Future.delayed(Duration(seconds: 1));
+                    await Future.delayed(const Duration(seconds: 1));
                     context.read<EventDetailBloc>().add(getEventDetail(
                         id: widget.uEventId, uRole: widget.uRole));
                     // Navigator.of(context).pop();
@@ -241,110 +243,99 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 16),
-                                Container(
-                                  // width: 204,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      ProfileSection(
-                                          organizerEmail: widget.createBy),
-                                      Container(
-                                          child:
-                                              StatusTag(widget.status, 6, 16)),
-                                    ],
-                                  ),
+                                const SizedBox(height: 16),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                  children: [
+                                    ProfileSection(
+                                        organizerEmail: widget.createBy),
+                                    Container(
+                                        child:
+                                            StatusTag(widget.status, 6, 16)),
+                                  ],
                                 ),
-                                SizedBox(height: 16),
+                                const SizedBox(height: 16),
                                 Text(
                                   widget.title,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                SizedBox(height: 10),
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.calendar_month),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        widget.startDate,
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                    ],
-                                  ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.calendar_month),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      widget.startDate,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(height: 8),
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.location_on),
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                      Expanded(
-                                        child: Text(widget.location,
-                                            overflow: TextOverflow.ellipsis,
-                                            softWrap:
-                                                false, // ถ้าเกินให้ตัดด้วยจุดจุดจุด
-                                            maxLines: 1,
-                                            style: TextStyle(fontSize: 16)),
-                                      )
-                                    ],
-                                  ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.location_on),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Expanded(
+                                      child: Text(widget.location,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap:
+                                              false, // ถ้าเกินให้ตัดด้วยจุดจุดจุด
+                                          maxLines: 1,
+                                          style: const TextStyle(fontSize: 16)),
+                                    )
+                                  ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 8,
                                 ),
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.category),
-                                      SizedBox(
-                                        width: 4,
+                                Row(
+                                  children: [
+                                    const Icon(Icons.category),
+                                    const SizedBox(
+                                      width: 4,
+                                    ),
+                                    Container(
+                                      alignment: Alignment.centerRight,
+                                      margin: const EdgeInsets.only(left: 4),
+                                      child: Text(
+                                        widget.category,
+                                        style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500),
                                       ),
-                                      Container(
-                                        alignment: Alignment.centerRight,
-                                        margin: const EdgeInsets.only(left: 4),
-                                        child: Text(
-                                          widget.category,
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 32,
                                 ),
-                                Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "รายละเอียด",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        widget.description,
-                                        style: TextStyle(fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
+                                Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "รายละเอียด",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(
+                                      widget.description,
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 32,
                                 ),
                                 // GenerateQRCodeSection(eventID: widget.eventId),
@@ -361,10 +352,8 @@ class _EventDetailPageState extends State<EventDetailPage> {
             ),
           );
         } else {
-          print(state);
-          return Container(
-            child: Text("Event detail is not found"),
-          );
+          debugPrint("$state");
+          return const Text("Event detail is not found");
         }
       },
     );

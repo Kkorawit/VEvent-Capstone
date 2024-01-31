@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:vevent_flutter/models/app_environment.dart';
 
 class ParticipantProvider {
-  //  สำหรับดึง participant ที่เข้าร่วม event นั้นๆ
+  //  use to get all of participants that registered the event
   Future<List<dynamic>> getParticipantByEventID(String eid) async {
     // Read from DB or make network request etc...
     try {
@@ -19,7 +20,7 @@ class ParticipantProvider {
           document: gql(
             """
  query FindAllParticipantsByEventId {
-    findAllParticipantsByEventId(eid: "${eid}") {
+    findAllParticipantsByEventId(eid: "$eid") {
         user_event_id
         status
         doneTimes
@@ -38,21 +39,21 @@ class ParticipantProvider {
           """, // let's see query string
           ),
           variables: {
-            "eid": "${eid}",
+            "eid": eid,
           },
         ),
       );
 
       var participants = queryResult.data?['findAllParticipantsByEventId'];
-      print("get value from provider${participants}");
+      debugPrint("get value from provider $participants");
 
       if (participants == null) {
-        print("queryResult.data is null");
+        debugPrint("queryResult.data is null");
         throw Exception("participant in event list is null");
       }
       return participants;
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       throw Exception("Organizer Event api is fail !!");
     }
   }

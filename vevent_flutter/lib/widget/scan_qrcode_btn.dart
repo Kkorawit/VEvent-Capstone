@@ -52,12 +52,12 @@ class _ScanQRCodeBtnState extends State<ScanQRCodeBtn> {
         onPressed: () async {
           // String currentDateTime = await DateTime.now().toUtc().toIso8601String();
           // await scanQR();
-          print("In scan qrcode btn widget.qrRes => "+widget.qrRes);
+          debugPrint("In scan qrcode btn widget.qrRes => ${widget.qrRes}");
           context.read<QrcodeBloc>().add(qrcodeValidation(
               uEventId: widget.uEventId,
               qrData: "2024-01-28T06:16:45.055500Z;30;15",
               currentDateTime: "2024-01-28T06:18:45.055500Z"));
         },
-        child: Text("Scan QR Code"));
+        child: const Text("Scan QR Code"));
   }
 }

@@ -1,4 +1,4 @@
-import 'dart:ui';
+// import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -16,6 +16,7 @@ import 'package:vevent_flutter/provider/validation_provider.dart';
 import 'package:vevent_flutter/repository/event_repository.dart';
 import 'package:vevent_flutter/repository/participant_repository.dart';
 import 'package:vevent_flutter/repository/validation_repository.dart';
+import 'package:vevent_flutter/widget/filter_banner.dart';
 import 'package:vevent_flutter/widget/my_events_section.dart';
 import 'package:vevent_flutter/repository/user_repository.dart';
 import 'package:vevent_flutter/widget/search_box.dart';
@@ -24,6 +25,7 @@ import 'package:vevent_flutter/widget/sign_out_btn.dart';
 //   runApp(const VEventApp());
 // }
 
+// ignore: must_be_immutable
 class VEventApp extends StatelessWidget {
   const VEventApp({super.key});
 
@@ -83,10 +85,12 @@ class VEventApp extends StatelessWidget {
 }
 
 class AppBar extends StatelessWidget {
+  const AppBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
+      child: SizedBox(
         // color: Colors.red,
         height: MediaQuery.of(context).size.height * 0.2,
         child: Stack(
@@ -112,13 +116,12 @@ class AppBar extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                          child: Row(
+                      Row(
                         children: [
                           Container(
                             width: 48,
                             height: 48,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(16)),
                               image: DecorationImage(
@@ -126,23 +129,23 @@ class AppBar extends StatelessWidget {
                                       "assets/images/default_profile.png")),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 16,
                           ),
-                          Column(
+                          const Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text("Hi, Nattawat.18 (Username)",
-                                  style: TextStyle(color: Colors.white, fontSize: 16)),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16)),
                               Text("participants (Role)",
-                                  style: TextStyle(color: Colors.white, fontSize: 12))
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12))
                             ],
                           )
                         ],
-                      )
-                          // child: Image.asset("assets/images/default_profile.png", fit: BoxFit.fitHeight),
-                          ),
-                      SignOutBtn(),
+                      ),
+                      const SignOutBtn(),
                     ],
                   ),
 
@@ -162,17 +165,14 @@ class AppBar extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   alignment: Alignment.center,
                   height: 56,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(0, 1),
-                        blurRadius: 10,
-                        color: Color.fromRGBO(106, 77, 214, 0.5),
-
-                      )
-                    ]
-                  ),
-                  child: SearchBox()),
+                  decoration: const BoxDecoration(boxShadow: [
+                    BoxShadow(
+                      offset: Offset(0, 1),
+                      blurRadius: 10,
+                      color: Color.fromRGBO(106, 77, 214, 0.5),
+                    )
+                  ]),
+                  child: const SearchBox()),
             ),
           ],
         ),
@@ -189,53 +189,42 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  //การแสดงผล
+  // String uEmail = "Laure-CA03@example.com";
+  String uEmail = "organization-01@example.com";
+  // String uRole = "Participant";
+  String uRole = "Organization";
+
+  //display
   @override
   Widget build(BuildContext context) {
+    debugPrint(AppEnvironment.baseApiUrl);
     return Scaffold(
         body: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppBar(),
-        // SizedBox(height: 24,),
-        // Row(children: [
-        //   TextButton(onPressed: (){}, child: Text("All")),
-        //   TextButton(onPressed: (){}, child: Text("All")),
-        //   TextButton(onPressed: (){}, child: Text("All")),
-        // ],),
-        SizedBox(
+        const AppBar(),
+        const SizedBox(
           height: 24,
         ),
+       FilterBanner(),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
+          margin: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+          child: const Text(
             "กิจกรรมของฉัน",
             style: TextStyle(
                 fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
           ),
         ),
-        // Text(
-        //   AppEnvironment.baseApiUrl,
-        //   style:
-        //       const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-        // ),
-        const SizedBox(
-          height: 24,
-        ),
         Expanded(
           // height: MediaQuery.of(context).size.height * 0.4,
           // padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 56),
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
             child: Stack(
               alignment: Alignment.bottomCenter,
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  color: Colors.blue,
-                  // height: MediaQuery.of(context).size.height * 0.4,
-                  child: MyEventsSection(),
-                ),
+                MyEventsSection(uEmail: uEmail, uRole: uRole),
               ],
             ),
           ),

@@ -1,5 +1,6 @@
 // import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:vevent_flutter/models/app_environment.dart';
 
@@ -7,10 +8,12 @@ class EventProvider {
   // --------------------------Get all events / List of events--------------------------
 
   Future<List<dynamic>> getEventsByParticipantEmail(String uEmail) async {
-    print(uEmail);
+    if (kDebugMode) {
+      print("In getEventsByParticipantEmail provider");
+      print(uEmail);
+    }
     try {
-      HttpLink link =
-          HttpLink("${AppEnvironment.baseApiUrl}/graphql");
+      HttpLink link = HttpLink("${AppEnvironment.baseApiUrl}/graphql");
       GraphQLClient qlClient = GraphQLClient(
         link: link,
         cache: GraphQLCache(
@@ -45,7 +48,6 @@ class EventProvider {
                       locationName
                       locationLatitude
                       locationLongitude
-                      description
                       validate_times
                       eventStatus
                   }
@@ -55,22 +57,24 @@ class EventProvider {
           """, // let's see query string
           ),
           variables: {
-            "uEmail": "$uEmail",
+            "uEmail": uEmail,
           },
         ),
       );
 
+      debugPrint("$queryResult");
+
       var events = queryResult.data?['findAllRegisEventsByUEmail'];
-      print(events);
+      debugPrint(events);
 
       if (events == null) {
-        print("queryResult.data is null");
+        debugPrint("queryResult.data is null");
         throw Exception("participant event list is null");
       }
 
       return events;
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       throw Exception(" participant Event api is fail !!");
     }
   }
@@ -78,10 +82,12 @@ class EventProvider {
 // findAllEventCreateByUEmail สำหรับดึง event ที่ user คนนั้นๆ สร้างไว้
   Future<List<dynamic>> getEventsByOrganizerEmail(String uEmail) async {
     // Read from DB or make network request etc...
+    if (kDebugMode) {
+      print("start func");
       print(uEmail);
+    }
     try {
-      HttpLink link =
-          HttpLink("${AppEnvironment.baseApiUrl}/graphql");
+      HttpLink link = HttpLink("${AppEnvironment.baseApiUrl}/graphql");
       GraphQLClient qlClient = GraphQLClient(
         link: link,
         cache: GraphQLCache(
@@ -124,22 +130,25 @@ class EventProvider {
           """, // let's see query string
           ),
           variables: {
-            "uEmail": "$uEmail",
+            "uEmail": uEmail,
           },
         ),
       );
 
       var events = queryResult.data?['findAllEventCreatedByUEmail'];
-      print(events);
+      if (kDebugMode) {
+        print("get event that the organization are created");
+        print(events);
+      }
 
       if (events == null) {
-        print("queryResult.data is null");
+        debugPrint("queryResult.data is null");
         throw Exception("Organizer event list is null");
       }
 
       return events;
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       throw Exception("Organizer Event api is fail !!");
     }
   }
@@ -148,8 +157,7 @@ class EventProvider {
 
   Future<Map> getEventDetailsByUserEventId(String uEventId) async {
     try {
-      HttpLink link =
-          HttpLink("${AppEnvironment.baseApiUrl}/graphql");
+      HttpLink link = HttpLink("${AppEnvironment.baseApiUrl}/graphql");
       GraphQLClient qlClient = GraphQLClient(
         link: link,
         cache: GraphQLCache(
@@ -162,7 +170,7 @@ class EventProvider {
           document: gql(
             """
           query FindEventDetailsByUserEventId {
-              findEventDetailsByUserEventId (id: "${uEventId}") {
+              findEventDetailsByUserEventId (id: "$uEventId") {
                   user_event_id
                   status
                   doneTimes
@@ -193,31 +201,32 @@ class EventProvider {
           """, // let's see query string
           ),
           variables: {
-            "id": "${uEventId}",
+            "id": uEventId,
           },
         ),
       );
 
       var event = queryResult.data?['findEventDetailsByUserEventId'];
-      print("getEventDetailsByUserEventId is ON");
-      print("event detail -> ${event}");
+      if (kDebugMode) {
+        print("getEventDetailsByUserEventId is ON");
+        print("event detail -> $event");
+      }
 
       if (event == null) {
-        print("queryResult.data is null");
+        debugPrint("queryResult.data is null");
         throw Exception("event detail is null");
       }
 
       return event;
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       throw Exception("EventDetail api is fail !!");
     }
   }
 
   Future<Map> getEventDetailsByEventId(String id) async {
     try {
-      HttpLink link =
-          HttpLink("${AppEnvironment.baseApiUrl}/graphql");
+      HttpLink link = HttpLink("${AppEnvironment.baseApiUrl}/graphql");
       GraphQLClient qlClient = GraphQLClient(
         link: link,
         cache: GraphQLCache(
@@ -230,7 +239,7 @@ class EventProvider {
           document: gql(
             """
           query FindEventDetailsByEventId {
-              findEventDetailsByEventId (id: "${id}") {
+              findEventDetailsByEventId (id: "$id") {
                       id
                       title
                       amountReceived
@@ -253,23 +262,25 @@ class EventProvider {
           """, // let's see query string
           ),
           variables: {
-            "id": "${id}",
+            "id": id,
           },
         ),
       );
 
       var event = queryResult.data?['findEventDetailsByEventId'];
-      print("getEventDetailsByEventId is ON");
-      print("event detail -> ${event}");
+      if (kDebugMode) {
+        print("getEventDetailsByEventId is ON");
+        print("event detail -> $event");
+      }
 
       if (event == null) {
-        print("queryResult.data is null");
+        debugPrint("queryResult.data is null");
         throw Exception("event detail is null");
       }
 
       return event;
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       throw Exception("EventDetail api is fail !!");
     }
   }

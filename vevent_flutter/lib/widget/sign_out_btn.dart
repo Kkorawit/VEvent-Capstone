@@ -10,6 +10,6 @@ class SignOutBtn extends StatefulWidget {
 class _SignOutBtnState extends State<SignOutBtn> {
   @override
   Widget build(BuildContext context) {
-    return IconButton(onPressed: (){}, icon: Icon(Icons.logout, color: Colors.white), );
+    return IconButton(onPressed: (){}, icon: const Icon(Icons.logout, color: Colors.white), );
   }
 }

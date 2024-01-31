@@ -1,4 +1,3 @@
-// import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:vevent_flutter/provider/event_provider.dart';
 
@@ -7,32 +6,37 @@ class EventRepository {
 
   EventRepository({required this.provider});
 
-    Future<List<dynamic>> getEventsByUserEmail(String uEmail, String uRole) async {
-      final List events;
-      if(kDebugMode){
+  Future<List<dynamic>> getEventsByUserEmail(
+      String uEmail, String uRole) async {
+    final List events;
+    if (kDebugMode) {
       print("in event repository");
-      print(uEmail +" : "+ uRole);
-      }
-      if (uRole == 'Participant'){
-        events = await provider.getEventsByParticipantEmail(uEmail); 
-      }else{
-        print("here");
-        events = await provider.getEventsByOrganizerEmail(uEmail);
-      }
-        return events;
+      print("$uEmail : $uRole");
     }
-
-    Future<Map> getEventDetailsByUserEventId(String id, String uRole) async {
-        final Map event ;
-        print("in event repository");
-        print("${id} : ${uRole}");
-      if (uRole == 'Participant'){
-        event = await provider.getEventDetailsByUserEventId(id);
-      }else{
-        event = await provider.getEventDetailsByEventId(id);
-      }
-        return event;
+    if (uRole == 'Participant') {
+      debugPrint("hear if -> uRole == 'Participant");
+      events = await provider.getEventsByParticipantEmail(uEmail);
+    } else {
+      debugPrint("hear else -> uRole == Organization");
+      events = await provider.getEventsByOrganizerEmail(uEmail);
     }
+    return events;
+  }
 
-    // filter method is here
+  Future<Map> getEventDetailsByUserEventId(String id, String uRole) async {
+    final Map event;
+    if (kDebugMode) {
+      print("in event repository");
+      print("$id : $uRole");
+    }
+    if (uRole == 'Participant') {
+      event = await provider.getEventDetailsByUserEventId(id);
+    } else {
+      event = await provider.getEventDetailsByEventId(id);
+    }
+    debugPrint("$event");
+    return event;
+  }
+
+  // filter method is here
 }

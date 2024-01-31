@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 // import 'package:vevent_flutter/firebase_storage_client.dart';
-import 'package:vevent_flutter/dateTimeFormat.dart';
+import 'package:vevent_flutter/date_time_format.dart';
 import 'package:vevent_flutter/widget/image.dart';
-import 'statusTag.dart';
+import 'status_tag.dart';
 
 /// Flutter code sample for custom list items.
 class CustomCard extends StatelessWidget {
@@ -31,21 +31,21 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("imagePath => ${imagePath}");
-    var formattedDate = dateTimeFormat("${startDate}");
-    print(eventStatus);
+    debugPrint("imagePath => $imagePath");
+    var formattedDate = dateTimeFormat(startDate);
+    debugPrint(eventStatus);
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       margin: const EdgeInsets.symmetric(vertical: 12),
       elevation: 0,
-      child: Container(
+      child: SizedBox(
         width: 328,
         height: 120,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // รูปภาพทางซ้าย
-            Container(
+            // picture - poster left side
+            SizedBox(
               width: 100,
               height: 120,
               child: ClipRRect(
@@ -54,7 +54,7 @@ class CustomCard extends StatelessWidget {
                 child: getEventImage(imagePath),
               ),
             ),
-            // ข้อมูลทางขวา
+            // information right side
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8, 8, 8, 6),
@@ -63,46 +63,46 @@ class CustomCard extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
                       ),
                       overflow:
-                          TextOverflow.ellipsis, // ถ้าเกินให้ตัดด้วยจุดจุดจุด
+                          TextOverflow.ellipsis, // if num of text/alphabet is more it will cut to ...
                       maxLines: 1,
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     Row(children: [
-                      Icon(
+                      const Icon(
                         Icons.calendar_month,
                         size: 16,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 4,
                       ),
-                      Expanded(child: Text("${formattedDate}")),
+                      Expanded(child: Text("$formattedDate")),
                     ]),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.location_on,
                           size: 16,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 4,
                         ),
                         Expanded(
                           child: Text(
                             location,
                             overflow: TextOverflow.ellipsis,
-                            softWrap: false, // ถ้าเกินให้ตัดด้วยจุดจุดจุด
+                            softWrap: false, // if num of text/alphabet is more it will cut to ...
                             maxLines: 1,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     StatusTag(status, 4.0, 8.0)

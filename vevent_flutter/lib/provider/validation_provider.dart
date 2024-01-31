@@ -1,5 +1,6 @@
 import 'dart:convert';
 // import 'dart:ui';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:vevent_flutter/models/app_environment.dart';
 import 'package:vevent_flutter/validation_response.dart';
@@ -12,7 +13,7 @@ class ValidationProvider {
     try {
       res = await http.post(
           Uri.parse(
-              "${AppEnvironment.baseApiUrl}/api/distance?eid=${eId}&uemail=${uEmail}"),
+              "${AppEnvironment.baseApiUrl}/api/distance?eid=$eId&uemail=$uEmail"),
           body: jsonEncode(
             {"flat": lat, "flong": long},
           ),
@@ -21,22 +22,26 @@ class ValidationProvider {
             "content-type": "application/json"
           });
 
-      print("In Provider");
-      print(res.body);
-      print(res.statusCode);
-      print("In if else of provider");
+      if (kDebugMode) {
+        print("In Provider");
+        print(res.body);
+        print(res.statusCode);
+        print("In if else of provider");
+      }
 
       Map<String, dynamic> responseData = jsonDecode(res.body);
-      print(responseData);
+      debugPrint("$responseData");
       validationRes = ValidationResponse.fromJson(responseData);
 
-      print(validationRes);
-      print("VStatus = ${validationRes.vStatus}");
-      print("http status = ${validationRes.httpStatus}");
-      print("displacement = ${validationRes.displacement}");
+      if (kDebugMode) {
+        print(validationRes);
+        print("VStatus = ${validationRes.vStatus}");
+        print("http status = ${validationRes.httpStatus}");
+        print("displacement = ${validationRes.displacement}");
+      }
       return validationRes;
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       throw Exception("validateGPS api is fail !!");
     }
   }
@@ -44,25 +49,26 @@ class ValidationProvider {
   Future<http.Response> validateQRCode(String uEventId, String qrStart,
       String duration, String currentDateTime) async {
     http.Response res;
-    // {{host}}/local/api/qrcode?QRstart=2024-01-20T15:25:54.378693Z&eid=30&duration=15&currentDateTime=2024-01-20T15:27:54.378693
-    // https://capstone23.sit.kmutt.ac.th/kw1/api/qrcode?QRstart=2024-01-20T15:25:54.378693Z&eid=30&duration=15&currentDateTime=2024-01-20T15:27:54.378693Z
-    print("${AppEnvironment.baseApiUrl}/api/qrcode?QRstart=${qrStart}&ueid=${uEventId}&duration=${duration}&currentDateTime=${currentDateTime}");
+    debugPrint(
+        "${AppEnvironment.baseApiUrl}/api/qrcode?QRstart=$qrStart&ueid=$uEventId&duration=$duration&currentDateTime=$currentDateTime");
     try {
       res = await http.post(
           Uri.parse(
-              "${AppEnvironment.baseApiUrl}/api/qrcode?QRstart=${qrStart}&ueid=${uEventId}&duration=${duration}&currentDateTime=${currentDateTime}"),
+              "${AppEnvironment.baseApiUrl}/api/qrcode?QRstart=$qrStart&ueid=$uEventId&duration=$duration&currentDateTime=$currentDateTime"),
           headers: {
             "Accept": "application/json",
             "content-type": "application/json"
           });
 
-      print("In QR Validate Provider");
-      print(res.body);
-      print(res.statusCode);
+      if (kDebugMode) {
+        print("In QR Validate Provider");
+        print(res.body);
+        print(res.statusCode);
+      }
 
       return res;
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       throw Exception("validateGPS api is fail !!");
     }
   }

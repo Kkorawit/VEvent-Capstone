@@ -7,7 +7,7 @@ sealed class EventEvent {
 
 }
 
-// ignore: must_be_immutable
+// ignore: must_be_immutable, camel_case_types
 class showEventList extends EventEvent {
   String uEmail;
   String uRole;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
 import 'package:vevent_flutter/widget/image.dart';
@@ -8,7 +7,7 @@ import 'package:vevent_flutter/widget/image.dart';
 class ParticipantPage extends StatefulWidget {
   late String eventId;
 
-  ParticipantPage({required this.eventId});
+  ParticipantPage({super.key, required this.eventId});
 
   @override
   State<ParticipantPage> createState() => _ParticipantPageState();
@@ -17,7 +16,7 @@ class ParticipantPage extends StatefulWidget {
 class _ParticipantPageState extends State<ParticipantPage> {
   @override
   void initState() {
-    print("ส่ง event id ${widget.eventId}");
+    debugPrint("ส่ง event id ${widget.eventId}");
     context.read<ParticipantBloc>().add(showParticipant(id: widget.eventId));
     super.initState();
   }
@@ -27,13 +26,13 @@ class _ParticipantPageState extends State<ParticipantPage> {
     return BlocBuilder<ParticipantBloc, ParticipantState>(
         builder: (context, state) {
       if (state is ParticipantLoadingState || state is ParticipantInitial) {
-        return Scaffold(
+        return const Scaffold(
           body: Center(child: CircularProgressIndicator()),
         );
       } else if (state is ParticipantFinishState) {
         return Scaffold(
             appBar: AppBar(
-              title: Text(
+              title: const Text(
                 "Participant Page",
                 style: TextStyle(fontSize: 24),
               ),
@@ -47,73 +46,72 @@ class _ParticipantPageState extends State<ParticipantPage> {
                     children: [
                       Row(
                         children: [
-                          Text(
+                          const Text(
                             "Participant",
                             style: TextStyle(fontSize: 16),
                           ),
-                          SizedBox(width: 8),
-                          Icon(
+                          const SizedBox(width: 8),
+                          const Icon(
                             Icons.person_2_outlined,
                             color: Colors.black,
                             size: 18,
                           ),
-                          SizedBox(width: 4),
+                          const SizedBox(width: 4),
                           Text(
                             "${state.participants.length}",
-                            style: TextStyle(fontSize: 16),
+                            style: const TextStyle(fontSize: 16),
                           )
                         ],
                       )
                     ],
                   ),
                 ),
-                SizedBox(height: 16),
-                Container(
-                    child: Table(
-                  columnWidths: {
-                    0: FixedColumnWidth(56.0),
-                    1: FlexColumnWidth(236.0),
-                    2: FlexColumnWidth(68.0),
+                const SizedBox(height: 16),
+                Table(
+                  columnWidths: const {
+                0: FixedColumnWidth(56.0),
+                1: FlexColumnWidth(236.0),
+                2: FlexColumnWidth(68.0),
                   },
-                  children: [
-                    TableRow(children: [
-                      TableCell(
-                        child: Center(
-                          child: Text('No.',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  color: Colors.grey)),
-                        ),
-                      ),
-                      TableCell(
-                        child: Center(
-                          child: Text('Name',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  color: Colors.grey)),
-                        ),
-                      ),
-                      TableCell(
-                        child: Center(
-                          child: Text('Verify',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  color: Colors.grey)),
-                        ),
-                      ),
-                    ]),
+                  children: const [
+                TableRow(children: [
+                  TableCell(
+                    child: Center(
+                      child: Text('No.',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: Colors.grey)),
+                    ),
+                  ),
+                  TableCell(
+                    child: Center(
+                      child: Text('Name',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: Colors.grey)),
+                    ),
+                  ),
+                  TableCell(
+                    child: Center(
+                      child: Text('Verify',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: Colors.grey)),
+                    ),
+                  ),
+                ]),
                   ],
-                )),
-                Container(
+                ),
+                SizedBox(
                   height: MediaQuery.of(context).size.height * 0.75,
                   child: ListView.builder(
                       itemCount: state.participants.length,
                       itemBuilder: (context, index) {
                         return Table(
-                          columnWidths: {
+                          columnWidths: const {
                             0: FixedColumnWidth(56.0),
                             1: FlexColumnWidth(236.0),
                             2: FlexColumnWidth(68.0),
@@ -127,10 +125,10 @@ class _ParticipantPageState extends State<ParticipantPage> {
                               ),
                               TableCell(
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 8),
+                                  padding: const EdgeInsets.symmetric(vertical: 8),
                                   child: ListTile(
-                                    contentPadding: EdgeInsets.all(0),
-                                    leading: Container(
+                                    contentPadding: const EdgeInsets.all(0),
+                                    leading: SizedBox(
                                       height: 40,
                                       width: 40,
                                       child: ClipRRect(
@@ -146,7 +144,7 @@ class _ParticipantPageState extends State<ParticipantPage> {
                               ),
                               TableCell(
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 16),
+                                  padding: const EdgeInsets.symmetric(vertical: 16),
                                   child: Center(
                                       child: getIcon(
                                           "${state.participants[index]["status"]}")),
@@ -160,31 +158,29 @@ class _ParticipantPageState extends State<ParticipantPage> {
               ],
             ));
       } else {
-        print(state);
-        return Container(
-          child: Text("Participants is not found"),
-        );
+        debugPrint("$state");
+        return const Text("Participants is not found");
       }
     });
   }
 }
 
 Widget getIcon(status) {
-  print("validate status : ${status}");
+  debugPrint("validate status : $status");
   if (status == null) {
-    print("get icon by verify status = null");
+    debugPrint("get icon by verify status = null");
   } else if (status == "S") {
-    return Icon(
+    return const Icon(
       Icons.verified_outlined,
       color: Colors.green,
     );
   } else if (status == "F") {
-    return Icon(
+    return const Icon(
       Icons.highlight_off_rounded,
       color: Colors.red,
     );
   } else if (status == "P") {
-    return Icon(
+    return const Icon(
       Icons.remove_circle_outline,
       color: Colors.grey,
     );
