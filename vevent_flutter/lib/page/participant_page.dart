@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
 import 'package:vevent_flutter/widget/image.dart';
+import 'package:vevent_flutter/widget/participant_card.dart';
 
 // ignore: must_be_immutable
 class ParticipantPage extends StatefulWidget {
@@ -69,40 +70,40 @@ class _ParticipantPageState extends State<ParticipantPage> {
                 const SizedBox(height: 16),
                 Table(
                   columnWidths: const {
-                0: FixedColumnWidth(56.0),
-                1: FlexColumnWidth(236.0),
-                2: FlexColumnWidth(68.0),
+                    0: FixedColumnWidth(56.0),
+                    1: FlexColumnWidth(236.0),
+                    2: FlexColumnWidth(68.0),
                   },
                   children: const [
-                TableRow(children: [
-                  TableCell(
-                    child: Center(
-                      child: Text('No.',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              color: Colors.grey)),
-                    ),
-                  ),
-                  TableCell(
-                    child: Center(
-                      child: Text('Name',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              color: Colors.grey)),
-                    ),
-                  ),
-                  TableCell(
-                    child: Center(
-                      child: Text('Verify',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              color: Colors.grey)),
-                    ),
-                  ),
-                ]),
+                    TableRow(children: [
+                      TableCell(
+                        child: Center(
+                          child: Text('No.',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: Colors.grey)),
+                        ),
+                      ),
+                      TableCell(
+                        child: Center(
+                          child: Text('Name',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: Colors.grey)),
+                        ),
+                      ),
+                      TableCell(
+                        child: Center(
+                          child: Text('Verify',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: Colors.grey)),
+                        ),
+                      ),
+                    ]),
                   ],
                 ),
                 SizedBox(
@@ -110,49 +111,59 @@ class _ParticipantPageState extends State<ParticipantPage> {
                   child: ListView.builder(
                       itemCount: state.participants.length,
                       itemBuilder: (context, index) {
-                        return Table(
-                          columnWidths: const {
-                            0: FixedColumnWidth(56.0),
-                            1: FlexColumnWidth(236.0),
-                            2: FlexColumnWidth(68.0),
-                          },
-                          defaultVerticalAlignment:
-                              TableCellVerticalAlignment.middle,
-                          children: [
-                            TableRow(children: [
-                              TableCell(
-                                child: Center(child: Text("${index + 1}")),
-                              ),
-                              TableCell(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 8),
-                                  child: ListTile(
-                                    contentPadding: const EdgeInsets.all(0),
-                                    leading: SizedBox(
-                                      height: 40,
-                                      width: 40,
-                                      child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: getProfileImage(
-                                              "${state.participants[index]["user"]["profileImg"]}")),
-                                    ),
-                                    title: Text(
-                                        "${state.participants[index]["user"]["name"] + '  ' + state.participants[0]["user"]["surName"]}"),
-                                  ),
-                                ),
-                              ),
-                              TableCell(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 16),
-                                  child: Center(
-                                      child: getIcon(
-                                          "${state.participants[index]["status"]}")),
-                                ),
-                              ),
-                            ])
-                          ],
-                        );
+                        return participantCard(
+                            position: "participantPage",
+                            index: "${index + 1}",
+                            profileImg:
+                                "${state.participants[index]["user"]["profileImg"]}",
+                            name:
+                                "${state.participants[index]["user"]["name"]}",
+                            surName:
+                                "${state.participants[index]["user"]["surName"]}",
+                            status: "${state.participants[index]["status"]}");
+                        // return Table(
+                        //   columnWidths: const {
+                        //     0: FixedColumnWidth(56.0),
+                        //     1: FlexColumnWidth(236.0),
+                        //     2: FlexColumnWidth(68.0),
+                        //   },
+                        //   defaultVerticalAlignment:
+                        //       TableCellVerticalAlignment.middle,
+                        //   children: [
+                        //     TableRow(children: [
+                        //       TableCell(
+                        //         child: Center(child: Text("${index + 1}")),
+                        //       ),
+                        //       TableCell(
+                        //         child: Padding(
+                        //           padding: const EdgeInsets.symmetric(vertical: 8),
+                        //           child: ListTile(
+                        //             contentPadding: const EdgeInsets.all(0),
+                        //             leading: SizedBox(
+                        //               height: 40,
+                        //               width: 40,
+                        //               child: ClipRRect(
+                        //                   borderRadius:
+                        //                       BorderRadius.circular(10),
+                        //                   child: getProfileImage(
+                        //                       "${state.participants[index]["user"]["profileImg"]}")),
+                        //             ),
+                        //             title: Text(
+                        //                 "${state.participants[index]["user"]["name"] + '  ' + state.participants[0]["user"]["surName"]}"),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       TableCell(
+                        //         child: Padding(
+                        //           padding: const EdgeInsets.symmetric(vertical: 16),
+                        //           child: Center(
+                        //               child: getIcon(
+                        //                   "${state.participants[index]["status"]}")),
+                        //         ),
+                        //       ),
+                        //     ])
+                        //   ],
+                        // );
                       }),
                 ),
               ],
