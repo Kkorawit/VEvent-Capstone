@@ -21,10 +21,22 @@ import 'package:vevent_flutter/widget/my_events_section.dart';
 import 'package:vevent_flutter/repository/user_repository.dart';
 import 'package:vevent_flutter/widget/search_box.dart';
 import 'package:vevent_flutter/widget/sign_out_btn.dart';
+import 'package:vevent_flutter/page/index_page.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 // void main() async {
 //   runApp(const VEventApp());
 // }
 
+const List<String> scopes = <String>[
+  'email',
+  'https://www.googleapis.com/auth/contacts.readonly',
+];
+
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  // Optional clientId
+  // clientId: 'your-client_id.apps.googleusercontent.com',
+  scopes: scopes,
+);
 // ignore: must_be_immutable
 class VEventApp extends StatelessWidget {
   const VEventApp({super.key});
@@ -189,47 +201,142 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+
+  GoogleSignInAccount? _currentUser;
   // String uEmail = "Laure-CA03@example.com";
   String uEmail = "organization-01@example.com";
   // String uRole = "Participant";
   String uRole = "Organization";
 
+    Future<void> _handleSignIn() async {
+    try {
+      print("on sign in");
+      await _googleSignIn.signOut();
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if(googleUser!=null){
+        print(googleUser.email);
+      }else{
+        print("User null");
+      }
+    } catch (error) { 
+      print(error);
+    }
+  }
+
   //display
   @override
   Widget build(BuildContext context) {
+    final GoogleSignInAccount? user = _currentUser;
     debugPrint(AppEnvironment.baseApiUrl);
-    return Scaffold(
-        body: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const AppBar(),
-        const SizedBox(
-          height: 24,
-        ),
-       FilterBanner(),
-        Container(
-          margin: const EdgeInsets.fromLTRB(16, 24, 16, 8),
-          child: const Text(
-            "กิจกรรมของฉัน",
-            style: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+    if (user != null) {
+      return Scaffold(
+          body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const AppBar(),
+          const SizedBox(
+            height: 24,
           ),
-        ),
-        Expanded(
-          // height: MediaQuery.of(context).size.height * 0.4,
-          // padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              // crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MyEventsSection(uEmail: uEmail, uRole: uRole),
-              ],
+          FilterBanner(),
+          Container(
+            margin: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+            child: const Text(
+              "กิจกรรมของฉัน",
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black),
             ),
           ),
-        ),
-      ],
-    ));
+          Expanded(
+            // height: MediaQuery.of(context).size.height * 0.4,
+            // padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MyEventsSection(uEmail: uEmail, uRole: uRole),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ));
+    } else {
+      return Scaffold(
+          backgroundColor: Colors.redAccent[200],
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 24,
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(16, 160, 16, 16),
+                child: (Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Image.asset(
+                        "assets/images/text_logo.png",
+                        height: 120,
+                        width: 120,
+                      ),
+                    )
+                  ],
+                )),
+              ),
+              Column(children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Text("Choose Account Type")],
+                ),
+              ]),
+              const SizedBox(
+                width: 10,
+                height: 30,
+              ),
+              Column(
+                children: [
+                  const Padding(padding: EdgeInsets.fromLTRB(10, 0, 10, 0)),
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            color: Colors.amber,
+                            width: 30,
+                            height: 30,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            color: Colors.blueAccent,
+                            width: 30,
+                            height: 30,
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  ElevatedButton(onPressed: () async => {
+                    await _handleSignIn(),
+                  }, child: Text('Sign In Google'))
+                ],
+              )
+            ],
+          ));
+    }
   }
 }
