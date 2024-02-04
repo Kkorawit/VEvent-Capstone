@@ -1,4 +1,4 @@
-package backend.vevent.server.Configure;
+package backend.vevent.server.Configure.Profiles;
 
 
 import org.springframework.beans.factory.annotation.Value;
@@ -24,15 +24,12 @@ public class LocalDatasourceConfig {
     private String baseURL;
     @Bean
     public DataSource dataSource() {
-        System.out.println("in local config");
-        System.out.println(baseURL);
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
         dataSource.setUrl(dURL);
         dataSource.setUsername(dUser);
         dataSource.setPassword(dPass);
 
-        System.out.println("before out config");
         return dataSource;
     }
 }
