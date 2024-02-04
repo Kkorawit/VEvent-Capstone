@@ -66,20 +66,19 @@ class _MyEventsSectionState extends State<MyEventsSection> {
                       description:
                           "${state.events[index]["event"]["description"]}",
                       imagePath: "${state.events[index]["event"]["posterImg"]}",
-                      status: "${state.events[index]["status"]}", //validateStatus
+                      status:
+                          "${state.events[index]["status"]}", //validateStatus
                     ),
                   );
                 } else {
                   return GestureDetector(
                     onTap: () {
-                      print("Click event " +
-                          "${state.events[index]["title"]}");
+                      print("Click event " + "${state.events[index]["title"]}");
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
                         return EventDetailPage(
                           uEventId: "${state.events[index]["id"]}",
                           uRole: widget.uRole,
-
                         );
                       }));
                     },
@@ -89,8 +88,7 @@ class _MyEventsSectionState extends State<MyEventsSection> {
                       location: "${state.events[index]["locationName"]}",
                       category: "${state.events[index]["category"]}",
                       createBy: "${state.events[index]["createBy"]}",
-                      description:
-                          "${state.events[index]["description"]}",
+                      description: "${state.events[index]["description"]}",
                       imagePath: "${state.events[index]["posterImg"]}",
                       eventStatus:
                           "${state.events[index]["eventStatus"]}", //รอเปลี่ยนเป็น ${state.events[index]["event"]["eventStatus"]}

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
 import 'package:vevent_flutter/page/participant_page.dart';
 import 'package:vevent_flutter/widget/image.dart';
+import 'package:vevent_flutter/widget/participant_card.dart';
 // import 'package:vevent_flutter/widget/user_profile_section.dart';
 
 class ParticipantSection extends StatefulWidget {
@@ -115,48 +116,51 @@ class _ParticipantSectionState extends State<ParticipantSection> {
                 ],
               ),
               Container(
-                // color: Colors.amber,
                 height: MediaQuery.of(context).size.height * 0.3,
                 child: ListView.builder(
                     itemCount: state.participants.length,
                     itemBuilder: (context, index) {
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        margin: EdgeInsets.symmetric(vertical: 8),
-                        child: Table(
-                          columnWidths: {
-                            0: FixedColumnWidth(56.0),
-                            1: FlexColumnWidth(236.0),
-                            2: FlexColumnWidth(68.0),
-                          },
-                          defaultVerticalAlignment:
-                              TableCellVerticalAlignment.middle,
-                          children: [
-                            TableRow(children: [
-                              TableCell(
-                                child: Center(child: Text("${index + 1}")),
-                              ),
-                              TableCell(
-                                child: ListTile(
-                                  contentPadding:
-                                      EdgeInsets.symmetric(vertical: 8),
-                                  leading: Container(
-                                    height: 40,
-                                    width: 40,
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: getProfileImage(
-                                            "${state.participants[index]["user"]["profileImg"]}")),
-                                  ),
-                                  title: Text(
-                                      "${state.participants[index]["user"]["name"] + '  ' + state.participants[0]["user"]["surName"]}"),
-                                ),
-                              ),
-                            ])
-                          ],
-                        ),
-                      );
+                      return participantCard(
+                          position: "eventDetail",
+                          index: "${index + 1}",
+                          profileImg:
+                              "${state.participants[index]["user"]["profileImg"]}",
+                          name: "${state.participants[index]["user"]["name"]}",
+                          surName:
+                              "${state.participants[index]["user"]["surName"]}",
+                          status: "${state.participants[index]["status"]}");
+                      // child: Table(
+                      //   columnWidths: {
+                      //     0: FixedColumnWidth(56.0),
+                      //     1: FlexColumnWidth(236.0),
+                      //     2: FlexColumnWidth(68.0),
+                      //   },
+                      //   defaultVerticalAlignment:
+                      //       TableCellVerticalAlignment.middle,
+                      //   children: [
+                      //     TableRow(children: [
+                      //       TableCell(
+                      //         child: Center(child: Text("${index + 1}")),
+                      //       ),
+                      //       TableCell(
+                      //         child: ListTile(
+                      //           contentPadding:
+                      //               EdgeInsets.symmetric(vertical: 8),
+                      //           leading: Container(
+                      //             height: 40,
+                      //             width: 40,
+                      //             child: ClipRRect(
+                      //                 borderRadius: BorderRadius.circular(10),
+                      //                 child: getProfileImage(
+                      //                     "${state.participants[index]["user"]["profileImg"]}")),
+                      //           ),
+                      //           title: Text(
+                      //               "${state.participants[index]["user"]["name"] + '  ' + state.participants[0]["user"]["surName"]}"),
+                      //         ),
+                      //       ),
+                      //     ])
+                      //   ],
+                      // ),
                     }),
               ),
             ],

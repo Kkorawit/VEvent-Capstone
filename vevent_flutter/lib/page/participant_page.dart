@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
 import 'package:vevent_flutter/widget/image.dart';
+import 'package:vevent_flutter/widget/participant_card.dart';
 
 class ParticipantPage extends StatefulWidget {
   late String eventId;
@@ -110,49 +111,61 @@ class _ParticipantPageState extends State<ParticipantPage> {
                   child: ListView.builder(
                       itemCount: state.participants.length,
                       itemBuilder: (context, index) {
-                        return Table(
-                          columnWidths: {
-                            0: FixedColumnWidth(56.0),
-                            1: FlexColumnWidth(236.0),
-                            2: FlexColumnWidth(68.0),
-                          },
-                          defaultVerticalAlignment:
-                              TableCellVerticalAlignment.middle,
-                          children: [
-                            TableRow(children: [
-                              TableCell(
-                                child: Center(child: Text("${index + 1}")),
-                              ),
-                              TableCell(
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 8),
-                                  child: ListTile(
-                                    contentPadding: EdgeInsets.all(0),
-                                    leading: Container(
-                                      height: 40,
-                                      width: 40,
-                                      child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: getProfileImage(
-                                              "${state.participants[index]["user"]["profileImg"]}")),
-                                    ),
-                                    title: Text(
-                                        "${state.participants[index]["user"]["name"] + '  ' + state.participants[0]["user"]["surName"]}"),
-                                  ),
-                                ),
-                              ),
-                              TableCell(
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 16),
-                                  child: Center(
-                                      child: getIcon(
-                                          "${state.participants[index]["status"]}")),
-                                ),
-                              ),
-                            ])
-                          ],
-                        );
+                        print(
+                            "status on participant page : ${state.participants[index]["status"]}");
+                        return participantCard(
+                            position: "participantPage",
+                            index: "${index + 1}",
+                            profileImg:
+                                "${state.participants[index]["user"]["profileImg"]}",
+                            name:
+                                "${state.participants[index]["user"]["name"]}",
+                            surName:
+                                "${state.participants[index]["user"]["surName"]}",
+                            status: "${state.participants[index]["status"]}");
+                        // return Table(
+                        //   columnWidths: {
+                        //     0: FixedColumnWidth(56.0),
+                        //     1: FlexColumnWidth(236.0),
+                        //     2: FlexColumnWidth(68.0),
+                        //   },
+                        //   defaultVerticalAlignment:
+                        //       TableCellVerticalAlignment.middle,
+                        //   children: [
+                        //     TableRow(children: [
+                        //       TableCell(
+                        //         child: Center(child: Text("${index + 1}")),
+                        //       ),
+                        //       TableCell(
+                        //         child: Padding(
+                        //           padding: EdgeInsets.symmetric(vertical: 8),
+                        //           child: ListTile(
+                        //             contentPadding: EdgeInsets.all(0),
+                        //             leading: Container(
+                        //               height: 40,
+                        //               width: 40,
+                        //               child: ClipRRect(
+                        //                   borderRadius:
+                        //                       BorderRadius.circular(10),
+                        //                   child: getProfileImage(
+                        //                       "${state.participants[index]["user"]["profileImg"]}")),
+                        //             ),
+                        //             title: Text(
+                        //                 "${state.participants[index]["user"]["name"] + '  ' + state.participants[0]["user"]["surName"]}"),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       TableCell(
+                        //         child: Padding(
+                        //           padding: EdgeInsets.symmetric(vertical: 16),
+                        //           child: Center(
+                        //               child: getIcon(
+                        //                   "${state.participants[index]["status"]}")),
+                        //         ),
+                        //       ),
+                        //     ])
+                        //   ],
+                        // );
                       }),
                 ),
               ],
@@ -167,25 +180,25 @@ class _ParticipantPageState extends State<ParticipantPage> {
   }
 }
 
-Widget getIcon(status) {
-  print("validate status : ${status}");
-  if (status == null) {
-    print("get icon by verify status = null");
-  } else if (status == "S") {
-    return Icon(
-      Icons.verified_outlined,
-      color: Colors.green,
-    );
-  } else if (status == "F") {
-    return Icon(
-      Icons.highlight_off_rounded,
-      color: Colors.red,
-    );
-  } else if (status == "P") {
-    return Icon(
-      Icons.remove_circle_outline,
-      color: Colors.grey,
-    );
-  }
-  return Container();
-}
+// Widget getIcon(status) {
+//   print("validate status : ${status}");
+//   if (status == null) {
+//     print("get icon by verify status = null");
+//   } else if (status == "S") {
+//     return Icon(
+//       Icons.verified_outlined,
+//       color: Colors.green,
+//     );
+//   } else if (status == "F") {
+//     return Icon(
+//       Icons.highlight_off_rounded,
+//       color: Colors.red,
+//     );
+//   } else if (status == "P") {
+//     return Icon(
+//       Icons.remove_circle_outline,
+//       color: Colors.grey,
+//     );
+//   }
+//   return Container();
+// }
