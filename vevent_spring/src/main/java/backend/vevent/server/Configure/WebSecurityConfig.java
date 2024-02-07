@@ -91,7 +91,7 @@ public class WebSecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/auth","/graphql")
+                        .requestMatchers("/api/auth","/graphql","/api/distance","/api/qrcode")
                         .permitAll()
                         .anyRequest()
                         .authenticated()
