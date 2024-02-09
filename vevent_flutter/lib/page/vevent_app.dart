@@ -11,7 +11,7 @@ import 'package:vevent_flutter/bloc/user/user_bloc.dart';
 import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
 import 'package:vevent_flutter/models/app_environment.dart';
 import 'package:vevent_flutter/page/sign_in_page.dart';
-import 'package:vevent_flutter/page/splash_screen.dart';
+// import 'package:vevent_flutter/page/splash_screen.dart';
 import 'package:vevent_flutter/provider/event_provider.dart';
 import 'package:vevent_flutter/provider/participant_provider.dart';
 import 'package:vevent_flutter/provider/user_provider.dart';
@@ -24,9 +24,6 @@ import 'package:vevent_flutter/widget/my_events_section.dart';
 import 'package:vevent_flutter/repository/user_repository.dart';
 import 'package:vevent_flutter/widget/search_box.dart';
 import 'package:vevent_flutter/widget/sign_out_btn.dart';
-// void main() async {
-//   runApp(const VEventApp());
-// }
 
 // ignore: must_be_immutable
 class VEventApp extends StatelessWidget {
@@ -201,14 +198,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // String uEmail = "Laure-CA03@example.com";
-  // String uEmail = "organization-01@example.com";
-  // String uRole = "Participant";
-  // String uRole = "Organization";
 
   //display
   @override
   Widget build(BuildContext context) {
+    // final GoogleSignInAccount? user = _currentUser;
     debugPrint(AppEnvironment.baseApiUrl);
     return Scaffold(body: BlocBuilder<SignInBloc, SignInState>(
       builder: (context, state) {

@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
-dateTimeFormat(String dt) {
+String dateTimeFormat(String dt) {
   debugPrint('$dt -> in dateTimeFormat method');
 
   var dateTimeString = dt;
   DateTime dateTime;
-  var formattedDate;
+  String formattedDate = "-";
 
   if (/*dateTimeString != null && */ dateTimeString.isNotEmpty) {
     try {

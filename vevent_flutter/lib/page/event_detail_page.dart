@@ -7,7 +7,7 @@ import 'package:vevent_flutter/bloc/qrcode/qrcode_bloc.dart';
 // import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
 import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
 import 'package:vevent_flutter/date_time_format.dart';
-import 'package:vevent_flutter/models/filter.dart';
+// import 'package:vevent_flutter/models/filter.dart';
 import 'package:vevent_flutter/widget/gen_qrcode.dart';
 import 'package:vevent_flutter/widget/participant_section.dart';
 // ignore: unused_import

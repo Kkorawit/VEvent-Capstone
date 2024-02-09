@@ -1,5 +1,4 @@
-package backend.vevent.server.Configure;
-
+package backend.vevent.server.Configure.Profiles;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -8,28 +7,28 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
+import javax.xml.crypto.Data;
 
 @Configuration
-@Profile("qa")
-public class QADatasourceConfig {
+@Profile("dev")
+public class DevDatasourceConfig {
 
-
-    @Value("${spring.datasource.qa.url}")
-    private String qaURL;
-    @Value("${spring.datasource.qa.username}")
-    private String qaUser;
-    @Value("${spring.datasource.qa.password}")
-    private String qaPass;
-
+    @Value("${spring.datasource.dev.url}")
+    private String devURL;
+    @Value("${spring.datasource.dev.username}")
+    private String devUser;
+    @Value("${spring.datasource.dev.password}")
+    private String devPass;
 
     @Bean
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-        dataSource.setUrl(qaURL);
-        dataSource.setUsername(qaUser);
-        dataSource.setPassword(qaPass);
+        dataSource.setUrl(devURL);
+        dataSource.setUsername(devUser);
+        dataSource.setPassword(devPass);
 
         return dataSource;
     }
+
 }

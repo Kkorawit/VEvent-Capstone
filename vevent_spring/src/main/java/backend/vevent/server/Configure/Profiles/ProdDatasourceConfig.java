@@ -1,4 +1,4 @@
-package backend.vevent.server.Configure;
+package backend.vevent.server.Configure.Profiles;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

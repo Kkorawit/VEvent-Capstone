@@ -52,7 +52,7 @@ dependencies:
   qr_flutter: ^4.1.0
   flutter_barcode_scanner: ^2.0.0
   meta: ^1.9.1
-
+  google_sign_in: ^6.0.2
 
 # flutter_icons:
 #   android:  true
