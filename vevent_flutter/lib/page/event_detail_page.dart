@@ -7,6 +7,7 @@ import 'package:vevent_flutter/bloc/qrcode/qrcode_bloc.dart';
 // import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
 import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
 import 'package:vevent_flutter/date_time_format.dart';
+import 'package:vevent_flutter/models/filter.dart';
 import 'package:vevent_flutter/widget/gen_qrcode.dart';
 import 'package:vevent_flutter/widget/participant_section.dart';
 // ignore: unused_import
@@ -135,7 +136,10 @@ class _EventDetailPageState extends State<EventDetailPage> {
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  context.read<EventBloc>().add(showEventList(uEmail: widget.uEmail, uRole: widget.uRole));
+                  context.read<EventBloc>().add(showEventList(
+                      uEmail: widget.uEmail,
+                      uRole: widget.uRole,
+                      selectedStatus: "All"));
                   Navigator.of(context).pop();
                 },
               ),
@@ -154,8 +158,8 @@ class _EventDetailPageState extends State<EventDetailPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(state.validateRes.vStatus,
-                                  style:
-                                      const TextStyle(fontWeight: FontWeight.bold)),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold)),
                               const SizedBox(
                                 height: 4,
                               ),
@@ -182,7 +186,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                   }
                   if (state is ValidationErrorState) {
                     ScaffoldMessenger.of(context)
-.showSnackBar(SnackBar(content: Text(state.message)));
+                        .showSnackBar(SnackBar(content: Text(state.message)));
                   }
                 }),
                 BlocListener<QrcodeBloc, QrcodeState>(
@@ -247,14 +251,12 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     ProfileSection(
                                         organizerEmail: widget.createBy),
                                     Container(
-                                        child:
-                                            StatusTag(widget.status, 6, 16)),
+                                        child: StatusTag(widget.status, 6, 16)),
                                   ],
                                 ),
                                 const SizedBox(height: 16),
@@ -317,8 +319,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                   height: 32,
                                 ),
                                 Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Text(
                                       "รายละเอียด",

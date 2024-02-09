@@ -3,12 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:vevent_flutter/page/event_detail_page.dart';
 import 'package:vevent_flutter/widget/custom_card.dart';
+import 'package:vevent_flutter/widget/filter_banner.dart';
 // import 'dart:ui';
 
 // ignore: must_be_immutable
 class MyEventsSection extends StatefulWidget {
-  final String uEmail ;
-  final String uRole ;
+  final String uEmail;
+  final String uRole;
 
   const MyEventsSection({super.key, required this.uEmail, required this.uRole});
 
@@ -20,7 +21,9 @@ class _MyEventsSectionState extends State<MyEventsSection> {
   @override
   void initState() {
     //only use when this page/section is builded.
-    context.read<EventBloc>().add(showEventList(uEmail: widget.uEmail, uRole: widget.uRole));
+    print("In my event section -> ${widget.uRole}");
+
+    // context.read<EventBloc>().add(showEventList(uEmail: widget.uEmail, uRole: widget.uRole, selectedStatus: "All"));
     super.initState();
   }
 
@@ -35,16 +38,17 @@ class _MyEventsSectionState extends State<MyEventsSection> {
         );
       }
       if (state is EventFinishState) {
-        return Scaffold(
-          // appBar: AppBar(),
-          body: ListView.builder(
-              itemCount: state.events.length,
-              itemBuilder: (context, index) {
-                if (widget.uRole == "Participant") {
-                  //CustomCard for event that participant registered 
+        if (widget.uRole == "Participant") {
+          return Scaffold(
+            // appBar: AppBar(),
+            body: ListView.builder(
+                itemCount: state.events.length,
+                itemBuilder: (context, index) {
+                  //CustomCard for event that participant registered
                   return GestureDetector(
                     onTap: () {
-                      debugPrint("Click event ${state.events[index]["event"]["title"]}");
+                      debugPrint(
+                          "Click event ${state.events[index]["event"]["title"]}");
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
                         return EventDetailPage(
@@ -65,11 +69,19 @@ class _MyEventsSectionState extends State<MyEventsSection> {
                       description:
                           "${state.events[index]["event"]["description"]}",
                       imagePath: "${state.events[index]["event"]["posterImg"]}",
-                      status: "${state.events[index]["status"]}", //validate Status of user_event
+                      status:
+                          "${state.events[index]["status"]}", //validate Status of user_event
                     ),
                   );
-                } else {
-                  //CustomCard for event that organization created 
+                }),
+          );
+        } else if (widget.uRole == "Organization") {
+          return Scaffold(
+            // appBar: AppBar(),
+            body: ListView.builder(
+                itemCount: state.events.length,
+                itemBuilder: (context, index) {
+                  //CustomCard for event that organization created
                   return GestureDetector(
                     onTap: () {
                       debugPrint("Click event ${state.events[index]["title"]}");
@@ -78,7 +90,6 @@ class _MyEventsSectionState extends State<MyEventsSection> {
                         return EventDetailPage(
                           uEventId: "${state.events[index]["id"]}",
                           uRole: widget.uRole,
-
                         );
                       }));
                     },
@@ -88,19 +99,41 @@ class _MyEventsSectionState extends State<MyEventsSection> {
                       location: "${state.events[index]["locationName"]}",
                       category: "${state.events[index]["category"]}",
                       createBy: "${state.events[index]["createBy"]}",
-                      description:
-                          "${state.events[index]["description"]}",
+                      description: "${state.events[index]["description"]}",
                       imagePath: "${state.events[index]["posterImg"]}",
                       eventStatus:
                           "${state.events[index]["eventStatus"]}", // status of event [UP,ON,CO,CE]
-                      status: "${state.events[index]["eventStatus"]}", // status of event [UP,ON,CO,CE]
+                      status:
+                          "${state.events[index]["eventStatus"]}", // status of event [UP,ON,CO,CE]
                     ),
                   );
-                }
-              }),
-        );
+                }),
+          );
+        } else {
+          return const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage("assets/images/text_logo.png"),
+                  height: 100,
+                  width: 148,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text("No participating events"),
+                SizedBox(
+                  height: 8,
+                ),
+              ],
+            ),
+          );
+        }
       } else if (state is EventErrorState) {
-        return Center(child: Text(state.message),);
+        return Center(
+          child: Text(state.message),
+        );
       } else {
         return const Center(
           child: Column(

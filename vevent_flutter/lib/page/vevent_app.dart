@@ -6,9 +6,12 @@ import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:vevent_flutter/bloc/event_detail/event_detail_bloc.dart';
 import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
 import 'package:vevent_flutter/bloc/qrcode/qrcode_bloc.dart';
+import 'package:vevent_flutter/bloc/sign_in/sign_in_bloc.dart';
 import 'package:vevent_flutter/bloc/user/user_bloc.dart';
 import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
 import 'package:vevent_flutter/models/app_environment.dart';
+import 'package:vevent_flutter/page/sign_in_page.dart';
+import 'package:vevent_flutter/page/splash_screen.dart';
 import 'package:vevent_flutter/provider/event_provider.dart';
 import 'package:vevent_flutter/provider/participant_provider.dart';
 import 'package:vevent_flutter/provider/user_provider.dart';
@@ -49,6 +52,7 @@ class VEventApp extends StatelessWidget {
     final qrCodeBloc = BlocProvider(
         create: (context) =>
             QrcodeBloc(ValidationRepository(provider: ValidationProvider())));
+    final signInBloc = BlocProvider(create: (context) => SignInBloc());
 
     // final colorScheme = ColorScheme(
     //     brightness: brightness,
@@ -70,11 +74,17 @@ class VEventApp extends StatelessWidget {
         validationBloc,
         eventDetailBloc,
         participantBloc,
-        qrCodeBloc
+        qrCodeBloc,
+        signInBloc
       ],
       // create: (context) => EventBloc(EventRepository(provider: EventProvider())),
       child: MaterialApp(
         title: "My App",
+        // initialRoute: "/splash",
+        // routes: {
+        //   // "/splash" :(context) => const SplashScreen(),
+        //   "/home" :(context) => const MyHomePage(),
+        // },
         home: const MyHomePage(),
         theme: ThemeData(
             appBarTheme: const AppBarTheme(
@@ -85,7 +95,9 @@ class VEventApp extends StatelessWidget {
 }
 
 class AppBar extends StatelessWidget {
-  const AppBar({super.key});
+  final String uEmail;
+  final String uRole;
+  const AppBar({super.key, required this.uEmail, required this.uRole});
 
   @override
   Widget build(BuildContext context) {
@@ -132,20 +144,20 @@ class AppBar extends StatelessWidget {
                           const SizedBox(
                             width: 16,
                           ),
-                          const Column(
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Hi, Nattawat.18 (Username)",
-                                  style: TextStyle(
+                              Text("Hi, $uEmail",
+                                  style: const TextStyle(
                                       color: Colors.white, fontSize: 16)),
-                              Text("participants (Role)",
-                                  style: TextStyle(
+                              Text(uRole,
+                                  style: const TextStyle(
                                       color: Colors.white, fontSize: 12))
                             ],
                           )
                         ],
                       ),
-                      const SignOutBtn(),
+                      const Expanded(child: SignOutBtn()),
                     ],
                   ),
 
@@ -190,46 +202,71 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   // String uEmail = "Laure-CA03@example.com";
-  String uEmail = "organization-01@example.com";
+  // String uEmail = "organization-01@example.com";
   // String uRole = "Participant";
-  String uRole = "Organization";
+  // String uRole = "Organization";
 
   //display
   @override
   Widget build(BuildContext context) {
     debugPrint(AppEnvironment.baseApiUrl);
-    return Scaffold(
-        body: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const AppBar(),
-        const SizedBox(
-          height: 24,
-        ),
-       FilterBanner(),
-        Container(
-          margin: const EdgeInsets.fromLTRB(16, 24, 16, 8),
-          child: const Text(
-            "กิจกรรมของฉัน",
-            style: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
-          ),
-        ),
-        Expanded(
-          // height: MediaQuery.of(context).size.height * 0.4,
-          // padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              // crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(body: BlocBuilder<SignInBloc, SignInState>(
+      builder: (context, state) {
+        if (state is SignInInitial) {
+          return SignInPage();
+        }
+        if (state is SignInLoadingState) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (state is SignInFinishState) {
+          if (state.signInSuccess == true) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                MyEventsSection(uEmail: uEmail, uRole: uRole),
+                // SignInPage()
+                AppBar(uEmail: state.uEmail, uRole: state.role),
+                const SizedBox(
+                  height: 24,
+                ),
+                FilterBanner(uEmail: state.uEmail, uRole: state.role),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+                  child: const Text(
+                    "กิจกรรมของฉัน",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
+                  ),
+                ),
+                Expanded(
+                  // height: MediaQuery.of(context).size.height * 0.4,
+                  // padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        MyEventsSection(
+                            uEmail: state.uEmail, uRole: state.role),
+                      ],
+                    ),
+                  ),
+                ),
               ],
-            ),
-          ),
-        ),
-      ],
+            );
+          } else {
+            return SignInPage();
+          }
+        } else if (state is SignInErrorState) {
+          return Center(child: Text(state.message));
+        } else {
+          return const Center(
+            child: Text("Error"),
+          );
+        }
+      },
     ));
   }
 }

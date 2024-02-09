@@ -8,4 +8,5 @@ import 'package:vevent_flutter/page/vevent_app.dart';
 Future<void> main() async {
   await dotenv.load(fileName: AppEnvironment.fileName(Environment.dev));
   runApp(const VEventApp());
+  
 }

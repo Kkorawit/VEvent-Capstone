@@ -65,7 +65,7 @@ class EventProvider {
       debugPrint("$queryResult");
 
       var events = queryResult.data?['findAllRegisEventsByUEmail'];
-      debugPrint(events);
+      // debugPrint(events);
 
       if (events == null) {
         debugPrint("queryResult.data is null");
@@ -100,7 +100,7 @@ class EventProvider {
           document: gql(
             """
           query FindAllEventCreatedByUEmail {
-               findAllEventCreatedByUEmail (uEmail: "$uEmail") {
+               findAllEventCreatedByUEmail (uEmail: "organization-01@example.com") {
                 id
                 title
                 eventDescription
@@ -130,7 +130,7 @@ class EventProvider {
           """, // let's see query string
           ),
           variables: {
-            "uEmail": uEmail,
+            "uEmail": "organization-01@example.com",
           },
         ),
       );

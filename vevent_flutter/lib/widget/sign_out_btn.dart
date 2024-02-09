@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vevent_flutter/bloc/sign_in/sign_in_bloc.dart';
 
 class SignOutBtn extends StatefulWidget {
   const SignOutBtn({super.key});
@@ -10,6 +12,8 @@ class SignOutBtn extends StatefulWidget {
 class _SignOutBtnState extends State<SignOutBtn> {
   @override
   Widget build(BuildContext context) {
-    return IconButton(onPressed: (){}, icon: const Icon(Icons.logout, color: Colors.white), );
+    return IconButton(onPressed: (){
+      context.read<SignInBloc>().add(signIn(uEmail: null, role: null));
+    }, icon: const Icon(Icons.logout, color: Colors.white), );
   }
 }

@@ -11,8 +11,9 @@ sealed class EventEvent {
 class showEventList extends EventEvent {
   String uEmail;
   String uRole;
+  String selectedStatus;
 
-  showEventList({required this.uEmail, required this.uRole});
+  showEventList({required this.uEmail, required this.uRole, required this.selectedStatus});
 }
 
 
