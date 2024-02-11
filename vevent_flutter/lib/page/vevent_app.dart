@@ -51,19 +51,6 @@ class VEventApp extends StatelessWidget {
             QrcodeBloc(ValidationRepository(provider: ValidationProvider())));
     final signInBloc = BlocProvider(create: (context) => SignInBloc());
 
-    // final colorScheme = ColorScheme(
-    //     brightness: brightness,
-    //     primary: Color.fromRGBO(69, 32, 204, 1),
-    //     onPrimary: onPrimary,
-    //     secondary: Color.fromRGBO(106, 77, 214, 1),
-    //     onSecondary: onSecondary,
-    //     error: Colors.red,
-    //     onError: Colors.redAccent,
-    //     background: background,
-    //     onBackground: onBackground,
-    //     surface: surface,
-    //     onSurface: onSurface);
-
     return MultiBlocProvider(
       providers: [
         eventBloc,

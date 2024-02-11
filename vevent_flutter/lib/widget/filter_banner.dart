@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/event/event_bloc.dart';
-import 'package:vevent_flutter/repository/event_repository.dart';
+import 'package:vevent_flutter/models/filter.dart';
+// import 'package:vevent_flutter/repository/event_repository.dart';
 
 // ignore: must_be_immutable
 class FilterBanner extends StatefulWidget {
@@ -13,13 +14,16 @@ class FilterBanner extends StatefulWidget {
 
   @override
   State<FilterBanner> createState() => _FilterBannerState();
+  String filterBy() {
+    return selected;
+  }
 }
 
 class _FilterBannerState extends State<FilterBanner> {
   @override
   void initState() {
     context.read<EventBloc>().add(showEventList(
-        uEmail: widget.uEmail, uRole: widget.uRole, selectedStatus: "All"));
+        uEmail: widget.uEmail, uRole: widget.uRole, selectedStatus: EventFilter.filterSelected(FilterBy.All)));
     super.initState();
   }
 
@@ -33,34 +37,34 @@ class _FilterBannerState extends State<FilterBanner> {
           });
           switch (label) {
             case "All":
-              status = "All";
+              status = EventFilter.filterSelected(FilterBy.All);
               break;
             case "Pending":
-              status = "P";
+              status = EventFilter.filterSelected(FilterBy.P);
               break;
             case "In Progress":
-              status = "IP";
+              status = EventFilter.filterSelected(FilterBy.IP);
               break;
             case "Success":
-              status = "S";
+              status = EventFilter.filterSelected(FilterBy.S);
               break;
             case "Fail":
-              status = "F";
+              status = EventFilter.filterSelected(FilterBy.F);
               break;
             case "Upcoming":
-              status = "UP";
+              status = EventFilter.filterSelected(FilterBy.UP);
               break;
             case "Ongoing":
-              status = "ON";
+              status = EventFilter.filterSelected(FilterBy.ON);
               break;
             case "Completed":
-              status = "CO";
+              status = EventFilter.filterSelected(FilterBy.CO);
               break;
             case "Canceled":
-              status = "CA";
+              status = EventFilter.filterSelected(FilterBy.CA);
               break;
             default:
-              status = "All";
+              status = EventFilter.filterSelected(FilterBy.All);
               break;
           }
           context.read<EventBloc>().add(showEventList(
@@ -77,7 +81,7 @@ class _FilterBannerState extends State<FilterBanner> {
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 10,
+              fontSize: 10,
               color: widget.selected == label
                   ? Colors.white
                   : const Color.fromRGBO(69, 32, 204, 1)),

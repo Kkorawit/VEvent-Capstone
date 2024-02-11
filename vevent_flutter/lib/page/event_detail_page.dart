@@ -6,7 +6,8 @@ import 'package:vevent_flutter/bloc/event_detail/event_detail_bloc.dart';
 import 'package:vevent_flutter/bloc/qrcode/qrcode_bloc.dart';
 // import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
 import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
-import 'package:vevent_flutter/date_time_format.dart';
+import 'package:vevent_flutter/models/date_time_format.dart';
+import 'package:vevent_flutter/models/filter.dart';
 // import 'package:vevent_flutter/models/filter.dart';
 import 'package:vevent_flutter/widget/gen_qrcode.dart';
 import 'package:vevent_flutter/widget/participant_section.dart';
@@ -63,7 +64,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
         validationType: widget.validationType,
       );
     } else {
-      if (validationType.contains("QR_CODE")) {
+      if (validationType.contains("QR_CODE") && widget.eventStatus == "ON") {
         return Column(
           children: [
             GenerateQRCodeSection(eventID: widget.eventId),
@@ -139,7 +140,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                   context.read<EventBloc>().add(showEventList(
                       uEmail: widget.uEmail,
                       uRole: widget.uRole,
-                      selectedStatus: "All"));
+                      selectedStatus: EventFilter.filterStatus));
                   Navigator.of(context).pop();
                 },
               ),
