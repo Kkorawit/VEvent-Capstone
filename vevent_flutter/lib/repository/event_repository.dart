@@ -52,12 +52,23 @@ class EventRepository {
   List<dynamic> filterEventByStatus(
       List<dynamic> events, String selectedStatus, String uRole) {
     List<dynamic> filteredEvent;
+    // List<dynamic> sortEvent;
     if (uRole == "Participant") {
       filteredEvent =
           events.where((event) => event["status"] == selectedStatus).toList();
+          // debugPrint("$filteredEvent");
+          filteredEvent.sort((a, b) => b["event"]["startDate"].compareTo(a["event"]["startDate"]));
+          // debugPrint("$filteredEvent");
+
+        //  sortEvent = filteredEvent.sort((a, b) => a["startDate"].compareTo(b["startDate"]));
     } else {
       filteredEvent =
           events.where((event) => event["eventStatus"] == selectedStatus).toList();
+          // debugPrint("$filteredEvent");
+          filteredEvent.sort((a, b) => b["startDate"].compareTo(a["startDate"]));
+          // debugPrint("$filteredEvent");
+                  //  sortEvent = filteredEvent.sort((a, b) => a["startDate"].compareTo(b["startDate"]));
+
     }
     return filteredEvent;
   }
