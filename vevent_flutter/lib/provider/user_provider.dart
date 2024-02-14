@@ -4,6 +4,7 @@ import 'package:vevent_flutter/models/app_environment.dart';
 
 class UserProvider {
   Future<Map> getUserByUserEmail(String uEmail) async {
+    debugPrint(uEmail);
     try {
       HttpLink link =
           HttpLink("${AppEnvironment.baseApiUrl}/graphql");
@@ -23,6 +24,7 @@ class UserProvider {
                               username
                               password
                               userEmail
+                              role
                               name
                               surName
                               profileImg
@@ -37,10 +39,10 @@ class UserProvider {
         ),
       );
 
-      var user = queryResult.data?['findUserByEmail'];
-      debugPrint(user);
+      Map user = queryResult.data?['findUserByEmail'];
+      debugPrint(" this is user data from user provider => $user");
 
-      if (user == null) {
+      if (user.isEmpty) {
         debugPrint("queryResult.data is null");
         throw Exception("user is not found");
       }
