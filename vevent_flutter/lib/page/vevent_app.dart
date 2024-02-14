@@ -19,7 +19,7 @@ import 'package:vevent_flutter/provider/validation_provider.dart';
 import 'package:vevent_flutter/repository/event_repository.dart';
 import 'package:vevent_flutter/repository/participant_repository.dart';
 import 'package:vevent_flutter/repository/validation_repository.dart';
-import 'package:vevent_flutter/widget/filter_banner.dart';
+import 'package:vevent_flutter/widget/filter_slider.dart';
 import 'package:vevent_flutter/widget/my_events_section.dart';
 import 'package:vevent_flutter/repository/user_repository.dart';
 import 'package:vevent_flutter/widget/search_box.dart';
@@ -103,8 +103,6 @@ class AppBar extends StatelessWidget {
                 gradient: LinearGradient(colors: [
                   Color.fromRGBO(69, 32, 204, 1),
                   Color.fromRGBO(106, 77, 214, 1),
-                  // Color.fromARGB(100, 69, 32, 204),
-                  // Color.fromARGB(100, 106, 77, 214)
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
               ),
               child: Column(
@@ -168,7 +166,7 @@ class AppBar extends StatelessWidget {
                       color: Color.fromRGBO(106, 77, 214, 0.5),
                     )
                   ]),
-                  child: const SearchBox()),
+                  child: SearchBox(uEmail: uEmail, uRole: uRole,)),
             ),
           ],
         ),

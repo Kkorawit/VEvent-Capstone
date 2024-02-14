@@ -23,7 +23,7 @@ class _FilterBannerState extends State<FilterBanner> {
   @override
   void initState() {
     context.read<EventBloc>().add(showEventList(
-        uEmail: widget.uEmail, uRole: widget.uRole, selectedStatus: EventFilter.filterSelected(FilterBy.All)));
+        uEmail: widget.uEmail, uRole: widget.uRole, selectedStatus:"All", sortBy: EventFilter.sortBy));
     super.initState();
   }
 
@@ -70,7 +70,8 @@ class _FilterBannerState extends State<FilterBanner> {
           context.read<EventBloc>().add(showEventList(
               uEmail: widget.uEmail,
               uRole: widget.uRole,
-              selectedStatus: status));
+              selectedStatus: status,
+              sortBy: EventFilter.sortBy));
         },
         style: TextButton.styleFrom(
           // fixedSize: Size.fromHeight(34),

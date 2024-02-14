@@ -7,7 +7,7 @@ class EventRepository {
   EventRepository({required this.provider});
 
   Future<List<dynamic>> getEventsByUserEmail(
-      String uEmail, String uRole, String selectedStatus) async {
+      String uEmail, String uRole, String selectedStatus, String sortBy) async {
     final List events;
     // String selectedStatus;
 
@@ -22,16 +22,10 @@ class EventRepository {
       debugPrint("hear else -> uRole == Organization");
       events = await provider.getEventsByOrganizerEmail(uEmail);
     }
-    // List<dynamic> filteredEvent;
-    if (selectedStatus != "All") {
-      List<dynamic> filteredEvent =
-          filterEventByStatus(events, selectedStatus, uRole);
-      return filteredEvent;
-    } else {
-      return events;
-    }
-    // debugPrint("${events[0]["status"]}");
-    // debugPrint("$filteredEvent");
+
+    List<dynamic> filteredEvent =
+        filterEventByStatus(events, selectedStatus, uRole, sortBy);
+    return filteredEvent;
   }
 
   Future<Map> getEventDetailsByUserEventId(String id, String uRole) async {
@@ -49,28 +43,88 @@ class EventRepository {
     return event;
   }
 
-  List<dynamic> filterEventByStatus(
-      List<dynamic> events, String selectedStatus, String uRole) {
+  List<dynamic> filterEventByStatus(List<dynamic> events, String selectedStatus,
+      String uRole, String sortBy) {
     List<dynamic> filteredEvent;
     // List<dynamic> sortEvent;
     if (uRole == "Participant") {
-      filteredEvent =
-          events.where((event) => event["status"] == selectedStatus).toList();
-          // debugPrint("$filteredEvent");
-          filteredEvent.sort((a, b) => b["event"]["startDate"].compareTo(a["event"]["startDate"]));
-          // debugPrint("$filteredEvent");
-
-        //  sortEvent = filteredEvent.sort((a, b) => a["startDate"].compareTo(b["startDate"]));
+      selectedStatus == "All"
+          ? filteredEvent = events
+          : filteredEvent = events
+              .where((event) => event["status"] == selectedStatus)
+              .toList();
+               switch (sortBy) {
+          case "Desc":
+            filteredEvent.sort((a, b) =>
+                b["event"]["startDate"].compareTo(a["event"]["startDate"]));
+            break;
+          case "Asc":
+            filteredEvent
+                .sort((a, b) => a["event"]["startDate"].compareTo(b["event"]["startDate"]));
+            break;
+          default:
+            filteredEvent.sort((a, b) =>
+                b["event"]["startDate"].compareTo(a["event"]["startDate"]));
+            break;
+        }
     } else {
-      filteredEvent =
-          events.where((event) => event["eventStatus"] == selectedStatus).toList();
-          // debugPrint("$filteredEvent");
-          filteredEvent.sort((a, b) => b["startDate"].compareTo(a["startDate"]));
-          // debugPrint("$filteredEvent");
-                  //  sortEvent = filteredEvent.sort((a, b) => a["startDate"].compareTo(b["startDate"]));
-
+      selectedStatus == "All"
+          ? filteredEvent = events
+          : filteredEvent = events
+              .where((event) => event["eventStatus"] == selectedStatus)
+              .toList();
+               switch (sortBy) {
+          case "Desc":
+            filteredEvent.sort((a, b) =>
+                b["startDate"].compareTo(a["startDate"]));
+            break;
+          case "Asc":
+            filteredEvent
+                .sort((a, b) => a["startDate"].compareTo(b["startDate"]));
+            break;
+          default:
+            filteredEvent.sort((a, b) =>
+                b["startDate"].compareTo(a["startDate"]));
+            break;
+        }
     }
     return filteredEvent;
+    // if (selectedStatus != "All") {
+    //   if (uRole == "Participant") {
+    //     filteredEvent =
+    //         events.where((event) => event["status"] == selectedStatus).toList();
+    //     switch (sortBy) {
+    //       case "Desc":
+    //         filteredEvent.sort((a, b) =>
+    //             b["event"]["startDate"].compareTo(a["event"]["startDate"]));
+    //         break;
+    //       case "Asc":
+    //         filteredEvent
+    //             .sort((a, b) => a["startDate"].compareTo(b["startDate"]));
+    //         break;
+    //       default:
+    //         filteredEvent.sort((a, b) =>
+    //             b["event"]["startDate"].compareTo(a["event"]["startDate"]));
+    //         break;
+    //     }
+    //   } else {
+    //     filteredEvent = events
+    //         .where((event) => event["eventStatus"] == selectedStatus)
+    //         .toList();
+    //     filteredEvent.sort((a, b) => b["startDate"].compareTo(a["startDate"]));
+    //     //  sortEvent = filteredEvent.sort((a, b) => a["startDate"].compareTo(b["startDate"]));
+    //   }
+    //   return filteredEvent;
+    // } else {
+    //   filteredEvent = events;
+    //   if (uRole == "Participant") {
+    //     filteredEvent.sort((a, b) =>
+    //         b["event"]["startDate"].compareTo(a["event"]["startDate"]));
+    //   } else {
+    //     filteredEvent.sort((a, b) => b["startDate"].compareTo(a["startDate"]));
+    //   }
+    //   return filteredEvent;
+    // }
   }
 
   String selectStatusFilter(String status) {

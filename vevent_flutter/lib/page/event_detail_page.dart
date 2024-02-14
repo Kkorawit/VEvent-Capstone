@@ -140,7 +140,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                   context.read<EventBloc>().add(showEventList(
                       uEmail: widget.uEmail,
                       uRole: widget.uRole,
-                      selectedStatus: EventFilter.filterStatus));
+                      selectedStatus: EventFilter.filterStatus, sortBy: EventFilter.sortBy));
                   Navigator.of(context).pop();
                 },
               ),

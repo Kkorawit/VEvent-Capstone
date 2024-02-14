@@ -13,7 +13,7 @@ class EventBloc extends Bloc<EventEvent, EventState> {
     on<showEventList>((event, emit) async {
       emit(EventLoadingState()); //emit(sth) โยน sth 
       try {
-        List<dynamic> events = await repository.getEventsByUserEmail(event.uEmail,event.uRole,event.selectedStatus);
+        List<dynamic> events = await repository.getEventsByUserEmail(event.uEmail,event.uRole,event.selectedStatus,event.sortBy);
         debugPrint("In EventBloc showEventList => $events");
         emit(EventFinishState(events: events));
 

@@ -12,8 +12,9 @@ class showEventList extends EventEvent {
   String uEmail;
   String uRole;
   String selectedStatus;
+  String sortBy;
 
-  showEventList({required this.uEmail, required this.uRole, required this.selectedStatus});
+  showEventList({required this.uEmail, required this.uRole, required this.selectedStatus, required this.sortBy});
 }
 
 
