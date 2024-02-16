@@ -14,6 +14,7 @@ INSERT INTO users VALUES("joel10","Joel-De.10","Participants","joel-de.10@exampl
 INSERT INTO users VALUES("organization01","Organization-01@BK","Organization","organization-01@example.com","Margaret","Beatrice","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2Forganiz-1.png?alt=media&token=36c3a6e0-2658-4e1d-b9ee-fbc2cec6ce13");
 INSERT INTO users VALUES("organization02","Organization-02@BK","Organization","organization-02@example.com","Annie","Lillian","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2Forganiz-2.png?alt=media&token=302a3e44-28a6-4a2f-b7dd-df548d446bda");
 INSERT INTO users VALUES("John13","John_S011.","Participants","Johnn.sm13@gmail.com","John","Smith","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FuserId-10.jpg?alt=media&token=faeea19b-6887-4a40-b4b7-70160b87eef1");
+INSERT INTO users VALUES("organization03","Organization-03@BK","Organization","Organization.032301@gmail.com","Linda","Brown","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2Forganiz-3.png?alt=media&token=1ab116e9-a4c2-4ff1-819d-4e562d83ae7d");
 
 -- -----------------------------------------------------
 
