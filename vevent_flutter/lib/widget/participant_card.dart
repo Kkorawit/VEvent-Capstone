@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:vevent_flutter/page/participant_page.dart';
+// import 'package:vevent_flutter/page/participant_page.dart';
 import 'package:vevent_flutter/widget/image.dart';
 
+// ignore: camel_case_types
 class participantCard extends StatelessWidget {
   final String position;
   final String index;

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
+// import 'package:meta/meta.dart';
 import 'package:vevent_flutter/repository/event_repository.dart';
 
 part 'event_detail_event.dart';
@@ -13,7 +14,7 @@ class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
       try {
         Map eventRes = await repository.getEventDetailsByUserEventId(
             event.id, event.uRole);
-        print("In EventBloc getEventDetails => ${eventRes}");
+        debugPrint("In EventBloc getEventDetails => $eventRes");
         emit(EventDetailFinishState(event: eventRes));
       } catch (e) {
         emit(EventDetailErrorState(e.toString()));

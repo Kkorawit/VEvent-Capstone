@@ -2,7 +2,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:meta/meta.dart';
+// import 'package:meta/meta.dart';
 import 'package:vevent_flutter/repository/validation_repository.dart';
 import 'package:vevent_flutter/validation_response.dart';
 
@@ -19,11 +19,11 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
       try{
         ValidationResponse res = await repository.validateGPS(event.eId,event.uEmail);
         if (kDebugMode) {
-          print("In EventBloc => ${res}");
+          print("In EventBloc => $res");
         }
         // if(res == "false"){
-        //   print(" IN ValidationBloc => plese enable location service or allow the access permstion");
-        //   emit(ValidationErrorState("plese enable location service or allow the access permstion"));
+        //   print(" IN ValidationBloc => please enable location service or allow the access permission");
+        //   emit(ValidationErrorState("please enable location service or allow the access permission"));
         // }
         emit(ValidationFinishState(validateRes: res));
 

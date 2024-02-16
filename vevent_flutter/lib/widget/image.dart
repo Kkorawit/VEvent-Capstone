@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Widget getProfileImage(img) {
-  print("this is owner profile = " + img);
+  debugPrint("this is owner profile = $img");
   if (img == "") {
     return const CircularProgressIndicator();
   } else {
@@ -22,7 +22,7 @@ Widget getEventImage(img) {
         fit: BoxFit.fitHeight,
       );
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       return const CircularProgressIndicator();
     }
   }

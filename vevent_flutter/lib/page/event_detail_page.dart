@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+// import 'dart:ui';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:vevent_flutter/bloc/event_detail/event_detail_bloc.dart';
-import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
+import 'package:vevent_flutter/bloc/qrcode/qrcode_bloc.dart';
+// import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
 import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
-import 'package:vevent_flutter/dateTimeFormat.dart';
+import 'package:vevent_flutter/models/date_time_format.dart';
+import 'package:vevent_flutter/models/filter.dart';
+// import 'package:vevent_flutter/models/filter.dart';
+import 'package:vevent_flutter/widget/gen_qrcode.dart';
 import 'package:vevent_flutter/widget/participant_section.dart';
+// ignore: unused_import
+import 'package:vevent_flutter/widget/scan_qrcode_btn.dart';
 import 'package:vevent_flutter/widget/user_profile_section.dart';
 import 'package:vevent_flutter/widget/validate_btn.dart';
-import '../widget/statusTag.dart';
+import '../widget/status_tag.dart';
 
 // ignore: must_be_immutable
 class EventDetailPage extends StatefulWidget {
@@ -27,8 +35,9 @@ class EventDetailPage extends StatefulWidget {
   late String organizerProfile;
   final String uEventId;
   final String uRole;
+  late String validationType;
 
-  EventDetailPage({required this.uEventId, required this.uRole});
+  EventDetailPage({super.key, required this.uEventId, required this.uRole});
 
   @override
   State<EventDetailPage> createState() => _EventDetailPageState();
@@ -44,18 +53,34 @@ class _EventDetailPageState extends State<EventDetailPage> {
     super.initState();
   }
 
-  Widget actionSection(String uRole) {
+  Widget actionSection(String uRole, String validationType) {
     if (uRole == "Participant") {
       return ValidateButton(
-          uEmail: widget.uEmail,
-          eventId: widget.eventId,
-          eventStatus: widget.eventStatus,
-          validateStatus: widget.validateStatus!);
-    } else {
-      print(widget.eventId);
-      return ParticipantSection(
+        uEmail: widget.uEmail,
+        uEventId: widget.uEventId,
         eventId: widget.eventId,
+        eventStatus: widget.eventStatus,
+        validateStatus: widget.validateStatus!,
+        validationType: widget.validationType,
       );
+    } else {
+      if (validationType.contains("QR_CODE") && widget.eventStatus == "ON") {
+        return Column(
+          children: [
+            GenerateQRCodeSection(eventID: widget.eventId),
+            const SizedBox(
+              height: 24,
+            ),
+            ParticipantSection(
+              eventId: widget.eventId,
+            )
+          ],
+        );
+      } else {
+        return ParticipantSection(
+          eventId: widget.eventId,
+        );
+      }
     }
   }
 
@@ -63,10 +88,10 @@ class _EventDetailPageState extends State<EventDetailPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<EventDetailBloc, EventDetailState>(
       builder: (context, state) {
-        print(state);
+        debugPrint("$state");
         if (state is EventDetailLoadingState || state is EventDetailInitial) {
-          print(state);
-          return Scaffold(
+          debugPrint("$state");
+          return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
         } else if (state is EventDetailFinishState) {
@@ -84,6 +109,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
             widget.imagePath = "${state.event["event"]["posterImg"]}";
             widget.validateStatus = "${state.event["status"]}";
             widget.status = "${state.event["status"]}";
+            widget.validationType = "${state.event["event"]["validationType"]}";
           } else {
             widget.eventId = "${state.event["id"]}";
             widget.uEmail = "${state.event["createBy"]}";
@@ -97,70 +123,98 @@ class _EventDetailPageState extends State<EventDetailPage> {
             widget.imagePath = "${state.event["posterImg"]}";
             widget.validateStatus = null;
             widget.status = "${state.event["eventStatus"]}";
+            widget.validationType = "${state.event["validationType"]}";
           }
 
           // context.read<UserBloc>().add(getUser(uEmail: widget.createBy));
-          print("in BlocListener => state is ${state}");
+          debugPrint("in BlocListener => state is $state");
           return Scaffold(
             appBar: AppBar(
               title: Text(
                 widget.title,
-                style: TextStyle(fontSize: 24),
+                style: const TextStyle(fontSize: 24),
+              ),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  context.read<EventBloc>().add(showEventList(
+                      uEmail: widget.uEmail,
+                      uRole: widget.uRole,
+                      selectedStatus: EventFilter.filterStatus, sortBy: EventFilter.sortBy));
+                  Navigator.of(context).pop();
+                },
               ),
             ),
-            body: BlocListener<ValidationBloc, ValidationState>(
-              listener: (context, state) async {
-                // Color snackBarColor;
-                if (state is ValidationFinishState) {
-                  if (state.validateRes.httpStatus == 200) {
-                    // switch (state.validateRes.vStatus) {
-                    //   case 'Success':
-                    //     snackBarColor = Colors.green;
-                    //     break;
-                    //   case 'Fail':
-                    //     snackBarColor = Colors.red;
-                    //     break;
-                    //   default : snackBarColor = Colors.green;
-                    // }
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      backgroundColor: state.validateRes.vStatus == "Success"
-                          ? Colors.green
-                          : Colors.red,
-                      content: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(state.validateRes.vStatus,
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                                "The distance between your current location and the event location is ${state.validateRes.displacement}")
-                          ]),
-                    ));
-
-                    await Future.delayed(Duration(seconds: 1));
-                    //อาจมีปัญหาเรื่องลำดับการแสดงผลถ้ามีก็อาจเปลี่ยน snackbar เป็น alert dialog ดูก่อน
+            body: MultiBlocListener(
+              listeners: [
+                BlocListener<ValidationBloc, ValidationState>(
+                    listener: (context, state) async {
+                  if (state is ValidationFinishState) {
+                    if (state.validateRes.httpStatus == 200) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        backgroundColor: state.validateRes.vStatus == "Success"
+                            ? Colors.green
+                            : Colors.red,
+                        content: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(state.validateRes.vStatus,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold)),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                  "The distance between your current location and the event location is ${state.validateRes.displacement}")
+                            ]),
+                      ));
+                      await Future.delayed(const Duration(seconds: 1));
+                      //อาจมีปัญหาเรื่องลำดับการแสดงผลถ้ามีก็อาจเปลี่ยน snackbar เป็น alert dialog ดูก่อน
+                      context.read<EventDetailBloc>().add(getEventDetail(
+                          id: widget.uEventId, uRole: widget.uRole));
+                      // Navigator.of(context).pop();
+                    } else {
+                      // snackBarColor = Colors.yellow;
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        backgroundColor: Colors.yellow,
+                        content: Row(children: [
+                          Text(state.validateRes.vStatus),
+                        ]),
+                      ));
+                      await Future.delayed(const Duration(seconds: 2));
+                      Navigator.of(context).pop();
+                    }
+                  }
+                  if (state is ValidationErrorState) {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text(state.message)));
+                  }
+                }),
+                BlocListener<QrcodeBloc, QrcodeState>(
+                    listener: (context, state) async {
+                  if (state is QrcodeFinishState) {
+                    if (state.res.statusCode == 200) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(state.res.body),
+                        backgroundColor: Colors.green,
+                      ));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(state.res.body),
+                        backgroundColor: Colors.red,
+                      ));
+                    }
+                    await Future.delayed(const Duration(seconds: 1));
                     context.read<EventDetailBloc>().add(getEventDetail(
                         id: widget.uEventId, uRole: widget.uRole));
                     // Navigator.of(context).pop();
-                  } else {
-                    // snackBarColor = Colors.yellow;
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      backgroundColor: Colors.yellow,
-                      content: Row(children: [
-                        Text(state.validateRes.vStatus),
-                      ]),
-                    ));
-                    await Future.delayed(Duration(seconds: 2));
-                    Navigator.of(context).pop();
                   }
-                }
-                if (state is ValidationErrorState) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text(state.message)));
-                }
-              },
+                  if (state is QrcodeErrorState) {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text(state.message)));
+                  }
+                }),
+              ],
               child: Stack(
                 children: [
                   Image(
@@ -194,113 +248,102 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 16),
-                                Container(
-                                  // width: 204,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      ProfileSection(
-                                          organizerEmail: widget.createBy),
-                                      Container(
-                                          child:
-                                              StatusTag(widget.status, 6, 16)),
-                                    ],
-                                  ),
+                                const SizedBox(height: 16),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ProfileSection(
+                                        organizerEmail: widget.createBy),
+                                    Container(
+                                        child: StatusTag(widget.status, 6, 16)),
+                                  ],
                                 ),
-                                SizedBox(height: 16),
+                                const SizedBox(height: 16),
                                 Text(
                                   widget.title,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                SizedBox(height: 10),
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.calendar_month),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        widget.startDate,
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                    ],
-                                  ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.calendar_month),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      widget.startDate,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(height: 8),
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.location_on),
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                      Expanded(
-                                        child: Text(widget.location,
-                                            overflow: TextOverflow.ellipsis,
-                                            softWrap:
-                                                false, // ถ้าเกินให้ตัดด้วยจุดจุดจุด
-                                            maxLines: 1,
-                                            style: TextStyle(fontSize: 16)),
-                                      )
-                                    ],
-                                  ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.location_on),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Expanded(
+                                      child: Text(widget.location,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap:
+                                              false, // ถ้าเกินให้ตัดด้วยจุดจุดจุด
+                                          maxLines: 1,
+                                          style: const TextStyle(fontSize: 16)),
+                                    )
+                                  ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 8,
                                 ),
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.category),
-                                      SizedBox(
-                                        width: 4,
+                                Row(
+                                  children: [
+                                    const Icon(Icons.category),
+                                    const SizedBox(
+                                      width: 4,
+                                    ),
+                                    Container(
+                                      alignment: Alignment.centerRight,
+                                      margin: const EdgeInsets.only(left: 4),
+                                      child: Text(
+                                        widget.category,
+                                        style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500),
                                       ),
-                                      Container(
-                                        alignment: Alignment.centerRight,
-                                        margin: const EdgeInsets.only(left: 4),
-                                        child: Text(
-                                          widget.category,
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 32,
                                 ),
-                                Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "รายละเอียด",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        widget.description,
-                                        style: TextStyle(fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "รายละเอียด",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(
+                                      widget.description,
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 32,
                                 ),
-                                Container(child: actionSection(widget.uRole))
+                                // GenerateQRCodeSection(eventID: widget.eventId),
+                                Container(
+                                    child: actionSection(
+                                        widget.uRole, widget.validationType))
                               ],
                             ),
                           ),
@@ -311,27 +354,10 @@ class _EventDetailPageState extends State<EventDetailPage> {
             ),
           );
         } else {
-          print(state);
-          return Container(
-            child: Text("Event detail is not found"),
-          );
+          debugPrint("$state");
+          return const Text("Event detail is not found");
         }
       },
     );
   }
 }
-
-// Widget getProfileImage(img) {
-//   print("this is owner profile = " + img);
-//   if (img == "") {
-//     // return CircleAvatar(child: Icon(Icons.home_work),backgroundColor: Color.fromARGB(100, 218, 210, 245),);
-//     return Image(
-//       image: AssetImage("assets/images/default_profile.png"),
-//     );
-//   } else {
-//     return Image.asset(
-//       "assets/images/poster.png",
-//     );
-//     // return Image.network(img);
-//   }
-// }

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 // import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:meta/meta.dart';
+// import 'package:meta/meta.dart';
 import 'package:vevent_flutter/repository/event_repository.dart';
 
 part 'event_event.dart';
@@ -10,12 +11,10 @@ class EventBloc extends Bloc<EventEvent, EventState> {
   final EventRepository repository;
   EventBloc(this.repository) : super(EventInitial()) {
     on<showEventList>((event, emit) async {
-      // TODO: implement event handler
-      
-      emit(EventLoadingState()); //emit(sth) โยน sth ออกไป
+      emit(EventLoadingState()); //emit(sth) โยน sth 
       try {
-        var events = await repository.getEventsByUserEmail(event.uEmail,event.uRole);
-        print("In EventBloc showEventList => ${events}");
+        List<dynamic> events = await repository.getEventsByUserEmail(event.uEmail,event.uRole,event.selectedStatus,event.sortBy);
+        debugPrint("In EventBloc showEventList => $events");
         emit(EventFinishState(events: events));
 
       } catch (e) {

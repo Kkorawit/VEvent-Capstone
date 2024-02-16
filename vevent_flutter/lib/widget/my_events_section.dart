@@ -3,14 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:vevent_flutter/page/event_detail_page.dart';
 import 'package:vevent_flutter/widget/custom_card.dart';
+// import 'package:vevent_flutter/widget/filter_banner.dart';
+// import 'dart:ui';
 
+// ignore: must_be_immutable
 class MyEventsSection extends StatefulWidget {
-  // String uEmail = "Laure-CA03@example.com";
-  String uEmail = "organization-01@example.com";
-  // String uRole = "Participant";
-  String uRole = "Organization";
+  final String uEmail;
+  final String uRole;
 
-  // MyEventsSection({super.key});
+  const MyEventsSection({super.key, required this.uEmail, required this.uRole});
 
   @override
   State<MyEventsSection> createState() => _MyEventsSectionState();
@@ -19,33 +20,35 @@ class MyEventsSection extends StatefulWidget {
 class _MyEventsSectionState extends State<MyEventsSection> {
   @override
   void initState() {
-    //เป็นการเรียกใช้งานครั้งเดียว
-    BlocProvider.of<EventBloc>(context)
-        .add(showEventList(uEmail: widget.uEmail, uRole: widget.uRole));
+    //only use when this page/section is builded.
+    print("In my event section -> ${widget.uRole}");
+
+    // context.read<EventBloc>().add(showEventList(uEmail: widget.uEmail, uRole: widget.uRole, selectedStatus: "All"));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EventBloc, EventState>(builder: (context, state) {
-      print(state);
+      debugPrint("$state");
       if (state is EventLoadingState || state is EventInitial) {
-        return Scaffold(
+        return const Scaffold(
           // appBar: AppBar(),
           body: Center(child: CircularProgressIndicator()),
         );
       }
       if (state is EventFinishState) {
-        return Scaffold(
-          // appBar: AppBar(),
-          body: ListView.builder(
-              itemCount: state.events.length,
-              itemBuilder: (context, index) {
-                if (widget.uRole == "Participant") {
+        if (widget.uRole == "Participant") {
+          return Scaffold(
+            // appBar: AppBar(),
+            body: ListView.builder(
+                itemCount: state.events.length,
+                itemBuilder: (context, index) {
+                  //CustomCard for event that participant registered
                   return GestureDetector(
                     onTap: () {
-                      print("Click event " +
-                          "${state.events[index]["event"]["title"]}");
+                      debugPrint(
+                          "Click event ${state.events[index]["event"]["title"]}");
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
                         return EventDetailPage(
@@ -62,18 +65,26 @@ class _MyEventsSectionState extends State<MyEventsSection> {
                       category: "${state.events[index]["event"]["category"]}",
                       createBy: "${state.events[index]["event"]["createBy"]}",
                       eventStatus:
-                          "${state.events[index]["eventStatus"]}", //รอเปลี่ยนเป็น ${state.events[index]["event"]["eventStatus"]}
+                          "${state.events[index]["eventStatus"]}", // status of event [UP,ON,CO,CE]
                       description:
                           "${state.events[index]["event"]["description"]}",
                       imagePath: "${state.events[index]["event"]["posterImg"]}",
                       status:
-                          "${state.events[index]["status"]}", //validateStatus
+                          "${state.events[index]["status"]}", //validate Status of user_event
                     ),
                   );
-                } else {
+                }),
+          );
+        } else if (widget.uRole == "Organization") {
+          return Scaffold(
+            // appBar: AppBar(),
+            body: ListView.builder(
+                itemCount: state.events.length,
+                itemBuilder: (context, index) {
+                  //CustomCard for event that organization created
                   return GestureDetector(
                     onTap: () {
-                      print("Click event " + "${state.events[index]["title"]}");
+                      debugPrint("Click event ${state.events[index]["title"]}");
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
                         return EventDetailPage(
@@ -91,15 +102,40 @@ class _MyEventsSectionState extends State<MyEventsSection> {
                       description: "${state.events[index]["description"]}",
                       imagePath: "${state.events[index]["posterImg"]}",
                       eventStatus:
-                          "${state.events[index]["eventStatus"]}", //รอเปลี่ยนเป็น ${state.events[index]["event"]["eventStatus"]}
-                      status: "${state.events[index]["eventStatus"]}",
+                          "${state.events[index]["eventStatus"]}", // status of event [UP,ON,CO,CE]
+                      status:
+                          "${state.events[index]["eventStatus"]}", // status of event [UP,ON,CO,CE]
                     ),
                   );
-                }
-              }),
+                }),
+          );
+        } else {
+          return const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage("assets/images/text_logo.png"),
+                  height: 100,
+                  width: 148,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text("No participating events"),
+                SizedBox(
+                  height: 8,
+                ),
+              ],
+            ),
+          );
+        }
+      } else if (state is EventErrorState) {
+        return Center(
+          child: Text(state.message),
         );
       } else {
-        return Center(
+        return const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
