@@ -26,10 +26,10 @@ public class JwtUserDetailsService implements UserDetailsService {
         backend.vevent.server.Entity.User user = repository.findUserByEmail(uEmail);
         if (user!=null) {
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-//            authorities.add(new SimpleGrantedAuthority(user.getRole().getRoleName()));
+            authorities.add(new SimpleGrantedAuthority(user.getRole()));
 //            System.out.println("authorities : "+authorities);
 //            System.out.println(user.getUsername() +" ::  "+ user.getUserPassword());
-            return new User(user.getUsername(),user.getPassword(),authorities);
+            return new User(user.getUserEmail(),user.getName(),authorities);
         } else {
             throw new UsernameNotFoundException("User not found with username: " + uEmail);
         }
