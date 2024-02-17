@@ -36,14 +36,17 @@ class _SignInPageState extends State<SignInPage> {
   Future<void> _handleSignIn() async {
     try {
       debugPrint("on sign in");
-      // await _googleSignIn.signOut();
+      await _googleSignIn.signOut();
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser != null) {
         debugPrint(googleUser.email);
         _currentUser = googleUser;
-        widget.roleSelected == "Participant"
-            ? widget.uEmail = googleUser.email
-            : widget.uEmail = "organization-01@example.com";
+        setState(() {
+          widget.uEmail = googleUser.email;
+        // widget.roleSelected == "Participant"
+        //     ? widget.uEmail = googleUser.email
+        //     : widget.uEmail = "Organization.032301@gmail.com";
+        });
         context
             .read<SignInBloc>()
             .add(signIn(uEmail: widget.uEmail, role: widget.roleSelected));

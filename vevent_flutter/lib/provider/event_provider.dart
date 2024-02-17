@@ -100,7 +100,7 @@ class EventProvider {
           document: gql(
             """
           query FindAllEventCreatedByUEmail {
-               findAllEventCreatedByUEmail (uEmail: "organization-01@example.com") {
+               findAllEventCreatedByUEmail (uEmail: "$uEmail") {
                 id
                 title
                 eventDescription
@@ -130,7 +130,7 @@ class EventProvider {
           """, // let's see query string
           ),
           variables: {
-            "uEmail": "organization-01@example.com",
+            "uEmail": uEmail,
           },
         ),
       );

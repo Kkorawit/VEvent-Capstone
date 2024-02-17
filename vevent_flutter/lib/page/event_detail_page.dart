@@ -23,6 +23,7 @@ class EventDetailPage extends StatefulWidget {
   late String eventId;
   late String title;
   late String startDate;
+  late String endDate;
   late String location;
   late String category;
   late String createBy;
@@ -67,7 +68,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
       if (validationType.contains("QR_CODE") && widget.eventStatus == "ON") {
         return Column(
           children: [
-            GenerateQRCodeSection(eventID: widget.eventId),
+            GenerateQRCodeSection(eventID: widget.eventId, eventStartDate: widget.startDate, eventEndDate: widget.endDate,),
             const SizedBox(
               height: 24,
             ),
@@ -101,6 +102,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
             widget.title = "${state.event["event"]["title"]}";
             widget.startDate =
                 dateTimeFormat("${state.event["event"]["startDate"]}");
+            widget.endDate ="${state.event["event"]["endDate"]}";
             widget.location = "${state.event["event"]["locationName"]}";
             widget.category = "${state.event["event"]["category"]}";
             widget.createBy = "${state.event["event"]["createBy"]}";
@@ -115,6 +117,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
             widget.uEmail = "${state.event["createBy"]}";
             widget.title = "${state.event["title"]}";
             widget.startDate = dateTimeFormat("${state.event["startDate"]}");
+            widget.endDate ="${state.event["endDate"]}";
             widget.location = "${state.event["locationName"]}";
             widget.category = "${state.event["category"]}";
             widget.createBy = "${state.event["createBy"]}";
@@ -274,6 +277,11 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                     const SizedBox(width: 8),
                                     Text(
                                       widget.startDate,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                    Text(" - "),
+                                    Text(
+                                      dateTimeFormat(widget.endDate),
                                       style: const TextStyle(fontSize: 16),
                                     ),
                                   ],
