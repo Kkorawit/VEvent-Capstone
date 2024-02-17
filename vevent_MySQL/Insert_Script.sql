@@ -14,6 +14,7 @@ INSERT INTO users VALUES("organization01","Organization-01@BK","Organization","o
 INSERT INTO users VALUES("organization02","Organization-02@BK","Organization","organization-02@example.com","Annie","Lillian","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2Forganiz-2.png?alt=media&token=302a3e44-28a6-4a2f-b7dd-df548d446bda");
 INSERT INTO users VALUES("John13","John_S011.","Participants","Johnn.sm13@gmail.com","John","Smith","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FuserId-10.jpg?alt=media&token=faeea19b-6887-4a40-b4b7-70160b87eef1");
 INSERT INTO users VALUES("organization03","Organization-03@BK","Organization","Organization.032301@gmail.com","Linda","Brown","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2Forganiz-3.png?alt=media&token=1ab116e9-a4c2-4ff1-819d-4e562d83ae7d");
+INSERT INTO users VALUES("jennifer14","JJohn_son012","Participants","J.JoHnson14231@gmail.com","Jennifer","Johnson","https://firebasestorage.googleapis.com/v0/b/vevent-capstone.appspot.com/o/NK-2%2FProfile_image%2FuserId-5.jpg?alt=media&token=8d6f86e6-4522-457b-af60-adc908df54a3");
 
 -- -----------------------------------------------------
 
@@ -83,7 +84,7 @@ INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("claudine.05@example.com",28,"S",0);
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("claudine.05@example.com",30,"F",0);
 
--- test Validation by QR Code
+-- test Validation by QR Code-1
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",6,"P",0);
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",7,"IP",0);
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",33,"S",0);
@@ -95,6 +96,19 @@ INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",38,"P",0);
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",39,"F",0);
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",30,"S",0);
+
+-- test Validation by QR Code-2
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("J.JoHnson14231@gmail.com",6,"P",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("J.JoHnson14231@gmail.com",7,"IP",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("J.JoHnson14231@gmail.com",33,"S",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("J.JoHnson14231@gmail.com",34,"F",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("J.JoHnson14231@gmail.com",15,"P",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("J.JoHnson14231@gmail.com",35,"IP",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("J.JoHnson14231@gmail.com",36,"S",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("J.JoHnson14231@gmail.com",37,"F",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("J.JoHnson14231@gmail.com",38,"P",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("J.JoHnson14231@gmail.com",39,"F",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("J.JoHnson14231@gmail.com",30,"S",0);
 
 -- test list participants-
 -- event 1
