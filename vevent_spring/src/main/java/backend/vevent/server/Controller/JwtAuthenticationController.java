@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
@@ -39,18 +40,20 @@ public class JwtAuthenticationController {
 
     @PostMapping("/auth")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-        String upperUserEmail = authenticationRequest.getEmail().toUpperCase();
+//        authenticationRequest.setEmail(authenticationRequest.getEmail().toUpperCase());
         System.out.println("login pls");
         Map<String, String> tokens = new HashMap<>();
+
 //        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-        String sCryptPasswordEncoded = passwordEncoder.encode(authenticationRequest.getPassword());
+//        String sCryptPasswordEncoded = passwordEncoder.encode(authenticationRequest.getPassword());
 
         final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(upperUserEmail);
+                .loadUserByUsername(authenticationRequest.getEmail());
+
         try {
-            System.out.println("in try catch");
+            System.out.println("in try");
             System.out.println(userDetails.getUsername());
-            System.out.println(passwordEncoder.matches(authenticationRequest.getEmail(),sCryptPasswordEncoded));
+//            System.out.println(passwordEncoder.matches(authenticationRequest.getEmail(),sCryptPasswordEncoded));
 //            if (passwordEncoder.matches(authenticationRequest.getEmail(),sCryptPasswordEncoded)) {
                 System.out.println("controller jwt : " + userDetails);
                 final String access_token = jwtTokenUtil.generateToken(userDetails);
@@ -86,16 +89,16 @@ public class JwtAuthenticationController {
         return ResponseEntity.ok(tokens);
     }
 
-    private void authenticate(String username, String password) throws Exception {
-        try {
-            System.out.println("authenicate function : " + username);
-            System.out.println("authenicate function : " + password);
-//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (Exception e) {
-            throw new Exception("USER_DISABLED", e);
-        }
-//        } catch (BadCredentialsException e) {
-//            throw new Exception("INVALID_CREDENTIALS", e);
+//    private void authenticate(String username, String password) throws Exception {
+//        try {
+//            System.out.println("authenicate function : " + username);
+//            System.out.println("authenicate function : " + password);
+////            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+//        } catch (Exception e) {
+//            throw new Exception("USER_DISABLED", e);
 //        }
-    }
+////        } catch (BadCredentialsException e) {
+////            throw new Exception("INVALID_CREDENTIALS", e);
+////        }
+//    }
 }
