@@ -40,16 +40,22 @@ class _SignInPageState extends State<SignInPage> {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser != null) {
         debugPrint(googleUser.email);
+        debugPrint(googleUser.displayName);
+        debugPrint(googleUser.photoUrl);
+        debugPrint(googleUser.photoUrl);
         _currentUser = googleUser;
         setState(() {
           widget.uEmail = googleUser.email;
-        // widget.roleSelected == "Participant"
-        //     ? widget.uEmail = googleUser.email
-        //     : widget.uEmail = "Organization.032301@gmail.com";
+          // widget.roleSelected == "Participant"
+          //     ? widget.uEmail = googleUser.email
+          //     : widget.uEmail = "Organization.032301@gmail.com";
         });
-        context
-            .read<SignInBloc>()
-            .add(signIn(uEmail: widget.uEmail, role: widget.roleSelected));
+        context.read<SignInBloc>().add(signIn(
+            uEmail: widget.uEmail,
+            role: widget.roleSelected,
+            displayName: googleUser.displayName,
+            profileURL:
+                googleUser.photoUrl == null ? "" : googleUser.photoUrl));
       } else {
         debugPrint("User null");
       }

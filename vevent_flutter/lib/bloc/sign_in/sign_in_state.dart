@@ -17,6 +17,9 @@ class SignInFinishState extends SignInState {
   final bool signInSuccess;
   final String uEmail;
   final String role;
+  final String displayName;
+  final String profileURL;
 
-  SignInFinishState({required this.signInSuccess, required this.uEmail, required this.role});
+  SignInFinishState({required this.signInSuccess, required this.uEmail, required this.role, required this.displayName, required this.profileURL});
+
 }

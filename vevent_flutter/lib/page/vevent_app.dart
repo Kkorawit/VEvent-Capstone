@@ -20,6 +20,7 @@ import 'package:vevent_flutter/repository/event_repository.dart';
 import 'package:vevent_flutter/repository/participant_repository.dart';
 import 'package:vevent_flutter/repository/validation_repository.dart';
 import 'package:vevent_flutter/widget/filter_slider.dart';
+import 'package:vevent_flutter/widget/image.dart';
 import 'package:vevent_flutter/widget/my_events_section.dart';
 import 'package:vevent_flutter/repository/user_repository.dart';
 import 'package:vevent_flutter/widget/search_box.dart';
@@ -81,7 +82,14 @@ class VEventApp extends StatelessWidget {
 class AppBar extends StatelessWidget {
   final String uEmail;
   final String uRole;
-  const AppBar({super.key, required this.uEmail, required this.uRole});
+  final String uDisplayName;
+  final String uProfileURL;
+  const AppBar(
+      {super.key,
+      required this.uEmail,
+      required this.uRole,
+      required this.uDisplayName,
+      required this.uProfileURL});
 
   @override
   Widget build(BuildContext context) {
@@ -112,24 +120,14 @@ class AppBar extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Container(
-                            width: 48,
-                            height: 48,
-                            decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16)),
-                              image: DecorationImage(
-                                  image: AssetImage(
-                                      "assets/images/default_profile.png")),
-                            ),
-                          ),
+                          getUProfileImage(uProfileURL),
                           const SizedBox(
                             width: 16,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Hi, $uEmail",
+                              Text("Hi, $uDisplayName",
                                   style: const TextStyle(
                                       color: Colors.white, fontSize: 16)),
                               Text(uRole,
@@ -166,7 +164,10 @@ class AppBar extends StatelessWidget {
                       color: Color.fromRGBO(106, 77, 214, 0.5),
                     )
                   ]),
-                  child: SearchBox(uEmail: uEmail, uRole: uRole,)),
+                  child: SearchBox(
+                    uEmail: uEmail,
+                    uRole: uRole,
+                  )),
             ),
           ],
         ),
@@ -183,7 +184,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   //display
   @override
   Widget build(BuildContext context) {
@@ -203,7 +203,11 @@ class _MyHomePageState extends State<MyHomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // SignInPage()
-                AppBar(uEmail: state.uEmail, uRole: state.role),
+                AppBar(
+                    uEmail: state.uEmail,
+                    uRole: state.role,
+                    uDisplayName: state.displayName,
+                    uProfileURL: state.profileURL),
                 const SizedBox(
                   height: 24,
                 ),

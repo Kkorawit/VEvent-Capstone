@@ -10,6 +10,7 @@ class GenerateQRCodeSection extends StatefulWidget {
   final String eventID;
   final String eventStartDate;
   final String eventEndDate;
+  final String eventTitle;
   late int durationHour = 0;
   late int durationMin = 0;
   late String currentDateTime;
@@ -18,7 +19,9 @@ class GenerateQRCodeSection extends StatefulWidget {
       {super.key,
       required this.eventID,
       required this.eventStartDate,
-      required this.eventEndDate});
+      required this.eventEndDate,
+      required this.eventTitle,
+      });
 
   @override
   State<GenerateQRCodeSection> createState() => _GenerateQRCodeSectionState();
@@ -162,14 +165,15 @@ class _GenerateQRCodeSectionState extends State<GenerateQRCodeSection> {
                     // setState(() {
                     //   widget.qrStart = DateTime.now().toUtc().toIso8601String();
                     // });
-                    debugPrint(widget.qrStart);
-                    debugPrint(duration.toString());
+                    // debugPrint(widget.qrStart);
+                    // debugPrint(duration.toString());
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
                       return QRCodePage(
                         qrStart: widget.qrStart,
                         eventId: widget.eventID,
                         duration: duration,
+                        eventTitle: widget.eventTitle,
                       );
                     }));
                     setState(() {

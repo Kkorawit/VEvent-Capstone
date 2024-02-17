@@ -7,6 +7,10 @@ sealed class SignInEvent {}
 class signIn extends SignInEvent {
   final String? uEmail;
   final String? role;
+  final String? displayName;
+  final String? profileURL;
 
-  signIn({required this.uEmail, required this.role});
+  signIn({required this.uEmail, required this.role, required this.displayName, required this.profileURL});
+
+  
 }

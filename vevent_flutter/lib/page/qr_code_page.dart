@@ -1,5 +1,6 @@
 import 'dart:async';
 // import 'dart:ui';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -11,6 +12,7 @@ class QRCodePage extends StatefulWidget {
   final String qrStart;
   final String eventId;
   final int duration;
+  final String eventTitle;
   late String currentDateTime;
   late int countdownMinutes = duration;
   late int countdownSecond = 0;
@@ -20,6 +22,7 @@ class QRCodePage extends StatefulWidget {
     required this.qrStart,
     required this.eventId,
     required this.duration,
+    required this.eventTitle,
   });
 
   @override
@@ -36,7 +39,7 @@ class _QRCodePageState extends State<QRCodePage> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent, // ทำให้ StatusBar เป็นสีที่透ทน
     ));
-    widget.qrData ="${widget.qrStart};${widget.eventId};${widget.duration}";
+    widget.qrData = "${widget.qrStart};${widget.eventId};${widget.duration}";
     startTimer();
   }
 
@@ -81,18 +84,18 @@ class _QRCodePageState extends State<QRCodePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: FloatingActionButton(
-          backgroundColor: const Color.fromARGB(100, 69, 32, 204),
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10), // กำหนดความโค้ง
-          ),
-          mini: true, // กำหนดให้เป็น Mini FloatingActionButton
-          heroTag:
-              null, // กำหนดให้ heroTag เป็น null เพื่อป้องกันความขัดแย้ง
-          child: const Icon(Icons.close),
-          onPressed: () {
-            _showAlertDialog(context);
-          },
+              backgroundColor: const Color.fromARGB(100, 69, 32, 204),
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10), // กำหนดความโค้ง
+              ),
+              mini: true, // กำหนดให้เป็น Mini FloatingActionButton
+              heroTag:
+                  null, // กำหนดให้ heroTag เป็น null เพื่อป้องกันความขัดแย้ง
+              child: const Icon(Icons.close),
+              onPressed: () {
+                _showAlertDialog(context);
+              },
             ),
           ),
         ],
@@ -109,6 +112,14 @@ class _QRCodePageState extends State<QRCodePage> {
               height: MediaQuery.of(context).size.height * 0.7,
               child: Column(
                 children: [
+                  Text(
+                    widget.eventTitle,
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                    overflow: TextOverflow.clip,
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 20,),
                   if (!(widget.countdownMinutes == 0 &&
                       widget.countdownSecond == 0))
                     QrImageView(
@@ -119,7 +130,7 @@ class _QRCodePageState extends State<QRCodePage> {
                   const SizedBox(
                     height: 40,
                   ),
-                  Text(widget.qrData),
+                  if (kDebugMode) Text(widget.qrData),
                   const SizedBox(
                     height: 24,
                   ),
@@ -133,7 +144,8 @@ class _QRCodePageState extends State<QRCodePage> {
                   // ),
                   Text(
                     "${widget.countdownMinutes}:${widget.countdownSecond.toString().padLeft(2, '0')}",
-                    style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 24,

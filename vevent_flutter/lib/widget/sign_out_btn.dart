@@ -13,7 +13,7 @@ class _SignOutBtnState extends State<SignOutBtn> {
   @override
   Widget build(BuildContext context) {
     return IconButton(onPressed: (){
-      context.read<SignInBloc>().add(signIn(uEmail: null, role: null));
+      context.read<SignInBloc>().add(signIn(uEmail: null, role: null, displayName: null, profileURL: ""));
     }, icon: const Icon(Icons.logout, color: Colors.white), );
   }
 }

@@ -23,11 +23,11 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         }
         if(event.uEmail != null && event.role != null){
         emit(SignInFinishState(
-            signInSuccess: true, uEmail: event.uEmail.toString(), role: event.role.toString()));
+            signInSuccess: true, uEmail: event.uEmail.toString(), role: event.role.toString(), displayName: event.displayName.toString(), profileURL: event.profileURL.toString()));
         }else{
           await _googleSignIn.signOut();
         emit(SignInFinishState(
-            signInSuccess: false, uEmail: event.uEmail.toString(), role: event.role.toString()));
+            signInSuccess: false, uEmail: event.uEmail.toString(), role: event.role.toString(), displayName: event.displayName.toString(), profileURL: event.profileURL.toString()));
         }
       } catch (e) {
         emit(SignInErrorState(e.toString()));

@@ -68,7 +68,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
       if (validationType.contains("QR_CODE") && widget.eventStatus == "ON") {
         return Column(
           children: [
-            GenerateQRCodeSection(eventID: widget.eventId, eventStartDate: widget.startDate, eventEndDate: widget.endDate,),
+            GenerateQRCodeSection(eventID: widget.eventId, eventStartDate: widget.startDate, eventEndDate: widget.endDate,eventTitle: widget.title),
             const SizedBox(
               height: 24,
             ),
