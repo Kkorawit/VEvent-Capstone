@@ -6,7 +6,7 @@ class UserRepository {
   UserRepository({required this.provider});
 
     Future<Map> getUserByUserEmail(String uEmail) async {
-        final data = await provider.getUserByUserEmail(uEmail);
+        final Map data = await provider.getUserByUserEmail(uEmail);
         return data;
     }
 }

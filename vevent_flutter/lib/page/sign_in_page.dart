@@ -41,6 +41,9 @@ class _SignInPageState extends State<SignInPage> {
       if (googleUser != null) {
         debugPrint(googleUser.email);
         _currentUser = googleUser;
+        widget.roleSelected == "Participant"
+            ? widget.uEmail = googleUser.email
+            : widget.uEmail = "organization-01@example.com";
         context
             .read<SignInBloc>()
             .add(signIn(uEmail: widget.uEmail, role: widget.roleSelected));
@@ -97,7 +100,7 @@ class _SignInPageState extends State<SignInPage> {
                       onTap: () {
                         setState(() {
                           widget.roleSelected = "Participant";
-                          widget.uEmail = "Laure-CA03@example.com";
+                          // widget.uEmail = "Laure-CA03@example.com";
                         });
                       },
                       child: Container(
@@ -150,7 +153,7 @@ class _SignInPageState extends State<SignInPage> {
                       onTap: () {
                         setState(() {
                           widget.roleSelected = "Organization";
-                          widget.uEmail = "organization-01@example.com";
+                          // widget.uEmail = "organization-01@example.com";
                         });
                       },
                       child: Container(

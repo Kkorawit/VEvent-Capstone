@@ -9,9 +9,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository repository;
   UserBloc(this.repository) : super(UserInitial()) {
     on<getUser>((event, emit) async {
-      emit(UserInitial());
+      emit(UserLoadingState());
       try{
-        var user = await repository.getUserByUserEmail(event.uEmail);
+        Map user = await repository.getUserByUserEmail(event.uEmail);
         emit(UserFinishState(user: user));
 
       }catch (e){
