@@ -23,6 +23,9 @@ public class QRService {
         Boolean isInTime = false;
         System.out.println("isBefore: "+currentDateTime.isBefore(qrStart));
         System.out.println("isAfter: "+currentDateTime.isAfter(qrStart.plus(duration, ChronoUnit.MINUTES)));
+        System.out.println("Current: "+currentDateTime);
+        System.out.println("qrStart: "+ qrStart);
+        System.out.println("duration: "+ duration);
         System.out.println("plus duration: "+qrStart.plus(duration, ChronoUnit.MINUTES));
 //        System.out.println("current: "+currentDateTime<qrStart);
 //        currentDateTime>qrStart+duration
