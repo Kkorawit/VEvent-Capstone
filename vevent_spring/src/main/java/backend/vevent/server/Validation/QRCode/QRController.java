@@ -45,7 +45,7 @@ public class QRController {
         if(usersEvent != null){
             Event event = eventRepo.findEventById(usersEvent.getEvent().getId());
             System.out.println("In first condition");
-            if(usersEvent.getStatus().equals("IP") && event.getEventStatus().equals("ON")) {
+            if(usersEvent.getStatus().equals("IP") || usersEvent.getStatus().equals("F") && event.getEventStatus().equals("ON")) {
                 System.out.println("In second condition");
                 if (isInTime) {
                     System.out.println("validate success");
