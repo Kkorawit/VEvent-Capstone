@@ -49,6 +49,7 @@ public class QRService {
         } else if (qrStart.isBefore(event.getEndDate())&& qrStart.isAfter(event.getStartDate()) && qrStart.plus(duration,ChronoUnit.MINUTES).isBefore(event.getEndDate())) {
             timeStatus = "During the Activity";
         }
+        System.out.println(timeStatus);
         return timeStatus;
     }
 }
