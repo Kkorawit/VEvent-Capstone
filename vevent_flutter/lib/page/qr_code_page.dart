@@ -72,6 +72,9 @@ class _QRCodePageState extends State<QRCodePage> {
 
   @override
   Widget build(BuildContext context) {
+    // if(widget.countdownMinutes == 0 && widget.countdownSecond == 0){
+    //   _showQrCodeExpiredAlertDialog(context);
+    // }
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -119,7 +122,16 @@ class _QRCodePageState extends State<QRCodePage> {
                     maxLines: 2,
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  if (widget.countdownMinutes == 0 &&
+                      widget.countdownSecond == 0)
+                    Container(
+                      height: 200,
+                      alignment: Alignment.center,
+                        child: Text("QR Code has Expired!!",
+                            style: TextStyle(fontSize: 18, color: Colors.grey))),
                   if (!(widget.countdownMinutes == 0 &&
                       widget.countdownSecond == 0))
                     QrImageView(
@@ -150,6 +162,7 @@ class _QRCodePageState extends State<QRCodePage> {
                   const SizedBox(
                     height: 24,
                   ),
+
                   // ElevatedButton.icon(
                   //     style: ElevatedButton.styleFrom(
                   //         fixedSize: Size.fromWidth(100)),
@@ -183,15 +196,19 @@ class _QRCodePageState extends State<QRCodePage> {
     super.dispose();
   }
 
-  void _showAlertDialog(BuildContext context) {
+
+  void _showAlertDialog(
+    BuildContext context,
+  ) {
     // showDialog that build AlertDialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
         // AlertDialog
         return AlertDialog(
-          title: const Text('ทำการยกเลิก QR code'),
-          content: const Text('This is an example of AlertDialog.'),
+          title: const Text('Do you want to leave this page?'),
+          content: const Text(
+              'If you leave this page you can create a new qr code in the event detail page.'),
           actions: [
             // ปุ่ม OK
             TextButton(
