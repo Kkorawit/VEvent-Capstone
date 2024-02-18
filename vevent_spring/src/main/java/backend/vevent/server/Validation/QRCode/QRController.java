@@ -44,22 +44,26 @@ public class QRController {
         String EventTimeStatus = qrService.EventTimeCheck(ueid, qrstart,duration);
         if(usersEvent != null && EventTimeStatus.equals("During the Activity")){
             Event event = eventRepo.findEventById(usersEvent.getEvent().getId());
-
+            System.out.println("In first condition");
             if(usersEvent.getStatus().equals("IP") && event.getEventStatus().equals("ON")) {
-
+                System.out.println("In second condition");
                 if (isInTime) {
+                    System.out.println("validate success");
                     usersEvent.setStatus("S");
                     userEventRepo.save(usersEvent);
                     return ResponseEntity.ok().body("Validate Success");
                 } else {
+                    System.out.println("validate failed");
                     usersEvent.setStatus("F");
                     userEventRepo.save(usersEvent);
                     return ResponseEntity.badRequest().body("Validate Failed: This QRCode is Expired");
                 }
             }else{
+                System.out.println("can't validate");
                 return ResponseEntity.badRequest().body("Can't Validate This Event Now");
             }
         }
+        System.out.println("Not found");
         return ResponseEntity.notFound().build();
     }
 }
