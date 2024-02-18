@@ -41,8 +41,8 @@ public class QRController {
         UsersEvent usersEvent = userEventRepo.findUsersEventById(ueid);
         boolean isInTime = qrService.QrTimeCheck(qrstart,duration,currentDateTime);
         System.out.println(isInTime);
-        String EventTimeStatus = qrService.EventTimeCheck(ueid, qrstart,duration);
-        if(usersEvent != null && EventTimeStatus.equals("During the Activity")){
+//        String EventTimeStatus = qrService.EventTimeCheck(ueid, qrstart,duration);
+        if(usersEvent != null){
             Event event = eventRepo.findEventById(usersEvent.getEvent().getId());
             System.out.println("In first condition");
             if(usersEvent.getStatus().equals("IP") && event.getEventStatus().equals("ON")) {
