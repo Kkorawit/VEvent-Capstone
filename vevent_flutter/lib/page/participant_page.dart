@@ -18,6 +18,7 @@ class _ParticipantPageState extends State<ParticipantPage> {
   @override
   void initState() {
     debugPrint("ส่ง event id ${widget.eventId}");
+    // context.read<ParticipantBloc>().close();
     context.read<ParticipantBloc>().add(showParticipant(id: widget.eventId));
     super.initState();
   }

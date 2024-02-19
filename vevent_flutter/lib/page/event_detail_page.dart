@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:vevent_flutter/bloc/event_detail/event_detail_bloc.dart';
+import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
 import 'package:vevent_flutter/bloc/qrcode/qrcode_bloc.dart';
 // import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
 import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
@@ -131,6 +132,9 @@ class _EventDetailPageState extends State<EventDetailPage> {
             widget.validateStatus = null;
             widget.status = "${state.event["eventStatus"]}";
             widget.validationType = "${state.event["validationType"]}";
+          context
+        .read<ParticipantBloc>()
+        .add(showParticipant(id: widget.eventId));
           }
 
           // context.read<UserBloc>().add(getUser(uEmail: widget.createBy));

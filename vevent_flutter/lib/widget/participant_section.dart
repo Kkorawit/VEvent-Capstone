@@ -19,8 +19,8 @@ class _ParticipantSectionState extends State<ParticipantSection> {
   @override
   void initState() {
     debugPrint(widget.eventId);
-    BlocProvider.of<ParticipantBloc>(context)
-        .add(showParticipant(id: widget.eventId));
+    // BlocProvider.of<ParticipantBloc>(context)
+    //     .add(showParticipant(id: widget.eventId));
     super.initState();
   }
 
