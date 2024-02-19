@@ -43,28 +43,38 @@ class _ScanQRCodeBtnState extends State<ScanQRCodeBtn> {
           uEventId: widget.uEventId,
           qrData: widget.qrRes,
           currentDateTime:  widget.currentDateTime));
-    } on PlatformException {
-      widget.qrRes = "Fail to read qr code";
+    } on PlatformException catch (e) {
+      // widget.qrRes = "Fail to read qr code";
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to get camera permission: $e")));
+       if (e.code == 'PERMISSION_DENIED') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Camera permission denied. Please allow camera access.'),
+          ),
+        );
+      } else {
+        // Handle other errors
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: $e'),
+          ),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Text(widget.currentDateTime),
-        ElevatedButton(
-            onPressed: () async {
-              // String currentDateTime = await DateTime.now().toUtc().toIso8601String();
-              await scanQR();
-              debugPrint("In scan qrcode btn widget.qrRes => ${widget.qrRes}");
-              // context.read<QrcodeBloc>().add(qrcodeValidation(
-              //     uEventId: widget.uEventId,
-              //     qrData: "2024-01-28T06:16:45.055500Z;30;15",
-              //     currentDateTime: "2024-01-28T06:18:45.055500Z"));
-            },
-            child: const Text("Scan QR Code")),
-      ],
-    );
+    return ElevatedButton(
+        onPressed: () async {
+          // String currentDateTime = await DateTime.now().toUtc().toIso8601String();
+          await scanQR();
+          debugPrint("In scan qrcode btn widget.qrRes => ${widget.qrRes}");
+          // context.read<QrcodeBloc>().add(qrcodeValidation(
+          //     uEventId: widget.uEventId,
+          //     qrData: "2024-01-28T06:16:45.055500Z;30;15",
+          //     currentDateTime: "2024-01-28T06:18:45.055500Z"));
+        },
+        child: const Text("Scan QR Code"));
   }
 }

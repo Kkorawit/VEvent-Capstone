@@ -1,5 +1,5 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-// import 'dart:ui';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:vevent_flutter/bloc/event_detail/event_detail_bloc.dart';
@@ -68,7 +68,11 @@ class _EventDetailPageState extends State<EventDetailPage> {
       if (validationType.contains("QR_CODE") && widget.eventStatus == "ON") {
         return Column(
           children: [
-            GenerateQRCodeSection(eventID: widget.eventId, eventStartDate: widget.startDate, eventEndDate: widget.endDate,eventTitle: widget.title),
+            GenerateQRCodeSection(
+                eventID: widget.eventId,
+                eventStartDate: widget.startDate,
+                eventEndDate: widget.endDate,
+                eventTitle: widget.title),
             const SizedBox(
               height: 24,
             ),
@@ -102,7 +106,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
             widget.title = "${state.event["event"]["title"]}";
             widget.startDate =
                 dateTimeFormat("${state.event["event"]["startDate"]}");
-            widget.endDate ="${state.event["event"]["endDate"]}";
+            widget.endDate = "${state.event["event"]["endDate"]}";
             widget.location = "${state.event["event"]["locationName"]}";
             widget.category = "${state.event["event"]["category"]}";
             widget.createBy = "${state.event["event"]["createBy"]}";
@@ -117,7 +121,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
             widget.uEmail = "${state.event["createBy"]}";
             widget.title = "${state.event["title"]}";
             widget.startDate = dateTimeFormat("${state.event["startDate"]}");
-            widget.endDate ="${state.event["endDate"]}";
+            widget.endDate = "${state.event["endDate"]}";
             widget.location = "${state.event["locationName"]}";
             widget.category = "${state.event["category"]}";
             widget.createBy = "${state.event["createBy"]}";
@@ -143,7 +147,8 @@ class _EventDetailPageState extends State<EventDetailPage> {
                   context.read<EventBloc>().add(showEventList(
                       uEmail: widget.uEmail,
                       uRole: widget.uRole,
-                      selectedStatus: EventFilter.filterStatus, sortBy: EventFilter.sortBy));
+                      selectedStatus: EventFilter.filterStatus,
+                      sortBy: EventFilter.sortBy));
                   Navigator.of(context).pop();
                 },
               ),
@@ -213,8 +218,16 @@ class _EventDetailPageState extends State<EventDetailPage> {
                     // Navigator.of(context).pop();
                   }
                   if (state is QrcodeErrorState) {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text(state.message)));
+                    if (state.message.contains("RangeError (index)")) {
+                      debugPrint(state.message);
+                      // if (kDebugMode) {
+                      //   ScaffoldMessenger.of(context).showSnackBar(
+                      //       SnackBar(content: Text(state.message)));
+                      // }
+                    } else {
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(content: Text(state.message)));
+                    }
                   }
                 }),
               ],
@@ -276,18 +289,18 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                     const Icon(Icons.calendar_month),
                                     const SizedBox(width: 8),
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                    Text(
-                                      "Start: ${widget.startDate}",
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
-                                    // Text(" - "),
-                                    Text(
-                                      "End: ${dateTimeFormat(widget.endDate)}",
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
-
+                                        Text(
+                                          "Start: ${widget.startDate}",
+                                          style: const TextStyle(fontSize: 16),
+                                        ),
+                                        // Text(" - "),
+                                        Text(
+                                          "End: ${dateTimeFormat(widget.endDate)}",
+                                          style: const TextStyle(fontSize: 16),
+                                        ),
                                       ],
                                     ),
                                   ],

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
 import 'package:vevent_flutter/widget/gps_btn.dart';
@@ -37,18 +35,18 @@ class _ValidateButtonState extends State<ValidateButton> {
   //   super.initState();
   // }
 
-  Future<void> scanQR() async {
-    try {
-      String res = await FlutterBarcodeScanner.scanBarcode(
-          "#ff6666", "Cancel", true, ScanMode.QR);
-      if (!mounted) return;
-      setState(() {
-        widget.qrRes = res;
-      });
-    } on PlatformException {
-      widget.qrRes = "Fail to read qr code";
-    }
-  }
+  // Future<void> scanQR() async {
+  //   try {
+  //     String res = await FlutterBarcodeScanner.scanBarcode(
+  //         "#ff6666", "Cancel", true, ScanMode.QR);
+  //     if (!mounted) return;
+  //     setState(() {
+  //       widget.qrRes = res;
+  //     });
+  //   } on PlatformException {
+  //     widget.qrRes = "Fail to read qr code";
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

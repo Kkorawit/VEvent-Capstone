@@ -4,7 +4,7 @@ import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:vevent_flutter/page/event_detail_page.dart';
 import 'package:vevent_flutter/widget/custom_card.dart';
 // import 'package:vevent_flutter/widget/filter_banner.dart';
-// import 'dart:ui';
+
 
 // ignore: must_be_immutable
 class MyEventsSection extends StatefulWidget {
