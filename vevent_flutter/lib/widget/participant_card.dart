@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // import 'package:vevent_flutter/page/participant_page.dart';
 import 'package:vevent_flutter/widget/image.dart';
@@ -21,14 +22,14 @@ class participantCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("position ${position}");
-    print("profile image: ${profileImg}");
-    print("user name: ${name}");
-    print("user surName: ${surName}");
-    print("user status: ${status}");
+    debugPrint("position $position");
+    debugPrint("profile image: $profileImg");
+    debugPrint("user name: $name");
+    debugPrint("user surName: $surName");
+    debugPrint("user status: $status");
     if (position == "participantPage") {
       return Table(
-        columnWidths: {
+        columnWidths: const {
           0: FixedColumnWidth(56.0),
           1: FlexColumnWidth(236.0),
           2: FlexColumnWidth(68.0),
@@ -41,24 +42,24 @@ class participantCard extends StatelessWidget {
             ),
             TableCell(
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 child: ListTile(
-                  contentPadding: EdgeInsets.all(0),
-                  leading: Container(
+                  contentPadding: const EdgeInsets.all(0),
+                  leading: SizedBox(
                     height: 40,
                     width: 40,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: getProfileImage("${profileImg}")),
+                        child: getProfileImage(profileImg)),
                   ),
-                  title: Text("${name + ' ' + surName}"),
+                  title: Text("$name $surName"),
                 ),
               ),
             ),
             TableCell(
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                child: Center(child: getIcon("${status}")),
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Center(child: getIcon(status)),
               ),
             ),
           ])
@@ -66,7 +67,7 @@ class participantCard extends StatelessWidget {
       );
     } else if (position == "eventDetail") {
       return Table(
-        columnWidths: {
+        columnWidths: const {
           0: FixedColumnWidth(24.0),
           1: FlexColumnWidth(236.0),
           2: FlexColumnWidth(68.0),
@@ -79,17 +80,17 @@ class participantCard extends StatelessWidget {
             // ),
             TableCell(
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 child: ListTile(
-                  contentPadding: EdgeInsets.all(0),
-                  leading: Container(
+                  contentPadding: const EdgeInsets.all(0),
+                  leading: SizedBox(
                     height: 40,
                     width: 40,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: getProfileImage("${profileImg}")),
+                        child: getProfileImage(profileImg)),
                   ),
-                  title: Text("${name + ' ' + surName}"),
+                  title: Text("$name $surName"),
                 ),
               ),
             )
@@ -99,29 +100,31 @@ class participantCard extends StatelessWidget {
     } else {
       print(status);
     }
-    return Text("${status}");
+    return Text(status);
   }
 }
 
 Widget getIcon(status) {
-  print("validate status : ${status}");
-  if (status == null) {
-    print("get icon by verify status = null");
-  } else if (status == "S") {
-    return Icon(
+  if (kDebugMode) {
+    print("validate status : ${status}");
+  }
+   if (status == "S") {
+    return const Icon(
       Icons.verified_outlined,
       color: Colors.green,
     );
   } else if (status == "F") {
-    return Icon(
+    return const Icon(
       Icons.highlight_off_rounded,
       color: Colors.red,
     );
-  } else if (status == "P") {
-    return Icon(
+  } else if (status == "P" || status == "IP" ) {
+    return const Icon(
       Icons.remove_circle_outline,
       color: Colors.grey,
     );
+  }else {
+    debugPrint("get icon by verify status = null or sth wrong with user validate status");
   }
   return Container();
 }

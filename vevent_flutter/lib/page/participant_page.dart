@@ -177,25 +177,25 @@ class _ParticipantPageState extends State<ParticipantPage> {
   }
 }
 
-Widget getIcon(status) {
-  debugPrint("validate status : $status");
-  if (status == null) {
-    debugPrint("get icon by verify status = null");
-  } else if (status == "S") {
-    return const Icon(
-      Icons.verified_outlined,
-      color: Colors.green,
-    );
-  } else if (status == "F") {
-    return const Icon(
-      Icons.highlight_off_rounded,
-      color: Colors.red,
-    );
-  } else if (status == "P") {
-    return const Icon(
-      Icons.remove_circle_outline,
-      color: Colors.grey,
-    );
-  }
-  return Container();
-}
+// Widget getIcon(status) {
+//   print("validate status : ${status}");
+//    if (status == "S") {
+//     return Icon(
+//       Icons.verified_outlined,
+//       color: Colors.green,
+//     );
+//   } else if (status == "F") {
+//     return Icon(
+//       Icons.highlight_off_rounded,
+//       color: Colors.red,
+//     );
+//   } else if (status == "P" || status == "IP" ) {
+//     return Icon(
+//       Icons.remove_circle_outline,
+//       color: Colors.grey,
+//     );
+//   }else {
+//     debugPrint("get icon by verify status = null or sth wrong with user validate status");
+//   }
+//   return Container();
+// }
