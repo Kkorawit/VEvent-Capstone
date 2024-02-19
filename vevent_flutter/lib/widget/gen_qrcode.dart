@@ -5,7 +5,8 @@ import 'package:vevent_flutter/page/qr_code_page.dart';
 // ignore: must_be_immutable
 class GenerateQRCodeSection extends StatefulWidget {
   // late String qrData;
-  late String qrStart = DateTime.now().toLocal().toString();
+  late DateTime qrStartTime = DateTime.now().toLocal();
+  late String qrStart = DateTime.now().toUtc().toIso8601String();
   late int qrStartHour = 0;
   final String eventID;
   final String eventStartDate;
@@ -28,7 +29,7 @@ class GenerateQRCodeSection extends StatefulWidget {
 }
 
 class _GenerateQRCodeSectionState extends State<GenerateQRCodeSection> {
-  late DateTime qrStartTime;
+  // late DateTime qrStartTime;
   late DateTime eventEndTime;
   late DateTime qrTime;
   late int duration = 0;
@@ -41,15 +42,15 @@ class _GenerateQRCodeSectionState extends State<GenerateQRCodeSection> {
   bool compareQrTime() {
     debugPrint("qrStart ${widget.qrStart}");
 
-    qrStartTime = DateTime.parse(widget.qrStart);
-    debugPrint("qrStartTime $qrStartTime");
+    // qrStartTime = DateTime.parse(widget.qrStart);
+    debugPrint("qrStartTime ${widget.qrStartTime}");
 
     eventEndTime =
         DateFormat("yyyy-MM-ddTHH:mm:ss'Z'").parse(widget.eventEndDate);
     debugPrint("eventEndTime $eventEndTime");
 
     duration = (widget.durationHour * 60) + widget.durationMin;
-    qrTime = qrStartTime.add(Duration(minutes: duration));
+    qrTime = widget.qrStartTime.add(Duration(minutes: duration));
     debugPrint("qrTime $qrTime");
 
     if (/*qrTime.isAtSameMomentAs(eventEndTime)||*/qrTime.isBefore(eventEndTime)) {
@@ -165,7 +166,7 @@ class _GenerateQRCodeSectionState extends State<GenerateQRCodeSection> {
                     // setState(() {
                     //   widget.qrStart = DateTime.now().toUtc().toIso8601String();
                     // });
-                    // debugPrint(widget.qrStart);
+                    debugPrint(widget.qrStart);
                     // debugPrint(duration.toString());
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {

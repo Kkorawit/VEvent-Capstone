@@ -275,14 +275,20 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                   children: [
                                     const Icon(Icons.calendar_month),
                                     const SizedBox(width: 8),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
                                     Text(
-                                      widget.startDate,
+                                      "Start: ${widget.startDate}",
                                       style: const TextStyle(fontSize: 16),
                                     ),
-                                    Text(" - "),
+                                    // Text(" - "),
                                     Text(
-                                      dateTimeFormat(widget.endDate),
+                                      "End: ${dateTimeFormat(widget.endDate)}",
                                       style: const TextStyle(fontSize: 16),
+                                    ),
+
+                                      ],
                                     ),
                                   ],
                                 ),

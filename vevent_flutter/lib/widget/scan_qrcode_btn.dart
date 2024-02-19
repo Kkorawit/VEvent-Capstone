@@ -13,6 +13,8 @@ class ScanQRCodeBtn extends StatefulWidget {
   final String validateStatus;
   final String validationType;
   late String qrRes = "Response from qr code is heare";
+  late String currentDateTime = "Current time here";
+
 
   ScanQRCodeBtn({
     super.key,
@@ -33,14 +35,14 @@ class _ScanQRCodeBtnState extends State<ScanQRCodeBtn> {
       String res = await FlutterBarcodeScanner.scanBarcode(
           "#ff6666", "Cancel", true, ScanMode.QR);
       if (!mounted) return;
-      String currentDateTime = await DateTime.now().toUtc().toIso8601String();
+      widget.currentDateTime = await DateTime.now().toUtc().toIso8601String();
       setState(() {
         widget.qrRes = res;
       });
       context.read<QrcodeBloc>().add(qrcodeValidation(
           uEventId: widget.uEventId,
           qrData: widget.qrRes,
-          currentDateTime: currentDateTime));
+          currentDateTime:  widget.currentDateTime));
     } on PlatformException {
       widget.qrRes = "Fail to read qr code";
     }
@@ -48,16 +50,21 @@ class _ScanQRCodeBtnState extends State<ScanQRCodeBtn> {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-        onPressed: () async {
-          // String currentDateTime = await DateTime.now().toUtc().toIso8601String();
-          await scanQR();
-          debugPrint("In scan qrcode btn widget.qrRes => ${widget.qrRes}");
-          // context.read<QrcodeBloc>().add(qrcodeValidation(
-          //     uEventId: widget.uEventId,
-          //     qrData: "2024-01-28T06:16:45.055500Z;30;15",
-          //     currentDateTime: "2024-01-28T06:18:45.055500Z"));
-        },
-        child: const Text("Scan QR Code"));
+    return Column(
+      children: [
+        // Text(widget.currentDateTime),
+        ElevatedButton(
+            onPressed: () async {
+              // String currentDateTime = await DateTime.now().toUtc().toIso8601String();
+              await scanQR();
+              debugPrint("In scan qrcode btn widget.qrRes => ${widget.qrRes}");
+              // context.read<QrcodeBloc>().add(qrcodeValidation(
+              //     uEventId: widget.uEventId,
+              //     qrData: "2024-01-28T06:16:45.055500Z;30;15",
+              //     currentDateTime: "2024-01-28T06:18:45.055500Z"));
+            },
+            child: const Text("Scan QR Code")),
+      ],
+    );
   }
 }
