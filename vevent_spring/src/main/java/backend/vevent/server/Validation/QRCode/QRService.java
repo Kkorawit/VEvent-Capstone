@@ -23,6 +23,9 @@ public class QRService {
         Boolean isInTime = false;
         System.out.println("isBefore: "+currentDateTime.isBefore(qrStart));
         System.out.println("isAfter: "+currentDateTime.isAfter(qrStart.plus(duration, ChronoUnit.MINUTES)));
+        System.out.println("Current: "+currentDateTime);
+        System.out.println("qrStart: "+ qrStart);
+        System.out.println("duration: "+ duration);
         System.out.println("plus duration: "+qrStart.plus(duration, ChronoUnit.MINUTES));
 //        System.out.println("current: "+currentDateTime<qrStart);
 //        currentDateTime>qrStart+duration
@@ -37,18 +40,19 @@ public class QRService {
         return isInTime;
     }
 
-    public String EventTimeCheck(Integer ueid,Instant qrStart,Integer duration){
-        UsersEvent usersEvent = userEventRepo.findUsersEventById(ueid);
-        Event event = eventRepo.findEventById(usersEvent.getEvent().getId());
-        String timeStatus = null;
-
-        if (qrStart.isBefore(event.getStartDate())){
-            timeStatus = "This Event Haven't Start Yet";
-        } else if (qrStart.isAfter(event.getEndDate())) {
-            timeStatus = "This Event Ended";
-        } else if (qrStart.isBefore(event.getEndDate())&& qrStart.isAfter(event.getStartDate()) && qrStart.plus(duration,ChronoUnit.MINUTES).isBefore(event.getEndDate())) {
-            timeStatus = "During the Activity";
-        }
-        return timeStatus;
-    }
+//    public String EventTimeCheck(Integer ueid,Instant qrStart,Integer duration){
+//        UsersEvent usersEvent = userEventRepo.findUsersEventById(ueid);
+//        Event event = eventRepo.findEventById(usersEvent.getEvent().getId());
+//        String timeStatus = null;
+//
+//        if (qrStart.isBefore(event.getStartDate())){
+//            timeStatus = "This Event Haven't Start Yet";
+//        } else if (qrStart.isAfter(event.getEndDate())) {
+//            timeStatus = "This Event Ended";
+//        } else if (qrStart.isBefore(event.getEndDate())&& qrStart.isAfter(event.getStartDate()) && qrStart.plus(duration,ChronoUnit.MINUTES).isBefore(event.getEndDate())) {
+//            timeStatus = "During the Activity";
+//        }
+//        System.out.println(timeStatus);
+//        return timeStatus;
+//    }
 }
