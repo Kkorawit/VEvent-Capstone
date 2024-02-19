@@ -100,7 +100,7 @@ class AppBar extends StatelessWidget {
         child: Stack(
           children: [
             Container(
-              padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
+              padding: const EdgeInsets.only(top: 28, left: 16, right: 16),
               height: MediaQuery.of(context).size.height * 0.17,
               width: double.infinity,
               decoration: const BoxDecoration(
@@ -137,7 +137,7 @@ class AppBar extends StatelessWidget {
                           )
                         ],
                       ),
-                      const Expanded(child: SignOutBtn()),
+                      const SignOutBtn(),
                     ],
                   ),
 
@@ -156,7 +156,7 @@ class AppBar extends StatelessWidget {
               child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   alignment: Alignment.center,
-                  height: 56,
+                  height: 40,
                   decoration: const BoxDecoration(boxShadow: [
                     BoxShadow(
                       offset: Offset(0, 1),
