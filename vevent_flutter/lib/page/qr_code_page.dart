@@ -141,7 +141,7 @@ class _QRCodePageState extends State<QRCodePage> {
                   const SizedBox(
                     height: 40,
                   ),
-                  if (kDebugMode) Text(widget.qrData),
+                  // if (kDebugMode) Text(widget.qrData),
                   const SizedBox(
                     height: 24,
                   ),

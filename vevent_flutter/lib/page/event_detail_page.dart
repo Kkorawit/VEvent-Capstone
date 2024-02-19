@@ -117,6 +117,8 @@ class _EventDetailPageState extends State<EventDetailPage> {
             widget.validateStatus = "${state.event["status"]}";
             widget.status = "${state.event["status"]}";
             widget.validationType = "${state.event["event"]["validationType"]}";
+
+            debugPrint(widget.eventStatus);
           } else {
             widget.eventId = "${state.event["id"]}";
             widget.uEmail = "${state.event["createBy"]}";
@@ -134,7 +136,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
             widget.validationType = "${state.event["validationType"]}";
           context
         .read<ParticipantBloc>()
-        .add(showParticipant(id: widget.eventId));
+        .add(showParticipant(id: widget.uEventId)); //uEventID == eventID in Organization
           }
 
           // context.read<UserBloc>().add(getUser(uEmail: widget.createBy));
