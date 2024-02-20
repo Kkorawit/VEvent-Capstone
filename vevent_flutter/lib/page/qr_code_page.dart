@@ -138,12 +138,12 @@ class _QRCodePageState extends State<QRCodePage> {
                       version: QrVersions.auto,
                       size: 200,
                     ),
-                  const SizedBox(
-                    height: 40,
-                  ),
+                  // const SizedBox(
+                  //   height: 40,
+                  // ),
                   // if (kDebugMode) Text(widget.qrData),
                   const SizedBox(
-                    height: 24,
+                    height: 16,
                   ),
                   const Text("Countdown Time"),
                   const SizedBox(
@@ -158,9 +158,9 @@ class _QRCodePageState extends State<QRCodePage> {
                     style: const TextStyle(
                         fontSize: 30, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(
-                    height: 24,
-                  ),
+                  // const SizedBox(
+                  //   height: 24,
+                  // ),
 
                   // ElevatedButton.icon(
                   //     style: ElevatedButton.styleFrom(
