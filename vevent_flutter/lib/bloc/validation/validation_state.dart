@@ -14,6 +14,6 @@ class ValidationErrorState extends ValidationState {
 }
 
 class ValidationFinishState extends ValidationState {
-  final ValidationResponse validateRes;
+  final GpsResponse validateRes;
   ValidationFinishState({required this.validateRes});
 }

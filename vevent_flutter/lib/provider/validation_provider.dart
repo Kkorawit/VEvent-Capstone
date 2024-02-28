@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:vevent_flutter/models/app_environment.dart';
-import 'package:vevent_flutter/validation_response.dart';
+import 'package:vevent_flutter/etc/app_environment.dart';
+import 'package:vevent_flutter/models/gps_response.dart';
 
 class ValidationProvider {
-  Future<ValidationResponse> validateGPS(
+  Future<GpsResponse> validateGPS(
       String eId, String uEmail, String lat, String long) async {
     http.Response res;
-    ValidationResponse validationRes;
+    GpsResponse validationRes;
     try {
       res = await http.post(
           Uri.parse(
@@ -30,7 +30,7 @@ class ValidationProvider {
 
       Map<String, dynamic> responseData = jsonDecode(res.body);
       debugPrint("$responseData");
-      validationRes = ValidationResponse.fromJson(responseData);
+      validationRes = GpsResponse.fromJson(responseData);
 
       if (kDebugMode) {
         print(validationRes);

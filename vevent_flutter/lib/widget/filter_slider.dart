@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vevent_flutter/bloc/event/event_bloc.dart';
-import 'package:vevent_flutter/models/filter.dart';
+import 'package:vevent_flutter/etc/filter.dart';
 // import 'package:vevent_flutter/repository/event_repository.dart';
 
 // ignore: must_be_immutable

@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:vevent_flutter/provider/validation_provider.dart';
-import 'package:vevent_flutter/validation_response.dart';
+import 'package:vevent_flutter/models/gps_response.dart';
 // import 'package:http/http.dart' as http;
 
 class ValidationRepository {
@@ -16,13 +16,13 @@ class ValidationRepository {
 
   ValidationRepository({required this.provider});
 
-  Future<ValidationResponse> validateGPS(
+  Future<GpsResponse> validateGPS(
     String eId,
     String uEmail,
   ) async {
     // String lat; String long;
     // Position? curPosition;
-    ValidationResponse res;
+    GpsResponse res;
     await getCurrentPosition();
     // lat = curPosition?.latitude ?? '';
     // long = curPosition.longitude.toString();

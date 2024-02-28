@@ -2,7 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:vevent_flutter/models/app_environment.dart';
+import 'package:vevent_flutter/etc/app_environment.dart';
 
 class EventProvider {
   // --------------------------Get all events / List of events--------------------------

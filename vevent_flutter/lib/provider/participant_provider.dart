@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:vevent_flutter/models/app_environment.dart';
+import 'package:vevent_flutter/etc/app_environment.dart';
 
 class ParticipantProvider {
   //  use to get all of participants that registered the event

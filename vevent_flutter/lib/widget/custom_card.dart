@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:vevent_flutter/firebase_storage_client.dart';
-import 'package:vevent_flutter/models/date_time_format.dart';
+import 'package:vevent_flutter/etc/date_time_format.dart';
 import 'package:vevent_flutter/widget/image.dart';
 import 'status_tag.dart';
 

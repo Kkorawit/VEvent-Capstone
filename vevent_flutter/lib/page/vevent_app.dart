@@ -9,7 +9,7 @@ import 'package:vevent_flutter/bloc/qrcode/qrcode_bloc.dart';
 import 'package:vevent_flutter/bloc/sign_in/sign_in_bloc.dart';
 import 'package:vevent_flutter/bloc/user/user_bloc.dart';
 import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
-import 'package:vevent_flutter/models/app_environment.dart';
+import 'package:vevent_flutter/etc/app_environment.dart';
 import 'package:vevent_flutter/page/sign_in_page.dart';
 // import 'package:vevent_flutter/page/splash_screen.dart';
 import 'package:vevent_flutter/provider/event_provider.dart';

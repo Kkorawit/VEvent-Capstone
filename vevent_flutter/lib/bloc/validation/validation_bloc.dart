@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 // import 'package:meta/meta.dart';
 import 'package:vevent_flutter/repository/validation_repository.dart';
-import 'package:vevent_flutter/validation_response.dart';
+import 'package:vevent_flutter/models/gps_response.dart';
 
 part 'validation_event.dart';
 part 'validation_state.dart';
@@ -17,7 +17,7 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
       emit(ValidationLoadingState());
 
       try{
-        ValidationResponse res = await repository.validateGPS(event.eId,event.uEmail);
+        GpsResponse res = await repository.validateGPS(event.eId,event.uEmail);
         if (kDebugMode) {
           print("In EventBloc => $res");
         }
