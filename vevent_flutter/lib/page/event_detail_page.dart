@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:vevent_flutter/bloc/event_detail/event_detail_bloc.dart';
 import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
@@ -66,7 +67,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
         validationType: widget.validationType,
       );
     } else {
-      if (validationType.contains("QR_CODE") && widget.eventStatus == "ON") {
+      if (validationType.contains("QR_CODE") && widget.eventStatus == "ON" && DateTime.now().toLocal().isBefore(DateFormat("yyyy-MM-ddTHH:mm:ss'Z'").parse(widget.endDate)) && DateTime.now().toLocal().isAfter(DateFormat("yyyy-MM-ddTHH:mm:ss'Z'").parse(widget.startDate))) {
         return Column(
           children: [
             GenerateQRCodeSection(
@@ -123,7 +124,8 @@ class _EventDetailPageState extends State<EventDetailPage> {
             widget.eventId = "${state.event["id"]}";
             widget.uEmail = "${state.event["createBy"]}";
             widget.title = "${state.event["title"]}";
-            widget.startDate = dateTimeFormat("${state.event["startDate"]}");
+            // widget.startDate = dateTimeFormat("${state.event["startDate"]}");
+            widget.startDate = "${state.event["startDate"]}";
             widget.endDate = "${state.event["endDate"]}";
             widget.location = "${state.event["locationName"]}";
             widget.category = "${state.event["category"]}";

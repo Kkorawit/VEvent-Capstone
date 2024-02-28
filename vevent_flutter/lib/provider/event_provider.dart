@@ -72,6 +72,8 @@ class EventProvider {
         throw Exception("participant event list is null");
       }
 
+      debugPrint("getEventsByParticipantEmail provider => $events");
+
       return events;
     } catch (e) {
       debugPrint(e.toString());
@@ -136,15 +138,17 @@ class EventProvider {
       );
 
       var events = queryResult.data?['findAllEventCreatedByUEmail'];
-      if (kDebugMode) {
-        print("get event that the organization are created");
-        print(events);
-      }
+      // if (kDebugMode) {
+      //   print("get event that the organization are created");
+      //   print(events);
+      // }
 
       if (events == null) {
         debugPrint("queryResult.data is null");
         throw Exception("Organizer event list is null");
       }
+
+      debugPrint("getEventsByOrganizerEmail provider => $events");
 
       return events;
     } catch (e) {

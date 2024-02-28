@@ -40,6 +40,7 @@ class _MyEventsSectionState extends State<MyEventsSection> {
       if (state is EventFinishState) {
         if (state.events.isEmpty) {
           String noEventMes = widget.uRole == "Participant" ? "No participating events" : "No events created";
+          debugPrint("my_events_section => ${state.events}");
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -61,6 +62,7 @@ class _MyEventsSectionState extends State<MyEventsSection> {
           );
         } else {
           if (widget.uRole == "Participant") {
+                  // debugPrint("my_events_section => ${state.events}");
             return Scaffold(
               // appBar: AppBar(),
               body: ListView.builder(
@@ -80,7 +82,7 @@ class _MyEventsSectionState extends State<MyEventsSection> {
                         }));
                       },
                       child: CustomCard(
-                        title: "${state.events[index]["event"]["title"]}",
+                        title: "${state.events[index]['event']['title']}",
                         startDate:
                             "${state.events[index]["event"]["startDate"]}",
                         location:
@@ -119,7 +121,7 @@ class _MyEventsSectionState extends State<MyEventsSection> {
                         }));
                       },
                       child: CustomCard(
-                        title: "${state.events[index]["title"]}",
+                        title: "${state.events[index]['title']}",
                         startDate: "${state.events[index]["startDate"]}",
                         location: "${state.events[index]["locationName"]}",
                         category: "${state.events[index]["category"]}",
