@@ -14,7 +14,7 @@ class QrcodeBloc extends Bloc<QrcodeEvent, QrcodeState> {
     on<qrcodeValidation>((event, emit) async {
       emit(QrcodeLoadingState());
       try{
-        http.Response res = await repository.validateQRCode(event.uEventId ,event.qrData, event.currentDateTime);
+        http.Response res = await repository.validateQRCode(event.uEventId, event.withLocation, event.qrData, event.currentDateTime);
         emit(QrcodeFinishState(res: res));
 
       }catch(e){

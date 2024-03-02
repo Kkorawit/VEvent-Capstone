@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
+import 'package:vevent_flutter/bloc/gps/gps_bloc.dart';
+// import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
 
 // ignore: must_be_immutable
 class GPSBtn extends StatefulWidget {
@@ -21,18 +22,18 @@ class GPSBtn extends StatefulWidget {
 class _GPSBtnState extends State<GPSBtn> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ValidationBloc, ValidationState>(
+    return BlocBuilder<GpsBloc, GpsState>(
           builder: (context, state) {
-            if (state is ValidationInitial) {
+            if (state is GpsInitial) {
               return ElevatedButton(
                   onPressed: (){
-                    context.read<ValidationBloc>().add(
-                      validateGPS(uEmail: widget.uEmail, eId: widget.eventId));
+                    context.read<GpsBloc>().add(
+                      gpsValidation(uEmail: widget.uEmail, eId: widget.eventId));
                     // ElevatedButton(onPressed: scanQR, child: Text("Scan QR Code"));
                   },
                   child: const Text("Confirm Validation"));
             }
-            if (state is ValidationLoadingState) {
+            if (state is GpsLoadingState) {
               return ElevatedButton.icon(
                 onPressed: null,
                 icon: const SizedBox(
@@ -53,8 +54,8 @@ class _GPSBtnState extends State<GPSBtn> {
               );
             } else {
               return ElevatedButton(
-                  onPressed: () => context.read<ValidationBloc>().add(
-                      validateGPS(uEmail: widget.uEmail, eId: widget.eventId)),
+                  onPressed: () => context.read<GpsBloc>().add(
+                      gpsValidation(uEmail: widget.uEmail, eId: widget.eventId)),
                   child: const Text("Confirm Validation"));
             }
           },

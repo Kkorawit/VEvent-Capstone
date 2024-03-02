@@ -67,8 +67,8 @@ class ValidationRepository {
     long = "${currentPosition?.longitude ?? ''}";
     if (kDebugMode) {
       print("Set value to _currentPosition, lat, long");
-    print(currentPosition);
-    print("else has Permission => $hasPermission");
+      print(currentPosition);
+      print("else has Permission => $hasPermission");
     }
     // return hasPermission;
 
@@ -152,18 +152,36 @@ class ValidationRepository {
   //   }
   // }
 
-  Future<http.Response> validateQRCode(
-      String uEventId, String qrData, String currentDateTime) async {
+  Future<http.Response> validateQRCode(String uEventId, bool withLocation,
+      String qrData, String currentDateTime) async {
     List<String> data = qrData.split(";");
     String qrStart = data[0];
     String duration = data[2];
-    // print(data[0]);
-    // print(uEventId);
-    // print(data[1]);
-    // print(data[2]);
-    // print(currentDateTime);
-    http.Response res = await provider.validateQRCode(
-        uEventId, qrStart, duration, currentDateTime);
-    return res;
+    http.Response res;
+    debugPrint("At repo validateQRCode()");
+    debugPrint("uEventId = $uEventId");
+    debugPrint("withLocation = $withLocation");
+    debugPrint("qrStart = $qrStart");
+    debugPrint("duration = $duration");
+    debugPrint("currentDateTime = $currentDateTime");
+
+    if (withLocation) {
+      await getCurrentPosition();
+      debugPrint("used getCurrentPosition()");
+      debugPrint("lat = $lat");
+      debugPrint("long = $long");
+      if (lat != '' && long != '') {
+        res = await provider.validateQRCode(
+            uEventId, qrStart, duration, currentDateTime, lat, long);
+        return res;
+      } else {
+        throw Exception(
+            "disable location service or did not allow location permissions");
+      }
+    } else {
+      res = await provider.validateQRCode(
+          uEventId, qrStart, duration, currentDateTime, null, null);
+      return res;
+    }
   }
 }

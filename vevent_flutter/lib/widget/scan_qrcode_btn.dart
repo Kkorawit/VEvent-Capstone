@@ -7,22 +7,27 @@ import 'package:vevent_flutter/bloc/qrcode/qrcode_bloc.dart';
 
 // ignore: must_be_immutable
 class ScanQRCodeBtn extends StatefulWidget {
-  final String uEmail;
+  // final String uEmail;
   final String uEventId;
-  final String eventStatus;
-  final String validateStatus;
+  final String eId;
+  // final String eventStatus;
+  // final String validateStatus;
   final String validationType;
+  // final String? eventLongitude;
+  // final String? eventLatitude;
   late String qrRes = "Response from qr code is heare";
   late String currentDateTime = "Current time here";
 
-
   ScanQRCodeBtn({
     super.key,
-    required this.uEmail,
+    // required this.uEmail,
     required this.uEventId,
-    required this.eventStatus,
-    required this.validateStatus,
+    required this.eId,
+    // required this.eventStatus,
+    // required this.validateStatus,
     required this.validationType,
+    // required this.eventLatitude,
+    // required this.eventLongitude
   });
 
   @override
@@ -39,17 +44,19 @@ class _ScanQRCodeBtnState extends State<ScanQRCodeBtn> {
       setState(() {
         widget.qrRes = res;
       });
-      context.read<QrcodeBloc>().add(qrcodeValidation(
-          uEventId: widget.uEventId,
-          qrData: widget.qrRes,
-          currentDateTime:  widget.currentDateTime));
+      // context.read<QrcodeBloc>().add(qrcodeValidation(
+      //     uEventId: widget.uEventId,
+      //     withLocation: widget.validationType.contains("GPS"),
+      //     qrData: widget.qrRes,
+      //     currentDateTime: widget.currentDateTime));
     } on PlatformException catch (e) {
       // widget.qrRes = "Fail to read qr code";
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to get camera permission: $e")));
-       if (e.code == 'PERMISSION_DENIED') {
+      if (e.code == 'PERMISSION_DENIED') {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Camera permission denied. Please allow camera access.'),
+            content:
+                Text('Camera permission denied. Please allow camera access.'),
           ),
         );
       } else {
@@ -69,6 +76,19 @@ class _ScanQRCodeBtnState extends State<ScanQRCodeBtn> {
         onPressed: () async {
           // String currentDateTime = await DateTime.now().toUtc().toIso8601String();
           await scanQR();
+          List<String> data = widget.qrRes.split(";");
+          if (widget.eId == data[1]) {
+            context.read<QrcodeBloc>().add(qrcodeValidation(
+                uEventId: widget.uEventId,
+                withLocation: widget.validationType.contains("GPS"),
+                qrData: widget.qrRes,
+                currentDateTime: widget.currentDateTime));
+          }else{
+             ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('QR Code do not match with this event.'),
+          ),);
+          }
           debugPrint("In scan qrcode btn widget.qrRes => ${widget.qrRes}");
           // context.read<QrcodeBloc>().add(qrcodeValidation(
           //     uEventId: widget.uEventId,

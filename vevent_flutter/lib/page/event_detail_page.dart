@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:vevent_flutter/bloc/event_detail/event_detail_bloc.dart';
+import 'package:vevent_flutter/bloc/gps/gps_bloc.dart';
 import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
 import 'package:vevent_flutter/bloc/qrcode/qrcode_bloc.dart';
 // import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
-import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
 import 'package:vevent_flutter/etc/date_time_format.dart';
 import 'package:vevent_flutter/etc/filter.dart';
 // import 'package:vevent_flutter/models/filter.dart';
@@ -26,7 +26,7 @@ class EventDetailPage extends StatefulWidget {
   late String title;
   late String startDate;
   late String endDate;
-  late String location;
+  late String locationName;
   late String category;
   late String createBy;
   late String eventStatus;
@@ -39,6 +39,8 @@ class EventDetailPage extends StatefulWidget {
   final String uEventId;
   final String uRole;
   late String validationType;
+  late String? locationLongitude;
+  late String? locationLatitude;
 
   EventDetailPage({super.key, required this.uEventId, required this.uRole});
 
@@ -65,9 +67,16 @@ class _EventDetailPageState extends State<EventDetailPage> {
         eventStatus: widget.eventStatus,
         validateStatus: widget.validateStatus!,
         validationType: widget.validationType,
+        // eventLatitude: widget.locationLatitude,
+        // eventLongitude: widget.locationLongitude,
       );
     } else {
-      if (validationType.contains("QR_CODE") && widget.eventStatus == "ON" && DateTime.now().toLocal().isBefore(DateFormat("yyyy-MM-ddTHH:mm:ss'Z'").parse(widget.endDate)) && DateTime.now().toLocal().isAfter(DateFormat("yyyy-MM-ddTHH:mm:ss'Z'").parse(widget.startDate))) {
+      if (validationType.contains("QR_CODE") &&
+          widget.eventStatus == "ON" &&
+          DateTime.now().toLocal().isBefore(
+              DateFormat("yyyy-MM-ddTHH:mm:ss'Z'").parse(widget.endDate)) &&
+          DateTime.now().toLocal().isAfter(
+              DateFormat("yyyy-MM-ddTHH:mm:ss'Z'").parse(widget.startDate))) {
         return Column(
           children: [
             GenerateQRCodeSection(
@@ -109,7 +118,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
             widget.startDate =
                 dateTimeFormat("${state.event["event"]["startDate"]}");
             widget.endDate = "${state.event["event"]["endDate"]}";
-            widget.location = "${state.event["event"]["locationName"]}";
+            widget.locationName = "${state.event["event"]["locationName"]}";
             widget.category = "${state.event["event"]["category"]}";
             widget.createBy = "${state.event["event"]["createBy"]}";
             widget.eventStatus = "${state.event["event"]["eventStatus"]}";
@@ -118,6 +127,10 @@ class _EventDetailPageState extends State<EventDetailPage> {
             widget.validateStatus = "${state.event["status"]}";
             widget.status = "${state.event["status"]}";
             widget.validationType = "${state.event["event"]["validationType"]}";
+            widget.locationLatitude =
+                "${state.event["event"]["locationLatitude"]}";
+            widget.locationLongitude =
+                "${state.event["event"]["locationLongitude"]}";
 
             debugPrint(widget.eventStatus);
           } else {
@@ -127,7 +140,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
             // widget.startDate = dateTimeFormat("${state.event["startDate"]}");
             widget.startDate = "${state.event["startDate"]}";
             widget.endDate = "${state.event["endDate"]}";
-            widget.location = "${state.event["locationName"]}";
+            widget.locationName = "${state.event["locationName"]}";
             widget.category = "${state.event["category"]}";
             widget.createBy = "${state.event["createBy"]}";
             widget.eventStatus = "${state.event["eventStatus"]}";
@@ -136,9 +149,10 @@ class _EventDetailPageState extends State<EventDetailPage> {
             widget.validateStatus = null;
             widget.status = "${state.event["eventStatus"]}";
             widget.validationType = "${state.event["validationType"]}";
-          context
-        .read<ParticipantBloc>()
-        .add(showParticipant(id: widget.uEventId)); //uEventID == eventID in Organization
+            widget.locationLatitude = "${state.event["locationLatitude"]}";
+            widget.locationLongitude = "${state.event["locationLongitude"]}";
+            context.read<ParticipantBloc>().add(showParticipant(
+                id: widget.uEventId)); //uEventID == eventID in Organization
           }
 
           // context.read<UserBloc>().add(getUser(uEmail: widget.createBy));
@@ -163,25 +177,25 @@ class _EventDetailPageState extends State<EventDetailPage> {
             ),
             body: MultiBlocListener(
               listeners: [
-                BlocListener<ValidationBloc, ValidationState>(
+                BlocListener<GpsBloc, GpsState>(
                     listener: (context, state) async {
-                  if (state is ValidationFinishState) {
-                    if (state.validateRes.httpStatus == 200) {
+                  if (state is GpsFinishState) {
+                    if (state.gpsRes.httpStatus == 200) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        backgroundColor: state.validateRes.vStatus == "Success"
+                        backgroundColor: state.gpsRes.vStatus == "Success"
                             ? Colors.green
                             : Colors.red,
                         content: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(state.validateRes.vStatus,
+                              Text(state.gpsRes.vStatus,
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold)),
                               const SizedBox(
                                 height: 4,
                               ),
                               Text(
-                                  "The distance between your current location and the event location is ${state.validateRes.displacement}")
+                                  "The distance between your current location and the event location is ${state.gpsRes.displacement}")
                             ]),
                       ));
                       await Future.delayed(const Duration(seconds: 1));
@@ -194,14 +208,14 @@ class _EventDetailPageState extends State<EventDetailPage> {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         backgroundColor: Colors.yellow,
                         content: Row(children: [
-                          Text(state.validateRes.vStatus),
+                          Text(state.gpsRes.vStatus),
                         ]),
                       ));
                       await Future.delayed(const Duration(seconds: 2));
                       Navigator.of(context).pop();
                     }
                   }
-                  if (state is ValidationErrorState) {
+                  if (state is GpsErrorState) {
                     ScaffoldMessenger.of(context)
                         .showSnackBar(SnackBar(content: Text(state.message)));
                   }
@@ -228,10 +242,6 @@ class _EventDetailPageState extends State<EventDetailPage> {
                   if (state is QrcodeErrorState) {
                     if (state.message.contains("RangeError (index)")) {
                       debugPrint(state.message);
-                      // if (kDebugMode) {
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //       SnackBar(content: Text(state.message)));
-                      // }
                     } else {
                       ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(content: Text(state.message)));
@@ -321,7 +331,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                       width: 8,
                                     ),
                                     Expanded(
-                                      child: Text(widget.location,
+                                      child: Text(widget.locationName,
                                           overflow: TextOverflow.ellipsis,
                                           softWrap:
                                               false, // ถ้าเกินให้ตัดด้วยจุดจุดจุด

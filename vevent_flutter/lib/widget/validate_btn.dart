@@ -12,6 +12,8 @@ class ValidateButton extends StatefulWidget {
   final String eventStatus;
   final String validateStatus;
   final String validationType;
+  // final String? eventLongitude;
+  // final String? eventLatitude;
   late String qrRes;
 
   ValidateButton({
@@ -22,6 +24,8 @@ class ValidateButton extends StatefulWidget {
     required this.eventStatus,
     required this.validateStatus,
     required this.validationType,
+    // required this.eventLatitude,
+    // required this.eventLongitude,
   });
 
   @override
@@ -54,11 +58,12 @@ class _ValidateButtonState extends State<ValidateButton> {
       if (widget.validateStatus == "IP" || widget.validateStatus == "F") {
         if (widget.validationType.contains("QR_CODE")) {
           return ScanQRCodeBtn(
-              uEmail: widget.uEmail,
+              // uEmail: widget.uEmail,
               uEventId: widget.uEventId,
-              eventStatus: widget.eventStatus,
-              validateStatus: widget.validateStatus,
-              validationType: widget.validationType);
+              eId: widget.eventId,
+              // eventStatus: widget.eventStatus,
+              // validateStatus: widget.validateStatus,
+              validationType: widget.validationType,);
         } else {
           return GPSBtn(
               uEmail: widget.uEmail,

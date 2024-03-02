@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -116,12 +115,12 @@ class _QRCodePageState extends State<QRCodePage> {
                 children: [
                   Text(
                     widget.eventTitle,
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                    style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
                     overflow: TextOverflow.clip,
                     maxLines: 2,
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   if (widget.countdownMinutes == 0 &&
@@ -129,7 +128,7 @@ class _QRCodePageState extends State<QRCodePage> {
                     Container(
                       height: 200,
                       alignment: Alignment.center,
-                        child: Text("QR Code has Expired!!",
+                        child: const Text("QR Code has Expired!!",
                             style: TextStyle(fontSize: 18, color: Colors.grey))),
                   if (!(widget.countdownMinutes == 0 &&
                       widget.countdownSecond == 0))

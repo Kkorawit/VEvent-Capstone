@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:vevent_flutter/bloc/event_detail/event_detail_bloc.dart';
+import 'package:vevent_flutter/bloc/gps/gps_bloc.dart';
 import 'package:vevent_flutter/bloc/participant/participant_bloc.dart';
 import 'package:vevent_flutter/bloc/qrcode/qrcode_bloc.dart';
 import 'package:vevent_flutter/bloc/sign_in/sign_in_bloc.dart';
 import 'package:vevent_flutter/bloc/user/user_bloc.dart';
-import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
 import 'package:vevent_flutter/etc/app_environment.dart';
 import 'package:vevent_flutter/page/sign_in_page.dart';
 // import 'package:vevent_flutter/page/splash_screen.dart';
@@ -38,9 +38,8 @@ class VEventApp extends StatelessWidget {
     final userBloc = BlocProvider(
         create: (context) =>
             UserBloc(UserRepository(provider: UserProvider())));
-    final validationBloc = BlocProvider(
-        create: (context) => ValidationBloc(
-            ValidationRepository(provider: ValidationProvider())));
+    final gpsBloc = BlocProvider(
+        create: (context) => GpsBloc(ValidationRepository(provider: ValidationProvider())));
     final eventDetailBloc = BlocProvider(
         create: (context) =>
             EventDetailBloc(EventRepository(provider: EventProvider())));
@@ -56,7 +55,7 @@ class VEventApp extends StatelessWidget {
       providers: [
         eventBloc,
         userBloc,
-        validationBloc,
+        gpsBloc,
         eventDetailBloc,
         participantBloc,
         qrCodeBloc,

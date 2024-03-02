@@ -46,14 +46,21 @@ class ValidationProvider {
   }
 
   Future<http.Response> validateQRCode(String uEventId, String qrStart,
-      String duration, String currentDateTime) async {
+      String duration, String currentDateTime, String? lat, String? long) async {
     http.Response res;
+    // ignore: unused_local_variable
+    String qrCodeApi = "";
+    if(lat != null && long != null){
+      qrCodeApi = "/api/qrcode?QRstart=$qrStart&ueid=$uEventId&duration=$duration&currentDateTime=$currentDateTime&lat=$lat&long=$long";
+    }else{
+      qrCodeApi = "/api/qrcode?QRstart=$qrStart&ueid=$uEventId&duration=$duration&currentDateTime=$currentDateTime";
+    }
     debugPrint(
-        "${AppEnvironment.baseApiUrl}/api/qrcode?QRstart=$qrStart&ueid=$uEventId&duration=$duration&currentDateTime=$currentDateTime");
+        "${AppEnvironment.baseApiUrl}$qrCodeApi");
     try {
       res = await http.post(
           Uri.parse(
-              "${AppEnvironment.baseApiUrl}/api/qrcode?QRstart=$qrStart&ueid=$uEventId&duration=$duration&currentDateTime=$currentDateTime"),
+              "${AppEnvironment.baseApiUrl}$qrCodeApi"),
           headers: {
             "Accept": "application/json",
             "content-type": "application/json"
