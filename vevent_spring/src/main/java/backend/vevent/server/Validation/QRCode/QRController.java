@@ -1,14 +1,12 @@
 package backend.vevent.server.Validation.QRCode;
 
 
-import backend.vevent.server.Configure.EntityResponse;
 import backend.vevent.server.Entity.Event;
 import backend.vevent.server.Entity.UsersEvent;
 import backend.vevent.server.Repo.EventRepo;
 import backend.vevent.server.Repo.UserEventRepo;
 import backend.vevent.server.Validation.GPS.GPSController;
 import backend.vevent.server.Validation.GPS.LatLngDTO;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
