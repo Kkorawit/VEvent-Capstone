@@ -77,7 +77,7 @@ public class GPSController {
 //    }
 
     @RequestMapping("/distance")
-    public ResponseEntity findDisplacement(@RequestBody LatLngDTO location, @RequestParam(name = "eid")Integer eid, @RequestParam(name = "uemail")String uEmail){
+    public ResponseEntity<Object> findDisplacement(@RequestBody LatLngDTO location, @RequestParam(name = "eid")Integer eid, @RequestParam(name = "uemail")String uEmail){
         Optional<Event> event = eventRepo.findById(eid);
         UsersEvent usersEvent = userEventRepo.findByEmailAndId(uEmail,eid);
         System.out.println("userevent: "+usersEvent);
