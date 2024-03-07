@@ -93,28 +93,28 @@ INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES
 INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("claudine.05@example.com",30,"F",0);
 
 -- test Validation by QR Code
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",6,"P",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",7,"IP",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",33,"S",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",34,"F",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",15,"P",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",35,"IP",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",36,"S",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",37,"F",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",38,"P",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",39,"F",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",30,"S",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",6,"P",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",7,"IP",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",33,"S",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",34,"F",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",15,"P",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",35,"IP",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",36,"S",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",37,"F",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",38,"P",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",39,"F",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",30,"S",0);
 
 -- test Validation by QR_CODE,GPS 
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",40,"P",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",41,"P",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",42,"IP",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",43,"S",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",48,"F",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",44,"P",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",45,"IP",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",46,"F",0);
-INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("Johnn.sm13@gmail.com",47,"S",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",40,"P",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",41,"P",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",42,"IP",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",43,"S",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",48,"F",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",44,"P",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",45,"IP",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",46,"F",0);
+INSERT INTO users_events (user_email,event_id,validate_status,done_times) VALUES("j.johnson14231@gmail.com",47,"S",0);
 
 -- test list participants-
 -- event 1
