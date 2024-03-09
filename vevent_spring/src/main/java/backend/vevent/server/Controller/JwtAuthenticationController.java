@@ -43,7 +43,9 @@ public class JwtAuthenticationController {
 //        authenticationRequest.setEmail(authenticationRequest.getEmail().toUpperCase());
         System.out.println("login pls");
         Map<String, String> tokens = new HashMap<>();
-
+        System.out.println(authenticationRequest.getEmail());
+        System.out.println(authenticationRequest.getDisplayName());
+        System.out.println(authenticationRequest.getRole());
 //        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 //        String sCryptPasswordEncoded = passwordEncoder.encode(authenticationRequest.getPassword());
 
