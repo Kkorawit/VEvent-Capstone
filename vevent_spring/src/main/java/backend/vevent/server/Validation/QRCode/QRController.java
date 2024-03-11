@@ -69,7 +69,7 @@ public class QRController {
             Map<String,String> resultEventCheck = validateService.checkEventProcessing(event.getId());
             Map<String,String> resultValidateCheck = validateService.checkValidateProcessing(usersEvent.getUser_event_id());
             System.out.println("In first condition");
-            if(!resultValidateCheck.get("status").equals("OK")&&!resultEventCheck.get("status").equals("OK")){
+            if(resultValidateCheck.get("status").equals("OK")&&resultEventCheck.get("status").equals("OK")){
                 if (isInTime) {
                     boolean displacementSuccess = false;
                     if(lat!=0&lng!=0) {
@@ -107,9 +107,7 @@ public class QRController {
                 }
             } else if (resultValidateCheck.get("status").equals("Deny")) {
                 return ResponseEntity.badRequest().body("Can't Validate This Event");
-            } else if (resultEventCheck.get("status").equals("Deny")) {
-                return ResponseEntity.badRequest().body(resultEventCheck.get("resultText"));
-            }else{
+            } else {
                 return ResponseEntity.badRequest().body(resultEventCheck.get("resultText"));
             }
             return ResponseEntity.ok().body(response);
