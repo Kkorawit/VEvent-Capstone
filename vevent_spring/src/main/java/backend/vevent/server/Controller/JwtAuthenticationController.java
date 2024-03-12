@@ -42,6 +42,7 @@ public class JwtAuthenticationController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 //        authenticationRequest.setEmail(authenticationRequest.getEmail().toUpperCase());
         System.out.println("login pls");
+
         Map<String, String> tokens = new HashMap<>();
         System.out.println(authenticationRequest.getEmail());
         System.out.println(authenticationRequest.getDisplayName());

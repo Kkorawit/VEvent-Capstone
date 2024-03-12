@@ -1,4 +1,4 @@
-package backend.vevent.server.Configure;
+package backend.vevent.server.Utils;
 
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
