@@ -25,6 +25,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
         backend.vevent.server.Entity.User user = repository.findUserByEmail(uEmail);
         if (user!=null) {
+            System.out.println("user: "+user);
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority(user.getRole()));
 //            System.out.println("authorities : "+authorities);

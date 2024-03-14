@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -76,10 +78,15 @@ public class GPSController {
 ////        System.out.println(distanceValue);
 //    }
 
-    @RequestMapping("/distance")
-    public ResponseEntity findDisplacement(@RequestBody LatLngDTO location, @RequestParam(name = "eid")Integer eid, @RequestParam(name = "uemail")String uEmail){
+    @PostMapping("/distance")
+    public ResponseEntity<Object> findDisplacement(@RequestBody LatLngDTO location,
+//                                                   Authentication authentication,
+                                                   @RequestParam(name = "eid")Integer eid){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication);
+
         Optional<Event> event = eventRepo.findById(eid);
-        UsersEvent usersEvent = userEventRepo.findByEmailAndId(uEmail,eid);
+        UsersEvent usersEvent = userEventRepo.findByEmailAndId(authentication.getName(), eid);
         System.out.println("userevent: "+usersEvent);
         System.out.println("eid: "+eid);
         HashMap<String, Object> response = new HashMap<>();
@@ -89,14 +96,14 @@ public class GPSController {
             case "ON":
                 if (usersEvent != null && !usersEvent.getStatus().equals("S") && !usersEvent.getStatus().equals("P")) {
 
-                    double dLat = Math.toRadians((event.get().getLocationLatitude() - location.getFlat()));
-                    double dLong = Math.toRadians((event.get().getLocationLongitude() - location.getFlong()));
-
-                    double startLat = Math.toRadians(location.getFlat());
-                    double endLat = Math.toRadians(event.get().getLocationLatitude());
+//                    double dLat = Math.toRadians((event.get().getLocationLatitude() - location.getFlat()));
+//                    double dLong = Math.toRadians((event.get().getLocationLongitude() - location.getFlong()));
+//
+//                    double startLat = Math.toRadians(location.getFlat());
+//                    double endLat = Math.toRadians(event.get().getLocationLatitude());
                     System.out.println("before service");
-                    double haversine = service.calHaversine(dLat) + Math.cos(startLat) * Math.cos(endLat) * service.calHaversine(dLong);
-                    response = calDisplacementWithHaversine(haversine);
+                    double haversine = service.calHaversine(location,eid);
+                    response = service.calDisplacementWithHaversine(haversine);
                     System.out.println("out from cal displacement with haversine: " + response);
 
                     if (response.isEmpty()){
@@ -136,32 +143,7 @@ public class GPSController {
         return ResponseEntity.badRequest().body(response);
     }
 
-    private static HashMap<String, Object> calDisplacementWithHaversine(double hav) {
-        System.out.println("On cal displacement");
-        System.out.println("hav: " + hav);
-        final double EARTH_RADIUS = 6371;
-        double c = 2 * Math.atan2(Math.sqrt(hav),Math.sqrt(1- hav));
-        BigDecimal bigDecimal = new BigDecimal(EARTH_RADIUS*c);
-        BigDecimal displacementInDecimal = bigDecimal.setScale(5,RoundingMode.HALF_UP);
-        double displacementInDouble = displacementInDecimal.toBigInteger().doubleValue();
-        System.out.println("In double: "+displacementInDouble);
-        System.out.println("In Decimal: "+displacementInDecimal);
-        HashMap<String, Object> response = new HashMap<>();
 
-        if(displacementInDouble>0.5) {
-            System.out.println("failed");
-            response.put("VStatus", "Failed");
-            response.put("Displacement",displacementInDouble+"km");
-            response.put("HTTP_Status",HttpStatus.OK.value());
-            System.out.println("out from status failed");
-        }else{
-            System.out.println("pass");
-            response.put("VStatus", "Success");
-            response.put("Displacement",displacementInDouble+"km");
-            response.put("HTTP_Status",HttpStatus.OK.value());
-        }
-        return response;
-    }
 
 //    @RequestMapping("/vin")
 //    public ResponseEntity vinDistance(){

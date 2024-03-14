@@ -5,17 +5,24 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
@@ -26,7 +33,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity(prePostEnabled = true,securedEnabled = true,jsr250Enabled = true)
 public class WebSecurityConfig {
 
 //    @Autowired
@@ -34,9 +41,6 @@ public class WebSecurityConfig {
 
     @Autowired
     private UserDetailsService jwtUserDetailsService;
-
-
-//    private JwtRequestFilter jwtRequestFilter;
 
     @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -56,15 +60,6 @@ public class WebSecurityConfig {
             AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeHttpRequests((authz) -> authz
-//                        .anyRequest().authenticated()
-//                )
-//                .httpBasic(withDefaults());
-//        return http.build();
-//    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -87,46 +82,41 @@ public class WebSecurityConfig {
 //    }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/auth","/graphql","/api/distance","/api/qrcode")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated()
-                )
-//                .formLogin(login -> login.loginPage("/login")
-//                        .usernameParameter("email")
-//                        .defaultSuccessUrl("/",true)
-//                        .permitAll()
-//                )
-                .httpBasic(withDefaults());
+                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
+                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.DELETE).hasAuthority("Organization")
+//                                .requestMatchers("/api/qrcode").hasAnyAuthority("Participants")
+//                                .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/api/auth","/graphql","/api/distance","/api/step-counter","/api/qrcode").permitAll()
+                                .anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults())
+                .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(new JwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
-
 //    @Bean
-//    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-//        http.csrf(AbstractHttpConfigurer::disable)
-//                .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
-//                .authorizeHttpRequests((requests) -> requests
-//                        .requestMatchers("/myAccount", "/myBalance", "/myLoans", "/myCards", "/user").permitAll()
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//            .csrf(AbstractHttpConfigurer::disable)
+//            .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
+//                .authorizeHttpRequests(authorize -> authorize
+//                        .requestMatchers(HttpMethod.POST,"/api/auth").permitAll()
+//                        .requestMatchers("/api/qrcode").hasAnyAuthority("Participants")
 //                        .anyRequest().authenticated()
-//                        .requestMatchers("/contacts", "/notices", "/register")
-//                );
-//        http.formLogin(withDefaults());
-//        http.httpBasic(withDefaults());
+//                )
+//                .httpBasic(withDefaults());
+//
 //        return http.build();
 //    }
 
-//    @Override
-//    protected void configure(HttpSecurity httpSecurity) throws Exception {
-////         We don't need CSRF for this example
-//        httpSecurity.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/distance","/api/qrcode","/api/login").
-//                permitAll().
-//                anyRequest().
-//                authenticated()
-//        );
-//    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring().requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico");
+    }
+
+
+
 
 }
