@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:vevent_flutter/bloc/validation/validation_bloc.dart';
 import 'package:vevent_flutter/widget/gps_btn.dart';
+import 'package:vevent_flutter/widget/steps_counter.dart';
 import 'package:vevent_flutter/widget/scan_qrcode_btn.dart';
 
 // ignore: must_be_immutable
@@ -57,24 +58,42 @@ class _ValidateButtonState extends State<ValidateButton> {
     if (widget.eventStatus == "ON") {
       if (widget.validateStatus == "IP" || widget.validateStatus == "F") {
         if (widget.validationType.contains("QR_CODE")) {
-          return ScanQRCodeBtn(
-              // uEmail: widget.uEmail,
-              uEventId: widget.uEventId,
-              eId: widget.eventId,
-              // eventStatus: widget.eventStatus,
-              // validateStatus: widget.validateStatus,
-              validationType: widget.validationType,);
-        } else {
+          return Column(
+            children: [
+              ScanQRCodeBtn(
+                // uEmail: widget.uEmail,
+                uEventId: widget.uEventId,
+                eId: widget.eventId,
+                // eventStatus: widget.eventStatus,
+                // validateStatus: widget.validateStatus,
+                validationType: widget.validationType,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return StepsCounter();
+                    }));
+                  },
+                  child: Text("Start counter"))
+            ],
+          );
+        } else if (widget.validationType.contains("GPS")) {
           return GPSBtn(
               uEmail: widget.uEmail,
               eventId: widget.eventId,
               eventStatus: widget.eventStatus,
               validateStatus: widget.validateStatus,
               validationType: widget.validationType);
+        } else {
+          return StepsCounter();
         }
       } else if (widget.validateStatus == "S") {
         return ElevatedButton(
-            onPressed: null, child: Text(widget.validationType.contains("QR_CODE")?"Scan QR Code":"Confirm Validation"));
+            onPressed: null,
+            child: Text(widget.validationType.contains("QR_CODE")
+                ? "Scan QR Code"
+                : "Confirm Validation"));
       } else {
         return Container();
       }

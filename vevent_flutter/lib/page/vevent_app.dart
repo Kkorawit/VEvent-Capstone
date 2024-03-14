@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -10,6 +9,7 @@ import 'package:vevent_flutter/bloc/qrcode/qrcode_bloc.dart';
 import 'package:vevent_flutter/bloc/sign_in/sign_in_bloc.dart';
 import 'package:vevent_flutter/bloc/user/user_bloc.dart';
 import 'package:vevent_flutter/etc/app_environment.dart';
+import 'package:vevent_flutter/page/profile_page.dart';
 import 'package:vevent_flutter/page/sign_in_page.dart';
 // import 'package:vevent_flutter/page/splash_screen.dart';
 import 'package:vevent_flutter/provider/event_provider.dart';
@@ -39,7 +39,8 @@ class VEventApp extends StatelessWidget {
         create: (context) =>
             UserBloc(UserRepository(provider: UserProvider())));
     final gpsBloc = BlocProvider(
-        create: (context) => GpsBloc(ValidationRepository(provider: ValidationProvider())));
+        create: (context) =>
+            GpsBloc(ValidationRepository(provider: ValidationProvider())));
     final eventDetailBloc = BlocProvider(
         create: (context) =>
             EventDetailBloc(EventRepository(provider: EventProvider())));
@@ -119,7 +120,14 @@ class AppBar extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          getUProfileImage(uProfileURL),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .push(MaterialPageRoute(builder: (context) {
+                                  return ProfilePage(imgProfile: uProfileURL,uEmail: uEmail, userName: uDisplayName,);
+                                }));
+                              },
+                              child: getUProfileImage(uProfileURL)),
                           const SizedBox(
                             width: 16,
                           ),
