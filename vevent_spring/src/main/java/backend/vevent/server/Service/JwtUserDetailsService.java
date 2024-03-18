@@ -2,6 +2,7 @@ package backend.vevent.server.Service;
 
 import backend.vevent.server.Repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
@@ -18,6 +20,9 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepo repository;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String uEmail) throws UsernameNotFoundException {
@@ -30,9 +35,11 @@ public class JwtUserDetailsService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority(user.getRole()));
 //            System.out.println("authorities : "+authorities);
 //            System.out.println(user.getUsername() +" ::  "+ user.getUserPassword());
+            System.out.println(user.getName());
             return new User(user.getUserEmail(),user.getName(),authorities);
         } else {
-            throw new UsernameNotFoundException("User not found with username: " + uEmail);
+            return new User("NEW", "NEW", new ArrayList<>());
+//            throw new UsernameNotFoundException("User not found with username: " + uEmail);
         }
     }
 }
