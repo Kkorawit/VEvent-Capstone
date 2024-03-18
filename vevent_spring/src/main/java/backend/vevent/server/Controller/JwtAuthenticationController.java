@@ -6,6 +6,8 @@ import backend.vevent.server.Utils.JwtTokenUtil;
 import io.jsonwebtoken.impl.DefaultClaims;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.User;
@@ -59,6 +61,10 @@ public class JwtAuthenticationController {
 //            System.out.println(passwordEncoder.matches(authenticationRequest.getEmail(),sCryptPasswordEncoded));
 //            if (passwordEncoder.matches(authenticationRequest.getEmail(),sCryptPasswordEncoded)) {
                 System.out.println("controller jwt : " + userDetails);
+                if(userDetails.getUsername().equals("NEW")){
+                    System.out.println("some thing in new");
+                    return ResponseEntity.accepted().body("Signup");
+                }
                 final String access_token = jwtTokenUtil.generateToken(userDetails);
                 final String refresh_token = jwtTokenUtil.generateRefreshToken(userDetails);
                 tokens.put("access_token", access_token);
