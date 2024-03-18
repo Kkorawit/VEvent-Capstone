@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vevent_flutter/bloc/auth/auth_bloc.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:vevent_flutter/bloc/event/event_bloc.dart';
 import 'package:vevent_flutter/bloc/event_detail/event_detail_bloc.dart';
@@ -11,11 +12,13 @@ import 'package:vevent_flutter/bloc/user/user_bloc.dart';
 import 'package:vevent_flutter/etc/app_environment.dart';
 import 'package:vevent_flutter/page/profile_page.dart';
 import 'package:vevent_flutter/page/sign_in_page.dart';
+import 'package:vevent_flutter/provider/auth_provider.dart';
 // import 'package:vevent_flutter/page/splash_screen.dart';
 import 'package:vevent_flutter/provider/event_provider.dart';
 import 'package:vevent_flutter/provider/participant_provider.dart';
 import 'package:vevent_flutter/provider/user_provider.dart';
 import 'package:vevent_flutter/provider/validation_provider.dart';
+import 'package:vevent_flutter/repository/auth_repository.dart';
 import 'package:vevent_flutter/repository/event_repository.dart';
 import 'package:vevent_flutter/repository/participant_repository.dart';
 import 'package:vevent_flutter/repository/validation_repository.dart';
@@ -51,6 +54,7 @@ class VEventApp extends StatelessWidget {
         create: (context) =>
             QrcodeBloc(ValidationRepository(provider: ValidationProvider())));
     final signInBloc = BlocProvider(create: (context) => SignInBloc());
+    final authBloc = BlocProvider(create: (context) => AuthBloc(AuthRepository(provider: AuthProvider())));
 
     return MultiBlocProvider(
       providers: [
@@ -60,7 +64,8 @@ class VEventApp extends StatelessWidget {
         eventDetailBloc,
         participantBloc,
         qrCodeBloc,
-        signInBloc
+        signInBloc,
+        authBloc
       ],
       // create: (context) => EventBloc(EventRepository(provider: EventProvider())),
       child: MaterialApp(

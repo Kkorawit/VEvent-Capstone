@@ -115,8 +115,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
             widget.eventId = "${state.event["event"]["id"]}";
             widget.uEmail = "${state.event["user"]["userEmail"]}";
             widget.title = "${state.event["event"]["title"]}";
-            widget.startDate =
-                dateTimeFormat("${state.event["event"]["startDate"]}");
+            widget.startDate = "${state.event["event"]["startDate"]}";
             widget.endDate = "${state.event["event"]["endDate"]}";
             widget.locationName = "${state.event["event"]["locationName"]}";
             widget.category = "${state.event["event"]["category"]}";
@@ -311,7 +310,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Start: ${widget.startDate}",
+                                          "Start: ${dateTimeFormat(widget.startDate)}",
                                           style: const TextStyle(fontSize: 16),
                                         ),
                                         // Text(" - "),

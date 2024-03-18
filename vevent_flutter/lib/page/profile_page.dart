@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:vevent_flutter/bloc/sign_in/sign_in_bloc.dart';
+import 'package:vevent_flutter/models/secure_storage.dart';
 
 class ProfilePage extends StatefulWidget {
   final String imgProfile;
@@ -19,6 +21,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final storage = FlutterSecureStorage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -184,9 +187,71 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                             ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            GestureDetector(
+                              onTap: () async {
+                                final token = await storage.read(key: "token");
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                    title: const Text('Token'),
+                                    content: Text("Token: $token"),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(context, 'OK'),
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                                //  Navigator.of(context)
+                                //       .push(MaterialPageRoute(builder: (context) {
+                                //     return ItemsWidget();
+                                //   }));
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                    color: Color.fromRGBO(236, 233, 250, 1),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(16))),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(Icons.logout,
+                                            size: 24,
+                                            color:
+                                                Color.fromRGBO(69, 32, 204, 1)),
+                                        SizedBox(
+                                          width: 16,
+                                        ),
+                                        Text(
+                                          "View Token",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color.fromRGBO(
+                                                  69, 32, 204, 1)),
+                                        ),
+                                      ],
+                                    ),
+                                    Icon(Icons.arrow_forward_ios,
+                                        size: 24,
+                                        color: Color.fromRGBO(69, 32, 204, 1)),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ],
                         ),
-                      )
+                      ),
                     ]),
                   )),
             )

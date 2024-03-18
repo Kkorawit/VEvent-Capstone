@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:vevent_flutter/bloc/auth/auth_bloc.dart';
 import 'package:vevent_flutter/bloc/sign_in/sign_in_bloc.dart';
+import 'package:vevent_flutter/page/sign_up_page.dart';
 
 const List<String> scopes = <String>[
   'email',
@@ -56,6 +58,11 @@ class _SignInPageState extends State<SignInPage> {
             displayName: googleUser.displayName,
             profileURL:
                 googleUser.photoUrl == null ? "" : googleUser.photoUrl));
+
+        context.read<AuthBloc>().add(authUser(
+            uEmail: widget.uEmail,
+            displayName: googleUser.displayName.toString(),
+            role: widget.roleSelected));
       } else {
         debugPrint("User null");
       }
@@ -228,13 +235,6 @@ class _SignInPageState extends State<SignInPage> {
                 //Sign-in with google btn
                 onTap: () async {
                   await _handleSignIn();
-                  // if (user != null) {
-                  //   context.read<SignInBloc>().add(signIn(
-                  //       uEmail: widget.uEmail, role: widget.roleSelected));
-                  // } else {
-                  //   ScaffoldMessenger.of(context).showSnackBar(
-                  //       const SnackBar(content: Text("Please sign-in again!")));
-                  // }
                 },
                 child: Container(
                   width: 328,
@@ -266,6 +266,36 @@ class _SignInPageState extends State<SignInPage> {
                     ],
                   ),
                 ),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't have an account?",
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontWeight: FontWeight.normal
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: (){
+                       Navigator.of(context)
+                                    .push(MaterialPageRoute(builder: (context) {
+                                  return SignUpPage();
+                                }));
+                    },
+                    child: Text(
+                      "Signup",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
