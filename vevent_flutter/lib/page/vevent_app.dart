@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:vevent_flutter/bloc/auth/auth_bloc.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:vevent_flutter/bloc/event/event_bloc.dart';
@@ -53,7 +54,7 @@ class VEventApp extends StatelessWidget {
     final qrCodeBloc = BlocProvider(
         create: (context) =>
             QrcodeBloc(ValidationRepository(provider: ValidationProvider())));
-    final signInBloc = BlocProvider(create: (context) => SignInBloc());
+    final signInBloc = BlocProvider(create: (context) => SignInBloc(AuthRepository(provider: AuthProvider())));
     final authBloc = BlocProvider(create: (context) => AuthBloc(AuthRepository(provider: AuthProvider())));
 
     return MultiBlocProvider(
@@ -196,13 +197,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+//   final storage = FlutterSecureStorage();
+//   late String? uEmail;
+//   late String? role;
+//   late String? displayName;
+//   late String? profileURL;
+
+//   void fetchData() async {
+//   // String? token = await storage.read(key: 'token');
+//     uEmail = await storage.read(key: "email");
+//     role = await storage.read(key: "role");
+//     displayName = await storage.read(key: "displayName");
+//     profileURL = await storage.read(key: "profileURL");
+//     // debugPrint("$uEmail : $role : $displayName : $profileURL ");
+// }
   //display
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     // final GoogleSignInAccount? user = _currentUser;
     debugPrint(AppEnvironment.baseApiUrl);
-    return Scaffold(body: BlocBuilder<SignInBloc, SignInState>(
-      builder: (context, state) {
+    return Scaffold(
+      body: BlocBuilder<SignInBloc, SignInState>(
+      builder: (context, state){
         if (state is SignInInitial) {
           return SignInPage();
         }
@@ -210,6 +226,9 @@ class _MyHomePageState extends State<MyHomePage> {
           return const Center(child: CircularProgressIndicator());
         }
         if (state is SignInFinishState) {
+          //  fetchData();
+          //      debugPrint("$uEmail : $role : $displayName : $profileURL ");
+
           if (state.signInSuccess == true) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,

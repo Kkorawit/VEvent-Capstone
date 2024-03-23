@@ -31,7 +31,7 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("imagePath => $imagePath");
+    // debugPrint("imagePath => $imagePath");
     var formattedDate = dateTimeFormat(startDate);
     debugPrint(eventStatus);
     return Card(

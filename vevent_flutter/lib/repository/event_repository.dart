@@ -23,7 +23,7 @@ class EventRepository {
       debugPrint("hear else -> uRole == Organization");
       events = await provider.getEventsByOrganizerEmail(uEmail);
     }
-      debugPrint("getEventsByUserEmail repository => $events");
+      // debugPrint("getEventsByUserEmail repository => $events");
 
     List<dynamic> filteredEvent =
         filterEventByStatus(events, selectedStatus, uRole, sortBy);

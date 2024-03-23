@@ -12,19 +12,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this.repository) : super(AuthInitial()) {
     on<authUser>((event, emit) async {
       emit(AuthLoadingState());
-      try{
+      try {
         debugPrint("In AuthBloc");
-        await repository.authUser(event.uEmail, event.displayName.toString(), event.role);
+        String signInStatus = await repository.signInUser(event.uEmail);
+        String signUpStatus = await repository.signUpUser(event.uEmail, event.displayName.toString(), event.role, event.photoURL.toString());
         // FlutterSecureStorage storage = await repository.authUser(event.uEmail, event.displayName.toString(), event.role);
         // debugPrint("In storage = ${storage}");
         // debugPrint("In storage = ${await storage.read(key: 'token')}");
         // await storage.read(key: 'token');
         // emit(AuthFinishState(storage: storage));
         debugPrint("In AuthBloc Token = ${await repository.provider.storage.read(key: "token")}");
-        emit(AuthFinishState(status: "200"));
-      }catch (e){
+        emit(AuthFinishState(status: signUpStatus));
+      } catch (e) {
         emit(AuthErrorState(e.toString()));
       }
     });
   }
 }
+
+
+//        {// test fake token api
+// await repository.signUpUser(event.uEmail, event.displayName.toString(), event.role);
+//         // FlutterSecureStorage storage = await repository.authUser(event.uEmail, event.displayName.toString(), event.role);
+//         // debugPrint("In storage = ${storage}");
+//         // debugPrint("In storage = ${await storage.read(key: 'token')}");
+//         // await storage.read(key: 'token');
+//         // emit(AuthFinishState(storage: storage));
+//         debugPrint("In AuthBloc Token = ${await repository.provider.storage.read(key: "token")}");
+//         emit(AuthFinishState(status: "200"));
+//        } 

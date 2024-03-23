@@ -15,7 +15,7 @@ class EventBloc extends Bloc<EventEvent, EventState> {
       try {
         debugPrint("in event bloc -> ${event.uEmail}");
         List<dynamic> events = await repository.getEventsByUserEmail(event.uEmail,event.uRole,event.selectedStatus,event.sortBy);
-        debugPrint("In EventBloc showEventList => $events");
+        // debugPrint("In EventBloc showEventList => $events");
         emit(EventFinishState(events: events));
 
       } catch (e) {

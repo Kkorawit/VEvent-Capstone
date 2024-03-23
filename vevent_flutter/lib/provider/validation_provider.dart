@@ -45,22 +45,33 @@ class ValidationProvider {
     }
   }
 
-  Future<http.Response> validateQRCode(String uEventId, String qrStart,
-      String duration, String currentDateTime, String? lat, String? long) async {
+  Future<http.Response> validateQRCode(
+      String uEventId,
+      String qrStart,
+      String duration,
+      String currentDateTime,
+      String? lat,
+      String? long) async {
     http.Response res;
     // ignore: unused_local_variable
     String qrCodeApi = "";
-    if(lat != null && long != null){
-      qrCodeApi = "/api/qrcode?QRstart=$qrStart&ueid=$uEventId&duration=$duration&currentDateTime=$currentDateTime&lat=$lat&long=$long";
-    }else{
-      qrCodeApi = "/api/qrcode?QRstart=$qrStart&ueid=$uEventId&duration=$duration&currentDateTime=$currentDateTime";
+    String encodedData ;
+    if (lat != null && long != null) {
+      qrCodeApi =
+          "/api/qrcode?QRstart=$qrStart&ueid=$uEventId&duration=$duration&currentDateTime=$currentDateTime&lat=$lat&long=$long";
+    encodedData = base64Encode(utf8.encode("$qrStart&$uEventId&$duration&$currentDateTime&$lat&$long"));
+    } else {
+      qrCodeApi =
+          "/api/qrcode?QRstart=$qrStart&ueid=$uEventId&duration=$duration&currentDateTime=$currentDateTime";
+              encodedData = base64Encode(utf8.encode("$qrStart&$uEventId&$duration&$currentDateTime"));
+
     }
-    debugPrint(
-        "${AppEnvironment.baseApiUrl}$qrCodeApi");
+    // Encode data to Base64
+    debugPrint('Encoded Data: $encodedData');
+    // debugPrint("${AppEnvironment.baseApiUrl}$qrCodeApi");
+    debugPrint("${AppEnvironment.baseApiUrl}/api/qrcode?info=$encodedData");
     try {
-      res = await http.post(
-          Uri.parse(
-              "${AppEnvironment.baseApiUrl}$qrCodeApi"),
+      res = await http.post(Uri.parse("${AppEnvironment.baseApiUrl}/api/qrcode?$encodedData"),
           headers: {
             "Accept": "application/json",
             "content-type": "application/json"

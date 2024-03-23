@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -30,6 +31,7 @@ class QRCodePage extends StatefulWidget {
 class _QRCodePageState extends State<QRCodePage> {
   late Timer timer;
   late bool isPaused = false;
+  late String encodedQrData;
 
   @override
   void initState() {
@@ -37,7 +39,10 @@ class _QRCodePageState extends State<QRCodePage> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent, // ทำให้ StatusBar เป็นสีที่透ทน
     ));
+    // Encode data to Base64
     widget.qrData = "${widget.qrStart};${widget.eventId};${widget.duration}";
+    encodedQrData = base64Encode(utf8.encode(widget.qrData));
+    debugPrint('Encoded Data: $encodedQrData');
     startTimer();
   }
 
@@ -115,7 +120,8 @@ class _QRCodePageState extends State<QRCodePage> {
                 children: [
                   Text(
                     widget.eventTitle,
-                    style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500, fontSize: 20),
                     overflow: TextOverflow.clip,
                     maxLines: 2,
                     textAlign: TextAlign.center,
@@ -126,14 +132,15 @@ class _QRCodePageState extends State<QRCodePage> {
                   if (widget.countdownMinutes == 0 &&
                       widget.countdownSecond == 0)
                     Container(
-                      height: 200,
-                      alignment: Alignment.center,
+                        height: 200,
+                        alignment: Alignment.center,
                         child: const Text("QR Code has Expired!!",
-                            style: TextStyle(fontSize: 18, color: Colors.grey))),
+                            style:
+                                TextStyle(fontSize: 18, color: Colors.grey))),
                   if (!(widget.countdownMinutes == 0 &&
                       widget.countdownSecond == 0))
                     QrImageView(
-                      data: widget.qrData,
+                      data: encodedQrData,
                       version: QrVersions.auto,
                       size: 200,
                     ),
@@ -193,7 +200,6 @@ class _QRCodePageState extends State<QRCodePage> {
     ));
     super.dispose();
   }
-
 
   void _showAlertDialog(
     BuildContext context,

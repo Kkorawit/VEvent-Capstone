@@ -62,7 +62,7 @@ class EventProvider {
         ),
       );
 
-      debugPrint("$queryResult");
+      // debugPrint("$queryResult");
 
       var events = queryResult.data?['findAllRegisEventsByUEmail'];
       // debugPrint(events);

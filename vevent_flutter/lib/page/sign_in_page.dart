@@ -59,10 +59,11 @@ class _SignInPageState extends State<SignInPage> {
             profileURL:
                 googleUser.photoUrl == null ? "" : googleUser.photoUrl));
 
-        context.read<AuthBloc>().add(authUser(
-            uEmail: widget.uEmail,
-            displayName: googleUser.displayName.toString(),
-            role: widget.roleSelected));
+        // context.read<AuthBloc>().add(authUser(
+        //     uEmail: widget.uEmail,
+        //     displayName: googleUser.displayName.toString(),
+        //     role: widget.roleSelected,
+        //     photoURL: googleUser.photoUrl == null ? "" : googleUser.photoUrl));
       } else {
         debugPrint("User null");
       }
