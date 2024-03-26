@@ -1,26 +1,19 @@
 package backend.vevent.server.Validation.GPS;
 
 
-import backend.vevent.server.Entity.Event;
-import backend.vevent.server.Entity.UsersEvent;
+import backend.vevent.server.Entities.Event;
+import backend.vevent.server.Entities.UsersEvent;
 import backend.vevent.server.Repo.EventRepo;
 import backend.vevent.server.Repo.UserEventRepo;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.spencerwi.either.Either;
+import backend.vevent.server.Service.LogService;
+import backend.vevent.server.Validation.LogSection;
+import backend.vevent.server.Validation.LogState;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -37,9 +30,11 @@ public class GPSController {
 
 //    @Value("${api.key}") //for longdo
 //    private String api_key;
-
     @Autowired
     private GPSService service;
+
+    @Autowired
+    private LogService logService;
 
 //    @RequestMapping("/longdo")
 //    public ResponseEntity findDistance(@RequestBody LatLngDTO location, @RequestParam(name = "eid")Integer eid, @RequestParam(name = "uemail")String uEmail) throws IOException {
@@ -80,11 +75,13 @@ public class GPSController {
 
     @PostMapping("/distance")
     public ResponseEntity<Object> findDisplacement(@RequestBody LatLngDTO location,
-//                                                   Authentication authentication,
+                                                   Authentication authentication,
                                                    @RequestParam(name = "eid")Integer eid){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println(authentication);
-
+        if(authentication==null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Sign In Please");
+        }
         Optional<Event> event = eventRepo.findById(eid);
         UsersEvent usersEvent = userEventRepo.findByEmailAndId(authentication.getName(), eid);
         System.out.println("userevent: "+usersEvent);
@@ -92,9 +89,9 @@ public class GPSController {
         HashMap<String, Object> response = new HashMap<>();
 
         System.out.printf("event status: "+ event.get().getEventStatus());
-        switch (event.get().getEventStatus()){
+        switch (usersEvent.getEvent().getEventStatus()){
             case "ON":
-                if (usersEvent != null && !usersEvent.getStatus().equals("S") && !usersEvent.getStatus().equals("P")) {
+                if (!usersEvent.getStatus().equals("S") && !usersEvent.getStatus().equals("P")) {
 
 //                    double dLat = Math.toRadians((event.get().getLocationLatitude() - location.getFlat()));
 //                    double dLong = Math.toRadians((event.get().getLocationLongitude() - location.getFlong()));
@@ -112,9 +109,11 @@ public class GPSController {
                     if (response.get("VStatus").equals("Success")) {
                         usersEvent.setStatus("S");
                         userEventRepo.save(usersEvent);
+                        logService.saveAndFlushLog(LogSection.VALIDATE, LogState.GPS,"Validate event " + usersEvent.getEvent().getTitle() + " success", usersEvent.getUser(),event.get().getId());
                     } else {
                         usersEvent.setStatus("F");
                         userEventRepo.save(usersEvent);
+                        logService.saveAndFlushLog(LogSection.VALIDATE, LogState.GPS,"Validate event " + usersEvent.getEvent().getTitle() + " failed", usersEvent.getUser(),event.get().getId());
                     }
                     return ResponseEntity.ok().body(response);
                 } else if (usersEvent.getStatus().equals("S")) {

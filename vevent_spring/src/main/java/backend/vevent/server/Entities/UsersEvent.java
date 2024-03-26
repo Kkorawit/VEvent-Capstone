@@ -1,4 +1,4 @@
-package backend.vevent.server.Entity;
+package backend.vevent.server.Entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,9 +25,6 @@ public class UsersEvent {
 
     @Column(name = "validate_status",nullable = false)
     private String status;
-
-    @Column(name = "done_times", nullable = false)
-    private Integer doneTimes;
 
 //    @EmbeddedId
 //    private UsersEventId id;

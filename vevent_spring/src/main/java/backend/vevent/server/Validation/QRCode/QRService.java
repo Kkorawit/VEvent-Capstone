@@ -1,7 +1,5 @@
 package backend.vevent.server.Validation.QRCode;
 
-import backend.vevent.server.Entity.Event;
-import backend.vevent.server.Entity.UsersEvent;
 import backend.vevent.server.Repo.EventRepo;
 import backend.vevent.server.Repo.UserEventRepo;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,13 +1,15 @@
 package backend.vevent.server.Validation.QRCode;
 
 
-import backend.vevent.server.Entity.Event;
-import backend.vevent.server.Entity.UsersEvent;
+import backend.vevent.server.Entities.Event;
+import backend.vevent.server.Entities.UsersEvent;
 import backend.vevent.server.Repo.EventRepo;
 import backend.vevent.server.Repo.UserEventRepo;
-import backend.vevent.server.Validation.GPS.GPSController;
+import backend.vevent.server.Service.LogService;
 import backend.vevent.server.Validation.GPS.GPSService;
 import backend.vevent.server.Validation.GPS.LatLngDTO;
+import backend.vevent.server.Validation.LogSection;
+import backend.vevent.server.Validation.LogState;
 import backend.vevent.server.Validation.ValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -45,8 +48,11 @@ public class QRController {
     @Autowired
     private ValidateService validateService;
 
+    @Autowired
+    private LogService logService;
     @PostMapping("/qrcode")
     public ResponseEntity validateQRCode(
+//                @RequestParam(value = "qrInfo")String qrInfo,
             @RequestParam(value = "ueid")Integer ueid,
             @RequestParam(value = "QRstart")Instant qrstart,
             @RequestParam(value = "duration",defaultValue = "5")Integer duration,
@@ -54,11 +60,23 @@ public class QRController {
             @RequestParam(name = "lat",value = "lat",required = false,defaultValue = "0")double lat,
             @RequestParam(name = "long",value = "long",required = false,defaultValue = "0")double lng,
             Authentication authentication){
+//        byte[] decodedBytes = Base64.getDecoder().decode(qrInfo);
+//        String decodedString = new String(decodedBytes);
+//        String[] decodedInfo = decodedString.split("&");
+//        Instant qrstart = Instant.parse(decodedInfo[0]);
+//        Integer ueid = Integer.valueOf(decodedInfo[1]);
+//        Integer duration = Integer.valueOf(decodedInfo[2]);
+//        Instant currentDateTime = Instant.parse(decodedInfo[3]);
+//        double lat = 0;
+//        double lng = 0;
+//        if(decodedInfo.length>4){
+//             lat = Double.parseDouble(decodedInfo[4]);
+//             lng = Double.parseDouble(decodedInfo[5]);
+//        }
+
         UsersEvent usersEvent = userEventRepo.findUsersEventById(ueid);
 
         String response;
-
-
 
 
         boolean isInTime = qrService.QrTimeCheck(qrstart,duration,currentDateTime);
@@ -89,12 +107,14 @@ public class QRController {
                         if(displacementStatus.equals("Success")){
                             usersEvent.setStatus("S");
                             userEventRepo.save(usersEvent);
+                            logService.saveAndFlushLog(LogSection.VALIDATE, LogState.QR_GPS,"Validate event " + usersEvent.getEvent().getTitle() + " success", usersEvent.getUser(), event.getId());
                             return ResponseEntity.ok().body("Success");
                         }
                     }
                     response = "Success";
                     System.out.println("Success");
                     usersEvent.setStatus("S");
+                    logService.saveAndFlushLog(LogSection.VALIDATE, LogState.QRCODE,"Validate event " + usersEvent.getEvent().getTitle() + " success", usersEvent.getUser(),event.getId());
                     userEventRepo.save(usersEvent);
 
 
@@ -102,6 +122,7 @@ public class QRController {
                     System.out.println("validate failed");
                     usersEvent.setStatus("F");
                     userEventRepo.save(usersEvent);
+                    logService.saveAndFlushLog(LogSection.VALIDATE, LogState.QRCODE,"Validate event " + usersEvent.getEvent().getTitle() + " failed", usersEvent.getUser(), event.getId());
                     response = "QR code was expired";
 //
                 }

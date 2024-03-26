@@ -1,4 +1,4 @@
-package backend.vevent.server.Entity;
+package backend.vevent.server.Entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,20 +16,26 @@ public class HistoryLog {
     @Column(name = "history_log_id", nullable = false)
     private Integer id;
 
-    @Column(name = "section", nullable = false, length = 100)
+    @Lob
+    @Column(name = "section", nullable = false)
     private String section;
 
-    @Column(name = "state", nullable = false, length = 100)
+    @Lob
+    @Column(name = "state", nullable = false)
     private String state;
 
     @Column(name = "details", nullable = false, length = 150)
     private String details;
 
-    @Column(name = "create_date", nullable = false)
+    @Column(name = "create_date",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Transient
     private Instant createDate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_email", nullable = false, referencedColumnName = "user_email")
-    private User user;
+    private User userEmail;
+
+    @Column(name = "event_id",nullable = false)
+    private Integer eventId;
 
 }

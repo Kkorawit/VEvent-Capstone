@@ -1,9 +1,9 @@
-package backend.vevent.server.Entity;
+package backend.vevent.server.Entities;
 
 import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.Instant;
 
 @Getter
@@ -11,17 +11,18 @@ import java.time.Instant;
 @Entity
 @Table(name = "events")
 public class Event {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id", nullable = false)
     private Integer id;
 
-    @Column(name = "title", nullable = false, length = 150)
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description", nullable = false, length = 300)
-    private String description;
+    @Column(name = "description", nullable = false)
 
+    private String description;
     @Column(name = "amount_received", nullable = false)
     private String amountReceived;
 
@@ -31,16 +32,18 @@ public class Event {
     @Column(name = "sub_category", nullable = false, length = 125)
     private String subCategory;
 
-    @Column(name = "start_date", nullable = false)
+    @Column(name = "start_date",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Transient
     private Instant startDate;
 
     @Column(name = "end_date")
     private Instant endDate;
 
-    @Column(name = "register_start_date", nullable = false)
+    @Column(name = "register_start_date",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Transient
     private Instant registerStartDate;
 
-    @Column(name = "register_end_date", nullable = false)
+    @Column(name = "register_end_date")
     private Instant registerEndDate;
 
     @Lob
@@ -56,13 +59,15 @@ public class Event {
     @Column(name = "create_by", nullable = false, length = 125)
     private String createBy;
 
-    @Column(name = "create_date", nullable = false)
+    @Column(name = "create_date",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Transient
     private Instant createDate;
 
     @Column(name = "update_by", nullable = false, length = 125)
     private String updateBy;
 
-    @Column(name = "update_date", nullable = false)
+    @Column(name = "update_date",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Transient
     private Instant updateDate;
 
     @Column(name = "location_name", nullable = false, length = 300)
@@ -73,9 +78,6 @@ public class Event {
 
     @Column(name = "location_longitude")
     private Double locationLongitude;
-
-    @Column(name = "total_validation_times")
-    private Integer validate_times;
 
     @Lob
     @Column(name = "event_status", nullable = false)

@@ -1,6 +1,6 @@
 package backend.vevent.server.Validation.GPS;
 
-import backend.vevent.server.Entity.Event;
+import backend.vevent.server.Entities.Event;
 import backend.vevent.server.Repo.EventRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

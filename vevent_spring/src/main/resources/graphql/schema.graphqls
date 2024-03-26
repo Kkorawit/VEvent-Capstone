@@ -6,6 +6,7 @@ type Query {
     findAllParticipantsByEventId(eid:ID): [User_Event]
     findEventDetailsByUserEventId(id:ID): User_Event
     findEventDetailsByEventId(id:ID): Event
+    findEventByCategory(category:String): [Event]
 }
 
 union EventList = Event | User_Event

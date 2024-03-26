@@ -1,7 +1,6 @@
 package backend.vevent.server.Validation.StepCounter;
 
-import backend.vevent.server.Entity.Event;
-import backend.vevent.server.Entity.UsersEvent;
+import backend.vevent.server.Entities.Event;
 import backend.vevent.server.Repo.UserEventRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

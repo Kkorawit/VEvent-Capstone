@@ -1,27 +1,20 @@
 package backend.vevent.server.Controller;
 
 
-import backend.vevent.server.Entity.Event;
-import backend.vevent.server.Entity.User;
-import backend.vevent.server.Entity.UsersEvent;
+import backend.vevent.server.Entities.Event;
+import backend.vevent.server.Entities.User;
+import backend.vevent.server.Entities.UsersEvent;
 import backend.vevent.server.Repo.EventRepo;
 import backend.vevent.server.Repo.UserEventRepo;
 import backend.vevent.server.Repo.UserRepo;
-import com.spencerwi.either.Either;
 import graphql.GraphQL;
-import graphql.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Controller
 @CrossOrigin("*")
@@ -86,6 +79,12 @@ public class GraphQLController {
 //           return Either.right(marks);
 //       }
 //   }
+
+    @QueryMapping
+    public List<Event> findEventByCategory(@Argument String category){
+        List<Event> eventList = eventRepo.findAllEventByCategory(category);
+        return eventList;
+    }
 
     @QueryMapping
     public User findUserByEmail(@Argument String uEmail){
