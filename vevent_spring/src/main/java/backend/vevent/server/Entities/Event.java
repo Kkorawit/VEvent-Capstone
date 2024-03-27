@@ -21,8 +21,8 @@ public class Event {
     private String title;
 
     @Column(name = "description", nullable = false)
-
     private String description;
+
     @Column(name = "amount_received", nullable = false)
     private String amountReceived;
 
@@ -32,18 +32,16 @@ public class Event {
     @Column(name = "sub_category", nullable = false, length = 125)
     private String subCategory;
 
-    @Column(name = "start_date",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    @Transient
+    @Column(name = "start_date",nullable = false,columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Instant startDate;
 
     @Column(name = "end_date")
     private Instant endDate;
 
-    @Column(name = "register_start_date",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    @Transient
+    @Column(name = "register_start_date",nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Instant registerStartDate;
 
-    @Column(name = "register_end_date")
+    @Column(name = "register_end_date",nullable = false)
     private Instant registerEndDate;
 
     @Lob
@@ -59,15 +57,13 @@ public class Event {
     @Column(name = "create_by", nullable = false, length = 125)
     private String createBy;
 
-    @Column(name = "create_date",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    @Transient
+    @Column(name = "create_date",nullable = false,columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Instant createDate;
 
     @Column(name = "update_by", nullable = false, length = 125)
     private String updateBy;
 
-    @Column(name = "update_date",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    @Transient
+    @Column(name = "update_date",nullable = false,columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Instant updateDate;
 
     @Column(name = "location_name", nullable = false, length = 300)

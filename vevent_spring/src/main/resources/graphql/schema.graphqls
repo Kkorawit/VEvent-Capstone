@@ -20,19 +20,16 @@ type User_Event {
 }
 
 type User {
-    username: String
-    password: String
     userEmail: ID!
     role: String
-    name: String
-    surName: String
+    displayName: String
     profileImg: String
 }
 
 type Event {
     id: ID!
     title: String
-    eventDescription: String
+    description: String
     amountReceived: String
     category: String
     subCategory: String
@@ -50,7 +47,6 @@ type Event {
     locationName: String
     locationLatitude: Float
     locationLongitude: Float
-    description: String
     validate_times: Int
     eventStatus: String
 }

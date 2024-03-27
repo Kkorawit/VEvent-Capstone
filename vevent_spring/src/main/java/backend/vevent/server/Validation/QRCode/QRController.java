@@ -8,8 +8,8 @@ import backend.vevent.server.Repo.UserEventRepo;
 import backend.vevent.server.Service.LogService;
 import backend.vevent.server.Validation.GPS.GPSService;
 import backend.vevent.server.Validation.GPS.LatLngDTO;
-import backend.vevent.server.Validation.LogSection;
-import backend.vevent.server.Validation.LogState;
+import backend.vevent.server.EnumValue.LogSection;
+import backend.vevent.server.EnumValue.LogState;
 import backend.vevent.server.Validation.ValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

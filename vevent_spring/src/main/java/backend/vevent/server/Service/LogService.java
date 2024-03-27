@@ -4,8 +4,8 @@ import backend.vevent.server.Entities.HistoryLog;
 import backend.vevent.server.Entities.User;
 import backend.vevent.server.Repo.LogRepo;
 import backend.vevent.server.Repo.UserRepo;
-import backend.vevent.server.Validation.LogSection;
-import backend.vevent.server.Validation.LogState;
+import backend.vevent.server.EnumValue.LogSection;
+import backend.vevent.server.EnumValue.LogState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

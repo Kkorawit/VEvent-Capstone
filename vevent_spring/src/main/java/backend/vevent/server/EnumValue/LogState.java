@@ -1,4 +1,4 @@
-package backend.vevent.server.Validation;
+package backend.vevent.server.EnumValue;
 
 
 public enum LogState {
