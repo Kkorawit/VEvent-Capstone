@@ -22,18 +22,18 @@ public class UserService {
         User duplicateEmail = userRepo.findUserByEmail(email);
         User newUser = new User();
 
-//        if (duplicateEmail == null){
-//            try {
-//                newUser.setUserEmail(email);
-//                newUser.setDisplayName(displayName);
-//                newUser.setRole(role);
-//                newUser.setProfileImg(profileImg);
-//                userRepo.saveAndFlush(newUser);
-//                return true;
-//            } catch (Exception exception){
-//                throw new Exception(exception);
-//            }
-//        }
+        if (duplicateEmail == null){
+            try {
+                newUser.setUserEmail(email);
+                newUser.setDisplayName(displayName);
+                newUser.setRole(role);
+                newUser.setProfileImg(profileImg);
+                userRepo.saveAndFlush(newUser);
+                return true;
+            } catch (Exception exception){
+                throw new Exception(exception);
+            }
+        }
         return false;
     }
 
